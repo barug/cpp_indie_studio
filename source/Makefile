@@ -24,6 +24,8 @@ clean: clean_linux clean_win32
 fclean:	clean
 	@$(RM) $(DESTPATH)
 
+re:	fclean all
+
 clean_linux clean_win32:
 	@$(RM) $(DESTPATH)
 
