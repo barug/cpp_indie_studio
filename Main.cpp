@@ -38,7 +38,7 @@ int main()
 	'L' in front of the string. The Irrlicht Engine uses wide character
 	strings when displaying text.
 	*/
-	device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
+	device->setWindowCaption(L"Hello World! - SakiiR Was Here !");
 
 	/*
 	Get a pointer to the VideoDriver, the SceneManager and the graphical
