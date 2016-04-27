@@ -1,125 +1,101 @@
-#include <irrlicht.h>
-#include <iostream>
-using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-#ifdef _IRR_WINDOWS_
-# pragma comment(lib, "Irrlicht.lib")
-# pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#pragma comment(lib, "Irrlicht.lib")
 #endif
 
-scene::ISceneNode * node = NULL;
+# include <irrlicht.h>
+# include <driverChoice.h>
 
-// Event Irrlicht system
-class MyEventReceiver : public IEventReceiver
+class EventReceiver : public irr::IEventReceiver
 {
 public:
-  virtual bool OnEvent(const SEvent& event)
+  virtual bool OnEvent(const irr::SEvent& event)
   {
     if (event.EventType == irr::EET_KEY_INPUT_EVENT)
       KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-    if (node != 0 && event.EventType == irr::EET_KEY_INPUT_EVENT &&
-    	!event.KeyInput.PressedDown)
-      return true;
     return false;
   }
-  virtual bool IsKeyDown(EKEY_CODE keyCode) const
+  virtual bool IsKeyDown(irr::EKEY_CODE keyCode) const
   {
     return KeyIsDown[keyCode];
   }
-  MyEventReceiver()
+  EventReceiver()
   {
-    memset(KeyIsDown, false, sizeof(KeyIsDown));
+    for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
+      KeyIsDown[i] = false;
   }
 private:
-  bool KeyIsDown[KEY_KEY_CODES_COUNT];
+  bool KeyIsDown[irr::KEY_KEY_CODES_COUNT];
 };
 
-int			main()
+
+int		main()
 {
-  MyEventReceiver	receiver;
-  IrrlichtDevice	*device =
-    createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480),
-		 16, false, false, false, &receiver);
+  // erwan ne retire pas les commentaires merci :)
+
+  // if you want to let choice for the driver (set 1st parameter of createDevice at driverType)
+
+  // irr::video::E_DRIVER_TYPE driverType = irr::driverChoiceConsole();
+  // if (driverType == irr::video::EDT_COUNT)
+  //   return 1;
+
+  EventReceiver receiver;
+  irr::IrrlichtDevice* device = createDevice(irr::video::EDT_SOFTWARE,// driverType
+					     irr::core::dimension2d<irr::u32>(640, 480),
+					     16, false, false, false, &receiver);
   if (!device)
     return 1;
-  IVideoDriver* driver = device->getVideoDriver();
-  ISceneManager* smgr = device->getSceneManager();
-  IAnimatedMesh* mesh = smgr->getMesh("media/Archattack.md2");
-
+  irr::video::IVideoDriver *driver = device->getVideoDriver();
+  irr::scene::ISceneManager *smgr = device->getSceneManager();
+  irr::scene::IAnimatedMesh *mesh = smgr->getMesh("media/Archattack.md2");
   if (!mesh)
     {
       device->drop();
       return (1);
     }
-
-  node = smgr->addAnimatedMeshSceneNode(mesh);
+  irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(mesh);
   if (node)
     {
-      node->setMaterialFlag(EMF_LIGHTING, false);
-      // node->setMD2Animation(scene::EMAT_JUMP);
-      node->setMaterialTexture( 0, driver->getTexture("media/archattackpain1.png") );
+      node->setPosition(irr::core::vector3df(0,0,30));
+      node->setMaterialTexture(0, driver->getTexture("./media/archattackpain1.png"));
+      node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     }
-
-  // mode sans cam
-  smgr->addCameraSceneNode(0, vector3df(300, 30, -40), vector3df(0, 5, 0));
-
-  // mode cam
-  // scene::ICameraSceneNode * cam = smgr->addCameraSceneNodeFPS();
-  // cam->setPosition(core::vector3df(-100, 50, 100));
-  // cam->setTarget(core::vector3df(0, 0, 0));
-  // device->getCursorControl()->setVisible(false);
-
+  smgr->addCameraSceneNodeFPS();
+  device->getCursorControl()->setVisible(false);
   int lastFPS = -1;
-  core::vector3df v;
+  irr::u32 then = device->getTimer()->getTime();
+  const irr::f32 MOVEMENT_SPEED = 50.f;
+  // scanf()
   while (device->run())
     {
-      if (device->isWindowActive())
+      const irr::u32 now = device->getTimer()->getTime();
+      const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
+      then = now;
+      // gestion des events
+      irr::core::vector3df nodePosition = node->getPosition();
+      if (receiver.IsKeyDown(irr::KEY_KEY_W))
+	nodePosition.Y += MOVEMENT_SPEED * frameDeltaTime;
+      else if (receiver.IsKeyDown(irr::KEY_KEY_S))
+	nodePosition.Y -= MOVEMENT_SPEED * frameDeltaTime;
+      if (receiver.IsKeyDown(irr::KEY_KEY_A))
+	nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+      else if (receiver.IsKeyDown(irr::KEY_KEY_D))
+	nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+      if (receiver.IsKeyDown(irr::KEY_ESCAPE))
+	exit(0);
+      node->setPosition(nodePosition);
+
+      driver->beginScene(true, true, irr::video::SColor(255,113,113,133));
+      smgr->drawAll();
+      driver->endScene();
+      int fps = driver->getFPS();
+      if (lastFPS != fps)
 	{
-	  if (receiver.IsKeyDown(irr::KEY_KEY_Z))
-	    {
-	      v = node->getPosition();
-	      v.Y += 2;
-	      node->setPosition(v);
-	    }
-	  else if (receiver.IsKeyDown(irr::KEY_KEY_S))
-	    {
-	      v = node->getPosition();
-	      v.Y -= 2;
-	      node->setPosition(v);
-	    }
-	  else if (receiver.IsKeyDown(irr::KEY_KEY_Q))
-	    {
-	      v = node->getPosition();
-	      v.Z += 2;
-	      node->setPosition(v);
-	    }
-	  else if (receiver.IsKeyDown(irr::KEY_KEY_D))
-	    {
-	      v = node->getPosition();
-	      v.Z -= 2;
-	      node->setPosition(v);
-	    }
-	  else if (receiver.IsKeyDown(irr::KEY_ESCAPE))
-	    {
-	      std::cout << "Echap key end of program" << std::endl;
-	      device->drop();
-	      exit(2);
-	    }
-	  driver->beginScene(true, true, SColor(255, 0, 0, 0));
-	  smgr->drawAll();
-	  driver->endScene();
-	  if (lastFPS != driver->getFPS())
-	    {
-	      wchar_t tmp[1024];
-	      swprintf(tmp, 1024, L"Bomberman Indie Studio (fps: %d)", driver->getFPS());
-	      device->setWindowCaption(tmp);
-	      lastFPS = driver->getFPS();
-	    }
+	  irr::core::stringw tmp(L"Bomberman - Irrlicht (");
+	  tmp += fps;
+	  tmp += "fps) (EchapKey for quit)";
+	  device->setWindowCaption(tmp.c_str());
+	  lastFPS = fps;
 	}
     }
   device->drop();
