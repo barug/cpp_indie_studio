@@ -5,7 +5,6 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-
 class MyEventReceiver : public irr::IEventReceiver
 {
 public:
@@ -31,20 +30,21 @@ public:
   }
 
 private:
-  irr::scene::ISceneNode* Terrain;
-  irr::scene::ISceneNode* Skybox;
-  irr::scene::ISceneNode* Skydome;
-  bool showBox;
-  bool showDebug;
-  bool KeyIsDown[irr::KEY_KEY_CODES_COUNT];
+  irr::scene::ISceneNode*	Terrain;
+  irr::scene::ISceneNode*	Skybox;
+  irr::scene::ISceneNode*	Skydome;
+  bool				showBox;
+  bool				showDebug;
+  bool				KeyIsDown[irr::KEY_KEY_CODES_COUNT];
 };
 
 int		main()
 {
   // ask user for driver
   irr::video::E_DRIVER_TYPE driverType = irr::driverChoiceConsole();
-  if (driverType==irr::video::EDT_COUNT)
+  if (driverType == irr::video::EDT_COUNT)
     return 1;
+
   // create device with full flexibility over creation parameters
   // you can add more parameters if desired, check irr::SIrrlichtCreationParameters
   irr::SIrrlichtCreationParameters params;
@@ -61,15 +61,15 @@ int		main()
 
   // create msg into a rect
   env->getSkin()->setFont(env->getFont("./media/fontlucida.png"));
-  env->addStaticText(L"Welcom to ZOMBIE ON THE MOON",
-  		     irr::core::rect<irr::s32>(10,421,250,475), true, true, 0, -1, true);
+  // env->addStaticText(L"Welcom to ZOMBIE ON THE MOON",
+  // 		     irr::core::rect<irr::s32>(10,421,250,475), true, true, 0, -1, true);
 
   // add camera
   irr::scene::ICameraSceneNode* camera =
     smgr->addCameraSceneNodeFPS(0,100.0f,1.2f);
 
-  camera->setPosition(irr::core::vector3df(2700*2,500*2,3000*2));
-  camera->setTarget(irr::core::vector3df(2397*2,343*2,2200*2));
+  camera->setPosition(irr::core::vector3df(-1500, 5000, 4500));
+  camera->setTarget(irr::core::vector3df(30000, -2000, -3000));
   camera->setFarValue(42000.0f);
 
   // disable mouse cursor
@@ -112,15 +112,15 @@ int		main()
 
 
   // caracter
+  irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bomberman.obj"));
+  node->setPosition(irr::core::vector3df(2700*2,355*6,2600*2));
+  node->setMaterialTexture(0, driver->getTexture("./media/bomberman.tga"));
+  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  node->setScale(irr::core::vector3df(200.f,200.f,200.f));
   irr::scene::ISceneNodeAnimator* collision_character =
-    smgr->createCollisionResponseAnimator(selector, camera, irr::core::vector3df(10,10,10),
+    smgr->createCollisionResponseAnimator(selector, node, irr::core::vector3df(10,10,10),
   					  irr::core::vector3df(0,0,0),
   					  irr::core::vector3df(0,0,0));
-  irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("media/Archattack.md2"));
-  node->setPosition(irr::core::vector3df(2700*2,355*2,2600*2));
-  node->setMaterialTexture(0, driver->getTexture("./media/archattackpain1.png"));
-  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-
   node->addAnimator(collision_character);
   collision_character->drop();
 
@@ -152,13 +152,12 @@ int		main()
   driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 
 
-
   // create event receiver
   MyEventReceiver receiver(terrain, skybox, skydome);
   device->setEventReceiver(&receiver);
   int		lastFPS = -1;
   irr::u32	then = device->getTimer()->getTime();
-  const irr::f32 MOVEMENT_SPEED = 300.f;
+  const irr::f32 MOVEMENT_SPEED = 1000.f;
 
   while(device->run())
     if (device->isWindowActive())
@@ -167,23 +166,31 @@ int		main()
         const irr::u32 now = device->getTimer()->getTime();
         const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
         then = now;
-	camera->setPosition(irr::core::vector3df(node->getAbsolutePosition().X - 300,
-						 node->getAbsolutePosition().Y + 200,
-						 node->getAbsolutePosition().Z));
-	camera->setTarget(irr::core::vector3df(node->getAbsolutePosition().X + 300,
-					       node->getAbsolutePosition().Y - 200,
-					       node->getAbsolutePosition().Z));
+
+	// 3rd person view
+	// camera->setPosition(irr::core::vector3df(node->getAbsolutePosition().X - 300,
+	// 					 node->getAbsolutePosition().Y + 200,
+	// 					 node->getAbsolutePosition().Z));
+	// camera->setTarget(irr::core::vector3df(node->getAbsolutePosition().X + 300,
+	// 				       node->getAbsolutePosition().Y - 200,
+	// 				       node->getAbsolutePosition().Z));
+
 	// gestion des events
+	std::cout <<
+	  "pos X : " << camera->getAbsolutePosition().X <<
+	  " && Y : " << camera->getAbsolutePosition().Y <<
+	  " && Z : " << camera->getAbsolutePosition().Z <<
+	  std::endl;
 	irr::core::vector3df nodePosition = node->getPosition();
 	if (receiver.IsKeyDown(irr::KEY_KEY_W))
 	  nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
 	else if (receiver.IsKeyDown(irr::KEY_KEY_S))
 	  nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-	if (receiver.IsKeyDown(irr::KEY_KEY_A))
+	else if (receiver.IsKeyDown(irr::KEY_KEY_A))
 	  nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
 	else if (receiver.IsKeyDown(irr::KEY_KEY_D))
 	  nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
-	if (receiver.IsKeyDown(irr::KEY_ESCAPE))
+	else if (receiver.IsKeyDown(irr::KEY_ESCAPE))
 	  exit(0);
 	node->setPosition(nodePosition);
 
