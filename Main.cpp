@@ -88,15 +88,13 @@ int		main(int ac, char **av)
   // anim->drop();
 
   // caracter
-  irr::scene::IAnimatedMeshSceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bombermanRUN.b3d"));
-  // irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bombermanRUN.obj"));
-  // irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bomberman.obj"));
-
+  // irr::scene::IAnimatedMesh *mesh =
+  irr::scene::IAnimatedMeshSceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/BOMBERRUN.b3d"));
+  node->setMaterialTexture(0, driver->getTexture("./media/bomberman_green.png"));
   node->setPosition(irr::core::vector3df(-2000,600,5200));
   node->setAnimationSpeed(40);
-  node->setMaterialTexture(0, driver->getTexture("./media/bomberman.tga"));
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  node->setScale(irr::core::vector3df(200.f,200.f,200.f));
+  node->setScale(irr::core::vector3df(400.f,400.f,400.f));
   node->setRotation(irr::core::vector3df(0,270,0));
   // irr::scene::ISceneNodeAnimator* collision_character =
   //   smgr->createCollisionResponseAnimator(selector, node,
@@ -135,7 +133,8 @@ int		main(int ac, char **av)
   int		lastFPS = -1;
   irr::u32	then = device->getTimer()->getTime();
   const irr::f32 MOVEMENT_SPEED = 1000.f;
-
+  bool		dropped = false;
+  long timeToPass = 0;
   device->setEventReceiver(&receiver);
   while (device->run() && device)
     if (device->isWindowActive())
@@ -161,6 +160,19 @@ int		main(int ac, char **av)
 	    std::endl;
 
 	irr::core::vector3df nodePosition = node->getPosition();
+	std::cout << timeToPass << " && " << device->getTimer()->getTime() << std::endl;
+	if (timeToPass < device->getTimer()->getTime() && dropped)
+	  {
+	    node->remove();
+	    node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/BOMBERRUN.b3d"));
+	    node->setMaterialTexture(0, driver->getTexture("./media/bomberman_green.png"));
+	    node->setPosition(irr::core::vector3df(-2000,600,5200));
+	    node->setAnimationSpeed(40);
+	    node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	    node->setScale(irr::core::vector3df(400.f,400.f,400.f));
+	    timeToPass = 0;
+	    dropped = false;
+	  }
 	if (receiver.IsKeyDown(irr::KEY_KEY_W))
 	  {
 	    node->setRotation(irr::core::vector3df(0,270,0));
@@ -181,9 +193,23 @@ int		main(int ac, char **av)
 	    node->setRotation(irr::core::vector3df(0,360,0));
 	    nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
 	  }
+	else if (receiver.IsKeyDown(irr::KEY_SPACE))
+	  {
+	    if (!dropped)
+	      {
+		node->remove();
+		timeToPass = device->getTimer()->getTime() + 1100;
+		node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/BOMBERDROP.b3d"));
+		node->setMaterialTexture(0, driver->getTexture("./media/bomberman_green.png"));
+		node->setPosition(irr::core::vector3df(-2000,600,5200));
+		node->setAnimationSpeed(40);
+		node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		node->setScale(irr::core::vector3df(400.f,400.f,400.f));
+		dropped = true;
+	      }
+	  }
 	else if (receiver.IsKeyDown(irr::KEY_ESCAPE))
 	  exit(0);
-
 	node->setPosition(nodePosition);
 	driver->beginScene(true, true, 0 );
 	smgr->drawAll();
