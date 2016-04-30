@@ -8,15 +8,20 @@
 class MyEventReceiver : public irr::IEventReceiver
 {
 public:
+
   // ctor
-  MyEventReceiver(irr::scene::ISceneNode *terrain, irr::scene::ISceneNode *skybox, irr::scene::ISceneNode *skydome)
-    : Terrain(terrain), Skybox(skybox), Skydome(skydome), showBox(true), showDebug(false)
+  MyEventReceiver(irr::scene::ISceneNode *terrain,
+		  irr::scene::ISceneNode *skybox,
+		  irr::scene::ISceneNode *skydome)
+    : Terrain(terrain), Skybox(skybox), Skydome(skydome),
+      showBox(true), showDebug(false)
   {
     Skybox->setVisible(showBox);
     Skydome->setVisible(!showBox);
     for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
       KeyIsDown[i] = false;
   }
+
   virtual bool OnEvent(const irr::SEvent& event)
   {
     if (event.EventType == irr::EET_KEY_INPUT_EVENT)
@@ -38,9 +43,9 @@ private:
   bool				KeyIsDown[irr::KEY_KEY_CODES_COUNT];
 };
 
-int		main()
+
+int		main(int ac, char **av)
 {
-  // ask user for driver
   irr::video::E_DRIVER_TYPE driverType = irr::driverChoiceConsole();
   if (driverType == irr::video::EDT_COUNT)
     return 1;
@@ -48,59 +53,31 @@ int		main()
   // create device with full flexibility over creation parameters
   // you can add more parameters if desired, check irr::SIrrlichtCreationParameters
   irr::SIrrlichtCreationParameters params;
-  params.DriverType=driverType;
-  params.WindowSize=irr::core::dimension2d<irr::u32>(1200, 800);
+  params.DriverType = driverType;
+  params.WindowSize = irr::core::dimension2d<irr::u32>(1200, 800);
   irr::IrrlichtDevice* device = createDeviceEx(params);
   if (!device)
     return 1;
 
   irr::video::IVideoDriver* driver = device->getVideoDriver();
   irr::scene::ISceneManager* smgr = device->getSceneManager();
-  irr::gui::IGUIEnvironment* env = device->getGUIEnvironment();
   driver->setTextureCreationFlag(irr::video::ETCF_ALWAYS_32_BIT, true);
-
-  // create msg into a rect
-  env->getSkin()->setFont(env->getFont("./media/fontlucida.png"));
-  // env->addStaticText(L"Welcom to ZOMBIE ON THE MOON",
-  // 		     irr::core::rect<irr::s32>(10,421,250,475), true, true, 0, -1, true);
-
-  // add camera
-  irr::scene::ICameraSceneNode* camera =
-    smgr->addCameraSceneNodeFPS(0,100.0f,1.2f);
-
-  camera->setPosition(irr::core::vector3df(-1500, 5000, 4500));
-  camera->setTarget(irr::core::vector3df(30000, -2000, -3000));
-  camera->setFarValue(42000.0f);
 
   // disable mouse cursor
   device->getCursorControl()->setVisible(false);
 
   // add terrain scene node
-  irr::scene::ITerrainSceneNode* terrain =
-    smgr->addTerrainSceneNode(
-  			      "./media/wall.bmp",
-  			      // "./media/terrain-heightmap.bmp",
-  			      0,					// parent node
-  			      -1,					// node id
-  			      irr::core::vector3df(0.f, 0.f, 0.f),	// position
-  			      irr::core::vector3df(0.f, 0.f, 0.f),	// rotation
-  			      irr::core::vector3df(40.f, 4.4f, 40.f),	// scale
-  			      irr::video::SColor (255, 255, 255, 255),	// vertexColor
-  			      5,					// maxLOD
-  			      irr::scene::ETPS_17,			// patchSize
-  			      4						// smoothFactor
-  			      );
-  terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  smgr->addCubeSceneNode();
+  irr::scene::ISceneNode* terrain = smgr->addCubeSceneNode();
+  terrain->setPosition(irr::core::vector3df(0,400,5200));
   terrain->setMaterialTexture(0, driver->getTexture("./media/wall.bmp"));
-  // terrain->setMaterialTexture(0, driver->getTexture("./media/terrain-texture.jpg"));
-  terrain->setMaterialTexture(1, driver->getTexture("./media/detailmap3.jpg"));
-  terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-  terrain->scaleTexture(1.0f, 20.0f);
+  terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  terrain->setScale(irr::core::vector3df(500, 40, 500));
 
-  // create triangle selector for the terrain
-  irr::scene::ITriangleSelector* selector
-    = smgr->createTerrainTriangleSelector(terrain, 0);
-  terrain->setTriangleSelector(selector);
+  // irr::scene::ITriangleSelector* selector
+  //   = smgr->createTriangleSelector(smgr->getMesh(""), terrain);
+  // terrain->setTriangleSelector(selector);
+
 
   // // create collision response animator and attach it to the camera
   // irr::scene::ISceneNodeAnimator* anim =
@@ -110,33 +87,36 @@ int		main()
   // camera->addAnimator(anim);
   // anim->drop();
 
-
   // caracter
-  irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bomberman.obj"));
-  node->setPosition(irr::core::vector3df(2700*2,355*6,2600*2));
+  irr::scene::IAnimatedMeshSceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bombermanRUN.b3d"));
+  // irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bombermanRUN.obj"));
+  // irr::scene::ISceneNode *node = smgr->addAnimatedMeshSceneNode(smgr->getMesh("./media/bomberman.obj"));
+
+  node->setPosition(irr::core::vector3df(-2000,600,5200));
+  node->setAnimationSpeed(40);
   node->setMaterialTexture(0, driver->getTexture("./media/bomberman.tga"));
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   node->setScale(irr::core::vector3df(200.f,200.f,200.f));
-  irr::scene::ISceneNodeAnimator* collision_character =
-    smgr->createCollisionResponseAnimator(selector, node, irr::core::vector3df(10,10,10),
-  					  irr::core::vector3df(0,0,0),
-  					  irr::core::vector3df(0,0,0));
-  node->addAnimator(collision_character);
-  collision_character->drop();
+  node->setRotation(irr::core::vector3df(0,270,0));
+  // irr::scene::ISceneNodeAnimator* collision_character =
+  //   smgr->createCollisionResponseAnimator(selector, node,
+  // 					  irr::core::vector3df(10,10,10),
+  // 					  irr::core::vector3df(0,0,0),
+  // 					  irr::core::vector3df(0,0,0));
+  // node->addAnimator(collision_character);
+  // collision_character->drop();
+  // selector->drop();
 
-  selector->drop();
-
-  /*
-    If you need access to the terrain data you can also do this directly via the following code fragment.
-  */
-  irr::scene::CDynamicMeshBuffer* buffer =
-    new irr::scene::CDynamicMeshBuffer(irr::video::EVT_2TCOORDS, irr::video::EIT_16BIT);
-  terrain->getMeshBufferForLOD(*buffer, 0);
-  irr::video::S3DVertex2TCoords* data =
-    (irr::video::S3DVertex2TCoords*)buffer->getVertexBuffer().getData();
-  // Work on data or get the IndexBuffer with a similar call.
-  buffer->drop(); // When done drop the buffer again.
-
+  // add camera
+  irr::scene::ICameraSceneNode* camera =
+    smgr->addCameraSceneNodeFPS(0,100.0f,1.2f);
+  camera->setPosition(irr::core::vector3df(node->getAbsolutePosition().X - 2000,
+					   node->getAbsolutePosition().Y + 2000,
+					   node->getAbsolutePosition().Z));
+  camera->setTarget(irr::core::vector3df(node->getAbsolutePosition().X + 2000,
+					 node->getAbsolutePosition().Y - 2000,
+					 node->getAbsolutePosition().Z));
+  camera->setFarValue(42000.0f);
 
   // create skybox and skydome
   driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
@@ -151,15 +131,13 @@ int		main()
     smgr->addSkyDomeSceneNode(driver->getTexture("./media/skydome.jpg"), 16, 8, 0.95f, 2.0f);
   driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 
-
-  // create event receiver
   MyEventReceiver receiver(terrain, skybox, skydome);
-  device->setEventReceiver(&receiver);
   int		lastFPS = -1;
   irr::u32	then = device->getTimer()->getTime();
   const irr::f32 MOVEMENT_SPEED = 1000.f;
 
-  while(device->run())
+  device->setEventReceiver(&receiver);
+  while (device->run() && device)
     if (device->isWindowActive())
       {
 
@@ -168,37 +146,48 @@ int		main()
         then = now;
 
 	// 3rd person view
-	// camera->setPosition(irr::core::vector3df(node->getAbsolutePosition().X - 300,
-	// 					 node->getAbsolutePosition().Y + 200,
-	// 					 node->getAbsolutePosition().Z));
-	// camera->setTarget(irr::core::vector3df(node->getAbsolutePosition().X + 300,
-	// 				       node->getAbsolutePosition().Y - 200,
+	camera->setPosition(irr::core::vector3df(node->getAbsolutePosition().X - 2000,
+						 node->getAbsolutePosition().Y + 2000,
+						 node->getAbsolutePosition().Z));
+	// camera->setTarget(irr::core::vector3df(node->getAbsolutePosition().X + 2000,
+	// 				       node->getAbsolutePosition().Y - 2000,
 	// 				       node->getAbsolutePosition().Z));
 
-	// gestion des events
-	std::cout <<
-	  "pos X : " << camera->getAbsolutePosition().X <<
-	  " && Y : " << camera->getAbsolutePosition().Y <<
-	  " && Z : " << camera->getAbsolutePosition().Z <<
-	  std::endl;
+	if (ac > 1)
+	  std::cout <<
+	    "pos X : " << camera->getAbsolutePosition().X <<
+	    " && Y : " << camera->getAbsolutePosition().Y <<
+	    " && Z : " << camera->getAbsolutePosition().Z <<
+	    std::endl;
+
 	irr::core::vector3df nodePosition = node->getPosition();
 	if (receiver.IsKeyDown(irr::KEY_KEY_W))
-	  nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+	  {
+	    node->setRotation(irr::core::vector3df(0,270,0));
+	    nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+	  }
 	else if (receiver.IsKeyDown(irr::KEY_KEY_S))
-	  nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+	  {
+	    node->setRotation(irr::core::vector3df(0,90,0));
+	    nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+	  }
 	else if (receiver.IsKeyDown(irr::KEY_KEY_A))
-	  nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
+	  {
+	    node->setRotation(irr::core::vector3df(0,180,0));
+	    nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
+	  }
 	else if (receiver.IsKeyDown(irr::KEY_KEY_D))
-	  nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
+	  {
+	    node->setRotation(irr::core::vector3df(0,360,0));
+	    nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
+	  }
 	else if (receiver.IsKeyDown(irr::KEY_ESCAPE))
 	  exit(0);
-	node->setPosition(nodePosition);
 
+	node->setPosition(nodePosition);
 	driver->beginScene(true, true, 0 );
 	smgr->drawAll();
-	env->drawAll();
 	driver->endScene();
-	// display frames per second in window title
 
 	int fps = driver->getFPS();
 	if (lastFPS != fps)
@@ -207,9 +196,6 @@ int		main()
 	    str += driver->getName();
 	    str += " FPS:";
 	    str += fps;
-	    str += " Height: ";
-	    str += terrain->getHeight(camera->getAbsolutePosition().X,
-				      camera->getAbsolutePosition().Z);
 	    str += "]";
 	    device->setWindowCaption(str.c_str());
 	    lastFPS = fps;
