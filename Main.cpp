@@ -76,7 +76,7 @@ int		main(int ac, char **av)
   // add terrain scene node
   smgr->addCubeSceneNode();
   irr::scene::ISceneNode* terrain = smgr->addCubeSceneNode();
-  terrain->setPosition(irr::core::vector3df(0,400,5200));
+  terrain->setPosition(irr::core::vector3df(0, 400, 5200));
   terrain->setMaterialTexture(0, driver->getTexture("./textures/moon.jpg"));
   // terrain->setMaterialTexture(0, driver->getTexture("./textures/psy2.jpg"));
   terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -143,16 +143,15 @@ int		main(int ac, char **av)
   driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 
   MyEventReceiver receiver(terrain, skybox, skydome);
-  int		lastFPS = -1;
   irr::u32	then = device->getTimer()->getTime();
   const irr::f32 speed = 1000.f;
   bool		dropped = false;
-  long		timerDrop = 0;
+  int		timerDrop = 0;
   int		myRot = 360;
-  long		prevPosX = 0;
-  long		prevPosZ = 0;
+  int		prevPosX = 0;
+  int		prevPosZ = 0;
+  int		lastFPS = -1;
   Action	current = STAND;
-
   device->setEventReceiver(&receiver);
   while (device->run() && device)
     if (device->isWindowActive())
@@ -163,9 +162,9 @@ int		main(int ac, char **av)
         then = now;
 
 	// current position
-	long posX = bomberman->getAbsolutePosition().X;
-	long posY = bomberman->getAbsolutePosition().Y;
-	long posZ = bomberman->getAbsolutePosition().Z;
+        int posX = bomberman->getAbsolutePosition().X;
+	int posY = bomberman->getAbsolutePosition().Y;
+	int posZ = bomberman->getAbsolutePosition().Z;
 	// std::cout << pX << " && " << pY << " && " << pZ << std::endl;
 
 	// get actual position
