@@ -5,18 +5,26 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Mon May  2 16:42:47 2016 Barthelemy Gouby
+## Last update Mon May  2 18:21:23 2016 Thomas Bogard
 ##
 
 CC		= g++
 
 RM		= rm -f
 
-CXXFLAGS	+= -I./include -I/usr/X11R6/include
+CXXFLAGS	+= -I./include -I/usr/X11R6/include -I./source
 
 CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm -std=c++11
 
 NAME		= cpp_indie_studio
+
+NAMEDISPLAY	= test
+
+SRCSDISPLAY	=	maindisplay.cpp \
+			source/Display.cpp
+
+OBJSDISPLAY	= $(SRCSDISPLAY:.cpp=.o)
+
 
 SRCS		= source/Main.cpp		\
 		  source/Entity.cpp		\
@@ -31,6 +39,11 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(OBJS) $(CXXFLAGS) $(CPPFLAGS)
+dp: $(NAMEDISPLAY)
+
+$(NAMEDISPLAY): $(OBJSDISPLAY)
+		$(CC) -o $(NAMEDISPLAY) $(OBJSDISPLAY) $(CXXFLAGS) $(CPPFLAGS)
+
 
 clean:
 	$(RM) $(OBJS)
