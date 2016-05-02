@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Mon May  2 18:21:23 2016 Thomas Bogard
+## Last update Mon May  2 18:31:10 2016 Thomas Bogard
 ##
 
 CC		= g++
@@ -18,7 +18,7 @@ CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr 
 
 NAME		= cpp_indie_studio
 
-NAMEDISPLAY	= test
+NAMEDISPLAY	= displaytest
 
 SRCSDISPLAY	=	maindisplay.cpp \
 			source/Display.cpp
@@ -37,13 +37,13 @@ OBJS		= $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(OBJS) $(CXXFLAGS) $(CPPFLAGS)
+$(NAME):	$(OBJS)
+		$(CC) -o $(NAME) $(OBJS) $(CXXFLAGS) $(CPPFLAGS)
+
 dp: $(NAMEDISPLAY)
 
 $(NAMEDISPLAY): $(OBJSDISPLAY)
 		$(CC) -o $(NAMEDISPLAY) $(OBJSDISPLAY) $(CXXFLAGS) $(CPPFLAGS)
-
 
 clean:
 	$(RM) $(OBJS)
