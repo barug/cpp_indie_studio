@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Thu Apr 28 00:17:45 2016 Thomas Bogard
+## Last update Mon May  2 13:53:56 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -18,7 +18,7 @@ CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr 
 
 NAME		= cpp_indie_studio
 
-SRCS		= Main.cpp		\
+SRCS		= source/Main.cpp	\
 
 OBJS		= $(SRCS:.cpp=.o)
 
