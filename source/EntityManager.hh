@@ -5,13 +5,14 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Mon May  2 15:55:04 2016 Barthelemy Gouby
+// Last update Mon May  2 16:19:51 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_MANAGER_HH_
 # define _ENTITY_MANAGER_HH_
 
 # include <initializer_list>
+# include <vector>
 # include "Entity.hh"
 
 class				EntityManager

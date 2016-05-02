@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Mon May  2 13:55:01 2016 Barthelemy Gouby
+## Last update Mon May  2 16:42:47 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -14,11 +14,16 @@ RM		= rm -f
 
 CXXFLAGS	+= -I./include -I/usr/X11R6/include
 
-CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm
+CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm -std=c++11
 
 NAME		= cpp_indie_studio
 
-SRCS		= source/Main.cpp	\
+SRCS		= source/Main.cpp		\
+		  source/Entity.cpp		\
+		  source/Component.cpp		\
+		  source/EntityManager.cpp	\
+		  source/PositionComponent.cpp	\
+		  source/SpeedComponent.cpp	\
 
 OBJS		= $(SRCS:.cpp=.o)
 

@@ -5,47 +5,48 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 14:22:56 2016 Barthelemy Gouby
-// Last update Mon May  2 14:28:56 2016 Barthelemy Gouby
+// Last update Mon May  2 16:45:58 2016 Barthelemy Gouby
 //
 
 #include "SpeedComponent.hh"
 
-SpeedComponent()
+SpeedComponent::SpeedComponent()
   : Component("SpeedComponent")
 {}
 
-SpeedComponent(const int &speedX, const int &speedY, const int &rotation)
+SpeedComponent::SpeedComponent(const int &speedX, const int &speedY, const double &rotation)
   : Component("SpeedComponent"), _speedX(speedX), _speedY(speedY), _rotation(rotation)
-
-~SpeedComponent()
 {}
 
-int				setSpeedX(const int &speedX)
+SpeedComponent::~SpeedComponent()
+{}
+
+void				SpeedComponent::setSpeedX(const int &speedX)
 {
   this->_speedX = speedX;
 }
 
-int				setSpeedY(const int &speedY)
+void				SpeedComponent::setSpeedY(const int &speedY)
 {
   this->_speedY = speedY;
 }
 
-int				setRotation(const int &rotation)
+void				SpeedComponent::setRotation(const double &rotation)
 {
   this->_rotation = rotation;
 }
 
-const int			&getSpeedX() const
+const int			&SpeedComponent::getSpeedX() const
 {
   return (this->_speedX);
 }
 
-const int			&getSpeedY() const
+const int			&SpeedComponent::getSpeedY() const
 {
   return (this->_speedY);
 }
 
-const int			&getRotation() const
+const double			&SpeedComponent::getRotation() const
 {
   return (this->_rotation);
 }

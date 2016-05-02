@@ -5,19 +5,20 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:51:51 2016 Barthelemy Gouby
-// Last update Mon May  2 14:42:26 2016 Barthelemy Gouby
+// Last update Mon May  2 16:37:59 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_HH_
 # define _ENTITY_HH_
 
 # include <string>
+# include <vector>
 # include "Component.hh"
 
 class				Entity
 {
 public:
-  Entity(const int &id);
+  Entity(const unsigned int &id);
   ~Entity();
   const unsigned int		&getId() const;
   void				addComponent(Component *component);
