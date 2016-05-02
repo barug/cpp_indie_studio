@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:51:51 2016 Barthelemy Gouby
-// Last update Mon May  2 13:02:21 2016 Barthelemy Gouby
+// Last update Mon May  2 14:42:26 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_HH_
@@ -19,12 +19,13 @@ class				Entity
 public:
   Entity(const int &id);
   ~Entity();
+  const unsigned int		&getId() const;
   void				addComponent(Component *component);
   void				removeComponent(const std::string &type);
   Component			*getComponent(const std::string &type);
 
 private:
-  const int			_id;
+  const unsigned int		_id;
   std::vector<Component*>	_components;
 };
 

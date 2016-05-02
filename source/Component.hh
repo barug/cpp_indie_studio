@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:58:19 2016 Barthelemy Gouby
-// Last update Mon May  2 13:53:01 2016 Barthelemy Gouby
+// Last update Mon May  2 14:29:24 2016 Barthelemy Gouby
 //
 
 #ifndef _COMPONENT_HH_
@@ -24,3 +24,4 @@ private:
 };
 
 #endif /* !_COMPONENT_HH_ */
+
