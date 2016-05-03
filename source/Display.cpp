@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Mon May  2 18:16:53 2016 Thomas Bogard
+// Last update Tue May  3 01:58:06 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -25,6 +25,7 @@ int	Display::driverChoice()
   driverType = irr::driverChoiceConsole();
   if (driverType == irr::video::EDT_COUNT)
     return (-1);
+  return (0);
 }
 
 void	Display::showFpsDriver(int last_tick)
@@ -50,6 +51,7 @@ int	Display::createDevice()
   m_device = createDeviceEx(params);
   if (!m_device)
     return (-1);
+  return (0);
 }
 
 void	Display::createGround()
@@ -59,7 +61,7 @@ void	Display::createGround()
   m_ground->setPosition(irr::core::vector3df(0, 400, 5200));
   m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/moon.jpg"));
   m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  m_ground->setScale(irr::core::vector3df(500, 40, 500));
+  m_ground->setScale(irr::core::vector3df(500, 15, 500));
 }
 
 void	Display::createSkybox()
@@ -79,18 +81,18 @@ void	Display::createCamera()
 {
   m_camera = m_smgr->addCameraSceneNodeFPS(0, 100 ,1);
   m_camera->setFarValue(42000.0f);
-  m_camera->setPosition(irr::core::vector3df(0, 100, 1));
-  m_camera->setTarget(irr::core::vector3df(0, 100, 1));
+  m_camera->setPosition(irr::core::vector3df(0, 4000, 2000));
+  m_camera->setTarget(irr::core::vector3df(0, 700, 5000));
 }
 
 void	Display::init()
 {
   // get driver choice
-  if (driverChoice() == -1)
+  if (driverChoice())
     puterr("Select an appropriate driver for your system");
 
   // create device
-  if (createDevice() == -1)
+  if (createDevice())
     puterr("Device cannot be created");
 
   // create scene
@@ -108,31 +110,70 @@ void	Display::init()
 }
 
 void	Display::createModel(const irr::io::path &model, const irr::io::path &texture,
-			     irr::u32 x, irr::u32 y, irr::u32 z, irr::u32 rotation)
+			     const int &x, const int &y, const int &z, const irr::u32& rotation,
+			     const irr::u32& scale)
 {
   m_model = m_smgr->addAnimatedMeshSceneNode(m_smgr->getMesh(model));
   m_model->setMaterialTexture(0, m_driver->getTexture(texture));
   m_model->setPosition(irr::core::vector3df(x, y, z));
-  // m_model->setPosition(irr::core::vector3df(-2000,600,5200));
   m_model->setAnimationSpeed(40);
   m_model->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  m_model->setScale(irr::core::vector3df(200.f, 200.f, 200.f));
+  m_model->setScale(irr::core::vector3df(scale, scale, scale));
   m_model->setRotation(irr::core::vector3df(0, rotation, 0));
 }
 
-void	Display::launch()
+void	Display::updateModel(irr::scene::IAnimatedMeshSceneNode *model,
+			     irr::core::vector3df model_position)
 {
-  int			last_tick = -1;
+  model->setPosition(model_position);
+}
+
+void			Display::launch()
+{
+  const int&		last_tick = -1;
   Display::Event	receiver;
+
   m_device->setEventReceiver(&receiver);
+  createModel("./models/BOMBERRUN.b3d", "./textures/bomberman_red.png", -2000, 600, 5200, 270, 200);
   while (m_device->run() && m_device)
     if (m_device->isWindowActive())
       {
 	if (receiver.IsKeyDown(irr::KEY_ESCAPE))
-	  puterr("Exit prg");
+	  puterr("Exit program");
+
+	m_model_position = m_model->getPosition();
+	eventPlayer(receiver);
+	updateModel(m_model, m_model_position);
+
 	m_driver->beginScene(true, true, 0);
 	m_smgr->drawAll();
 	m_driver->endScene();
+
+	showFpsDriver(last_tick);
       }
   m_device->drop();
+}
+
+void	Display::eventPlayer(Display::Event receiver)
+{
+  if (receiver.IsKeyDown(irr::KEY_KEY_W))
+    {
+      m_model->setRotation(irr::core::vector3df(0, 180, 0));
+      m_model_position.Z += 17;
+    }
+  else if (receiver.IsKeyDown(irr::KEY_KEY_S))
+    {
+      m_model->setRotation(irr::core::vector3df(0, 0, 0));
+      m_model_position.Z -= 17;
+    }
+  else if (receiver.IsKeyDown(irr::KEY_KEY_A))
+    {
+      m_model->setRotation(irr::core::vector3df(0, 90, 0));
+      m_model_position.X -= 17;
+    }
+  else if (receiver.IsKeyDown(irr::KEY_KEY_D))
+    {
+      m_model->setRotation(irr::core::vector3df(0, 270, 0));
+      m_model_position.X += 17;
+    }
 }

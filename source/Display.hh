@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May  2 18:16:11 2016 Thomas Bogard
+// Last update Tue May  3 01:57:39 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -22,15 +22,18 @@
 class		Display
 {
 public:
-enum Action
-  {
-    STAND,
-    WALK,
-    DROP
-  };
+  class Event;
+  enum Action
+    {
+      STAND,
+      RUN,
+      DROP
+    };
+
   Display();
   ~Display();
 
+  // methods
   int		driverChoice();
   void		showFpsDriver(int last_tick);
   int		createDevice();
@@ -38,11 +41,15 @@ enum Action
   void		createGround();
   void		createSkybox();
   void		createModel(const irr::io::path &model, const irr::io::path &texture,
-			    irr::u32 x, irr::u32 y, irr::u32 z, irr::u32 rotation);
-  void		updateModel();
+			    const int &x, const int &y, const int &z, const irr::u32& rotation,
+			    const irr::u32& scale);
+  void		updateModel(irr::scene::IAnimatedMeshSceneNode *model,
+			    irr::core::vector3df model_position);
+  void		eventPlayer(Event receiver);
   void		init();
   void		launch();
 
+  // against error
   void		puterr(const char * const err)
   {
     std::cerr << err << std::endl;
@@ -50,19 +57,26 @@ enum Action
   }
 
 protected:
+  // scene
   irr::IrrlichtDevice			*m_device;
   irr::video::E_DRIVER_TYPE		driverType;
   irr::video::IVideoDriver		*m_driver;
   irr::scene::ICameraSceneNode		*m_camera;
   irr::scene::ISceneManager		*m_smgr;
+
+  // models
   irr::scene::ISceneNode		*m_ground;
   irr::scene::ISceneNode		*m_skybox;
   irr::scene::IAnimatedMeshSceneNode	*m_model;
   std::map<int, irr::scene::IAnimatedMeshSceneNode*> mp_models;
   Action				m_action;
 
+  // positions
+  irr::core::vector3df			m_model_position;
+  irr::core::vector3df			m_camera_position;
 public:
 
+  // class for multiple event with keyboard
   class		Event : public irr::IEventReceiver
   {
   public:
@@ -87,6 +101,7 @@ public:
   private:
     bool                          KeyIsDown[irr::KEY_KEY_CODES_COUNT];
   };
+
 };
 
 # endif		// __DISPLAY_HH__
