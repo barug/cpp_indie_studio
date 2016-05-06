@@ -5,19 +5,36 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May  3 01:57:39 2016 Thomas Bogard
+// Last update Fri May  6 03:30:14 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
 # define	__DISPLAY_HH__
 
 # include	<map>
+# include	<vector>
 # include	<irrlicht.h>
 # include	<driverChoice.h>
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
 #endif
+
+// model3d
+# define	M_RUN		"./models/BOMBERRUN.b3d"
+# define	M_STAND		"./models/BOMBERSTAND.b3d"
+# define	M_DROP		"./models/BOMBERDROP.b3d"
+
+// textures
+# define	T_BLACK		"./textures/bomberman_black.png"
+# define	T_BLUE		"./textures/bomberman_blue.png"
+# define	T_GREEN		"./textures/bomberman_green.png"
+# define	T_LBLUE		"./textures/bomberman_lblue.png"
+# define	T_ORANGE	"./textures/bomberman_orange.png"
+# define	T_PINK		"./textures/bomberman_pink.png"
+# define	T_PURPLE	"./textures/bomberman_purple.png"
+# define	T_RED		"./textures/bomberman_red.png"
+
 
 class		Display
 {
@@ -40,15 +57,22 @@ public:
   void		createCamera();
   void		createGround();
   void		createSkybox();
-  void		createModel(const irr::io::path &model, const irr::io::path &texture,
-			    const int &x, const int &y, const int &z, const irr::u32& rotation,
-			    const irr::u32& scale);
+
+  irr::scene::IAnimatedMeshSceneNode*	createModel(const irr::io::path &model, const irr::io::path &texture,
+						    const int &x, const int &y, const int &z,
+						    const irr::u32& rotation,
+						    const irr::u32& scale);
+
   void		updateModel(irr::scene::IAnimatedMeshSceneNode *model,
-			    irr::core::vector3df model_position);
+			    const irr::core::vector3df &model_position);
   void		eventPlayer(Event receiver);
   void		init();
   void		launch();
+  bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+			  irr::scene::IAnimatedMeshSceneNode *mesh2);
 
+  // debug
+  void		showPosCam();
   // against error
   void		puterr(const char * const err)
   {
@@ -68,7 +92,7 @@ protected:
   irr::scene::ISceneNode		*m_ground;
   irr::scene::ISceneNode		*m_skybox;
   irr::scene::IAnimatedMeshSceneNode	*m_model;
-  std::map<int, irr::scene::IAnimatedMeshSceneNode*> mp_models;
+  std::vector<irr::scene::IAnimatedMeshSceneNode *> mv_models;
   Action				m_action;
 
   // positions
