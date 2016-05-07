@@ -5,14 +5,16 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May  6 03:47:47 2016 Thomas Bogard
+// Last update Sat May  7 00:34:46 2016 Thomas Bogard
 //
 
 # include "Display.hh"
 
 Display::Display()
   : m_device(NULL), m_driver(NULL), m_camera(NULL),
-    m_smgr(NULL), m_ground(NULL), m_model(NULL), m_action(STAND)
+    m_smgr(NULL), m_ground(NULL), m_model(NULL),
+    m_rotation(0), m_prev_x(0), m_prev_z(0),
+    m_action(STAND), mv_action(STAND), m_collision(NONE)
 {
 }
 
@@ -58,12 +60,16 @@ int	Display::createDevice()
 
 void	Display::createGround()
 {
-  m_smgr->addCubeSceneNode();
-  m_ground = m_smgr->addCubeSceneNode();
-  m_ground->setPosition(irr::core::vector3df(0, 400, 5200));
-  m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/moon.jpg"));
-  m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  m_ground->setScale(irr::core::vector3df(500, 15, 500));
+  for (int row = 0; row < 15; row++)
+    for (int column = 0; column < 15; column++)
+      {
+	m_smgr->addCubeSceneNode();
+	m_ground = m_smgr->addCubeSceneNode();
+	m_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
+	m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/box.png"));
+	m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	m_ground->setScale(irr::core::vector3df(48, 48, 48));
+      }
 }
 
 void	Display::createSkybox()
@@ -76,45 +82,39 @@ void	Display::createSkybox()
 			       m_driver->getTexture("./textures/space.jpg"),  // right
 			       m_driver->getTexture("./textures/space.jpg"),  // ft
 			       m_driver->getTexture("./textures/space.jpg")); // bk
+  if (!m_skybox)
+    puterr("Skybox cannot be loaded");
   m_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
 void	Display::createCamera()
 {
-  m_camera = m_smgr->addCameraSceneNodeFPS(0, 100 ,1);
+  m_camera = m_smgr->addCameraSceneNodeFPS(0, 100, 1);
   m_camera->setFarValue(42000.0f);
-  m_camera->setPosition(irr::core::vector3df(53, 3800, 3090));
-  m_camera->setTarget(irr::core::vector3df(53, -700, 5020));
+  m_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
+  m_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
 }
 
 void	Display::init()
 {
-  // get driver choice
   if (driverChoice())
     puterr("Select an appropriate driver for your system");
-
-  // create device
   if (createDevice())
     puterr("Device cannot be created");
-
-  // create scene
   m_driver = m_device->getVideoDriver();
   m_smgr = m_device->getSceneManager();
+  m_env = m_device->getGUIEnvironment();
   m_driver->setTextureCreationFlag(irr::video::ETCF_ALWAYS_32_BIT, true);
-
-  // disable mouse cursor
   m_device->getCursorControl()->setVisible(false);
-
-  // create some Scene Node
   createGround();
   createSkybox();
   createCamera();
+  m_skin = m_env->getSkin();
+  m_font = m_env->getFont("./font/game_over.ttf");
+  if (m_font)
+    m_skin->setFont(m_font);
+  m_skin->setFont(m_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
 }
-
-# define min_x -2300
-# define max_x 2300
-# define min_z 2780
-# define max_z 7400
 
 irr::scene::IAnimatedMeshSceneNode*	Display::createModel(const irr::io::path &model3d,
 							     const irr::io::path &texture,
@@ -122,9 +122,11 @@ irr::scene::IAnimatedMeshSceneNode*	Display::createModel(const irr::io::path &mo
 							     const irr::u32& rotation,
 							     const irr::u32& scale)
 {
-  irr::scene::IAnimatedMeshSceneNode *model;
+  irr::scene::IAnimatedMeshSceneNode	*model;
 
   model = m_smgr->addAnimatedMeshSceneNode(m_smgr->getMesh(model3d));
+  if (!model)
+    puterr("Model cannot be loaded : ", model3d.c_str());
   model->setMaterialTexture(0, m_driver->getTexture(texture));
   model->setPosition(irr::core::vector3df(x, y, z));
   model->setAnimationSpeed(40);
@@ -134,10 +136,143 @@ irr::scene::IAnimatedMeshSceneNode*	Display::createModel(const irr::io::path &mo
   return model;
 }
 
-void	Display::updateModel(irr::scene::IAnimatedMeshSceneNode *model,
-			     const irr::core::vector3df &model_position)
+irr::scene::IAnimatedMeshSceneNode*	Display::updateModel(irr::scene::IAnimatedMeshSceneNode *model,
+							     const irr::core::vector3df &model_position,
+							     const int& x, const int& y, const int& z)
 {
+  const int& current_x = model->getAbsolutePosition().X;
+  const int& current_z = model->getAbsolutePosition().Z;
+
+  if ((current_x != m_prev_x || current_z != m_prev_z) &&
+      (m_prev_x && m_prev_z && m_action != RUN))
+    {
+      model->remove();
+      model = createModel(M_RUN, T_RED, x, y, z, m_rotation, 200);
+      m_action = RUN;
+    }
+  if (current_x == m_prev_x && current_z == m_prev_z && m_action != STAND)
+    {
+      model->remove();
+      model = createModel(M_STAND, T_RED, x, y, z, m_rotation, 200);
+      m_action = STAND;
+    }
+  m_prev_x = current_x;
+  m_prev_z = current_z;
   model->setPosition(model_position);
+  return model;
+}
+
+void			Display::run()
+{
+  const int&		last_tick = -1;
+  Display::Event	receiver;
+
+  m_device->setEventReceiver(&receiver);
+
+  for (int i = 0; i < 5; i++)
+    {
+      const int& rx = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
+      const int& rz = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
+      mv_models.push_back(createModel(M_STAND, T_BLUE, rx, 250, rz, 270, 200));
+    }
+
+  const int& rx = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
+  const int& rz = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
+
+  m_model = createModel(M_STAND, T_RED, rx, 250, rz, 270, 200);
+  while (m_device->run() && m_device)
+    if (m_device->isWindowActive())
+      {
+	long X = m_model->getAbsolutePosition().X;
+	long Z = m_model->getAbsolutePosition().Z;
+
+	m_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
+	m_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
+
+	m_model_position = m_model->getPosition();
+	for (int i = 0; i < mv_models.size(); i++)
+	  {
+	    irr::core::vector3df mv_models_position = mv_models[i]->getPosition();
+	    if (collision(mv_models[i], m_model))
+	      {
+		std::cout << "COLLISION !!!" << std::endl;
+	      }
+	    mv_models[i]->setPosition(mv_models_position);
+	    // mv_models[i] = updateModel(mv_models[i], mv_models_position, rx, 250, rz);
+	  }
+	eventPlayer(receiver);
+	m_model = updateModel(m_model, m_model_position, rx, 250, rz);
+
+	m_driver->beginScene(true, true, 0);
+	m_smgr->drawAll();
+	m_env->drawAll();
+	m_driver->endScene();
+	showFpsDriver(last_tick);
+      }
+  m_device->drop();
+}
+
+void	Display::createMessageBox()
+{
+  std::cout << "WARNINGGGGG " << std::endl;
+  m_env->addStaticText(L"WARNING !", irr::core::rect<irr::s32>(5, 250, 235, 320), true, true, 0, -1, true);
+}
+
+void	Display::eventPlayer(Display::Event receiver)
+{
+  if (receiver.IsKeyDown(irr::KEY_ESCAPE))
+    puterr("Exit program");
+  else if (receiver.IsKeyDown(irr::KEY_KEY_W))
+    {
+      m_rotation = 180;
+      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
+      if (!(m_model_position.Z > lim_max_z) && m_collision == NONE)
+	m_model_position.Z += speed;
+      else
+      	createMessageBox();
+    }
+  else if (receiver.IsKeyDown(irr::KEY_KEY_S))
+    {
+      m_rotation = 0;
+      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
+      if (!(m_model_position.Z < lim_min_z) && m_collision == NONE)
+	m_model_position.Z -= speed;
+      else
+      	createMessageBox();
+    }
+  else if (receiver.IsKeyDown(irr::KEY_KEY_D))
+    {
+      m_rotation = 270;
+      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
+      if (!(m_model_position.X > lim_max_x) && m_collision == NONE)
+	m_model_position.X += speed;
+      else
+      	createMessageBox();
+    }
+  else if (receiver.IsKeyDown(irr::KEY_KEY_A))
+    {
+      m_rotation = 90;
+      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
+      if (!(m_model_position.X < lim_min_x) && m_collision == NONE)
+	m_model_position.X -= speed;
+      else
+      	createMessageBox();
+    }
+}
+
+bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+			   irr::scene::IAnimatedMeshSceneNode *mesh2)
+{
+  return (mesh1->getTransformedBoundingBox().
+	  intersectsWithBox(mesh2->getTransformedBoundingBox()));
+}
+
+void			Display::showPosModel()
+{
+  long X1 = m_model_position.X;
+  long Y1 = m_model_position.Y;
+  long Z1 = m_model_position.Z;
+  std::cout << "position == X=" << X1 << " && Y=" << Y1 << " && Z=" << Z1 << std::endl;
 }
 
 void			Display::showPosCam()
@@ -154,105 +289,4 @@ void			Display::showPosCam()
   long Y2 = m_camera_target.Y;
   long Z2 = m_camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
-}
-
-
-void			Display::launch()
-{
-  const int&		last_tick = -1;
-  Display::Event	receiver;
-
-  m_device->setEventReceiver(&receiver);
-
-  for (int i = 0; i < 5; i++)
-    {
-      const int& rx = rand()%(max_x-min_x + 1) + min_x;
-      const int& rz = rand()%(max_z-min_z + 1) + min_z;
-      mv_models.push_back(createModel(M_STAND, T_BLUE, rx, 600, rz, 270, 200));
-    }
-
-  const int& rx = rand()%(max_x-min_x + 1) + min_x;
-  const int& rz = rand()%(max_z-min_z + 1) + min_z;
-
-  m_model = createModel(M_STAND, T_RED, rx, 600, rz, 270, 200);
-  int		prevPosX = 0;
-  int		prevPosZ = 0;
-  while (m_device->run() && m_device)
-    if (m_device->isWindowActive())
-      {
-	m_model_position = m_model->getPosition();
-
-	const int& posX = m_model->getAbsolutePosition().X;
-        const int& posZ = m_model->getAbsolutePosition().Z;
-        if ((posX != prevPosX || posZ != prevPosZ) && (prevPosX && prevPosZ && m_action != RUN))
-	  {
-	    m_model->remove();
-	    m_model = createModel(M_RUN, T_RED, rx, 600, rz, 270, 200);
-	    m_action = RUN;
-	  }
-        if (posX == prevPosX && posZ == prevPosZ && m_action != STAND)
-	  {
-	    m_model->remove();
-	    m_model = createModel(M_STAND, T_RED, rx, 600, rz, 270, 200);
-	    m_action = STAND;
-	  }
-	prevPosX = posX;
-	prevPosZ = posZ;
-	eventPlayer(receiver);
-	updateModel(m_model, m_model_position);
-
-
-	// test collision with others meshes
-	for (int i = 0; i < mv_models.size(); i++)
-	  {
-	    irr::core::vector3df mv_models_position = mv_models[i]->getPosition();
-	    if (collision(mv_models[i], m_model))
-	      std::cout << "collision == " << mv_models[i] << " && " << m_model << std::endl;
-	    updateModel(mv_models[i], mv_models_position);
-	  }
-
-	m_driver->beginScene(true, true, 0);
-	m_smgr->drawAll();
-	m_driver->endScene();
-
-	showFpsDriver(last_tick);
-
-      }
-  m_device->drop();
-}
-
-void	Display::eventPlayer(Display::Event receiver)
-{
-  if (receiver.IsKeyDown(irr::KEY_ESCAPE))
-    puterr("Exit program");
-  else if (receiver.IsKeyDown(irr::KEY_KEY_W))
-    {
-      m_model->setRotation(irr::core::vector3df(0, 180, 0));
-      if (!(m_model_position.Z > max_z))
-	m_model_position.Z += 17;
-    }
-  else if (receiver.IsKeyDown(irr::KEY_KEY_S))
-    {
-      m_model->setRotation(irr::core::vector3df(0, 0, 0));
-      if (!(m_model_position.Z < min_z))
-	m_model_position.Z -= 17;
-    }
-  else if (receiver.IsKeyDown(irr::KEY_KEY_D))
-    {
-      m_model->setRotation(irr::core::vector3df(0, 270, 0));
-      if (!(m_model_position.X > max_x))
-	m_model_position.X += 17;
-    }
-  else if (receiver.IsKeyDown(irr::KEY_KEY_A))
-    {
-      m_model->setRotation(irr::core::vector3df(0, 90, 0));
-      if (!(m_model_position.X < min_x))
-	m_model_position.X -= 17;
-    }
-}
-
-bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
-			   irr::scene::IAnimatedMeshSceneNode *mesh2)
-{
-  return (mesh1->getTransformedBoundingBox().intersectsWithBox(mesh2->getTransformedBoundingBox()));
 }

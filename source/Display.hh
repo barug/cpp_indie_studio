@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May  6 03:30:14 2016 Thomas Bogard
+// Last update Sat May  7 00:35:44 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -19,6 +19,15 @@
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
 #endif
+
+// limits
+# define lim_min_x -150
+# define lim_max_x 7190
+# define lim_min_z 5050
+# define lim_max_z 12300
+
+// speed
+# define	speed 17
 
 // model3d
 # define	M_RUN		"./models/BOMBERRUN.b3d"
@@ -35,11 +44,11 @@
 # define	T_PURPLE	"./textures/bomberman_purple.png"
 # define	T_RED		"./textures/bomberman_red.png"
 
-
 class		Display
 {
 public:
   class Event;
+
   enum Action
     {
       STAND,
@@ -47,9 +56,16 @@ public:
       DROP
     };
 
+  enum Collision
+    {
+      NONE,
+      COLLISION
+    };
+
   Display();
   ~Display();
 
+private:
   // methods
   int		driverChoice();
   void		showFpsDriver(int last_tick);
@@ -57,22 +73,31 @@ public:
   void		createCamera();
   void		createGround();
   void		createSkybox();
+  void		createMessageBox();
 
-  irr::scene::IAnimatedMeshSceneNode*	createModel(const irr::io::path &model, const irr::io::path &texture,
+  irr::scene::IAnimatedMeshSceneNode *	createModel(const irr::io::path &model, const irr::io::path &texture,
 						    const int &x, const int &y, const int &z,
 						    const irr::u32& rotation,
 						    const irr::u32& scale);
 
-  void		updateModel(irr::scene::IAnimatedMeshSceneNode *model,
-			    const irr::core::vector3df &model_position);
-  void		eventPlayer(Event receiver);
-  void		init();
-  void		launch();
+  irr::scene::IAnimatedMeshSceneNode *	updateModel(irr::scene::IAnimatedMeshSceneNode *model,
+						    const irr::core::vector3df &model_position,
+						    const int& x, const int& y, const int& z);
+
   bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
 
+  void		eventPlayer(Event receiver);
+
   // debug
   void		showPosCam();
+  void		showPosModel();
+
+public:
+  // methods
+  void		init();
+  void		run();
+
   // against error
   void		puterr(const char * const err)
   {
@@ -80,26 +105,45 @@ public:
     exit(EXIT_FAILURE);
   }
 
+  void		puterr(const char * const err, const char * const geterr)
+  {
+    std::cerr << err << geterr << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
 protected:
-  // scene
+  // video and device
   irr::IrrlichtDevice			*m_device;
   irr::video::E_DRIVER_TYPE		driverType;
   irr::video::IVideoDriver		*m_driver;
+
+  // scene
   irr::scene::ICameraSceneNode		*m_camera;
   irr::scene::ISceneManager		*m_smgr;
-
-  // models
   irr::scene::ISceneNode		*m_ground;
   irr::scene::ISceneNode		*m_skybox;
   irr::scene::IAnimatedMeshSceneNode	*m_model;
   std::vector<irr::scene::IAnimatedMeshSceneNode *> mv_models;
+
+  // gui
+  irr::gui::IGUIEnvironment		*m_env;
+  irr::gui::IGUISkin			*m_skin;
+  irr::gui::IGUIFont			*m_font;
+
+  // enum
   Action				m_action;
+  Action				mv_action;
 
   // positions
   irr::core::vector3df			m_model_position;
   irr::core::vector3df			m_camera_position;
-public:
+  irr::u32				m_rotation;
+  irr::u32				m_prev_x;
+  irr::u32				m_prev_z;
+  Collision				m_collision;
 
+
+public:
   // class for multiple event with keyboard
   class		Event : public irr::IEventReceiver
   {

@@ -4,5 +4,5 @@ int main()
 {
   Display d;
   d.init();
-  d.launch();
+  d.run();
 }
