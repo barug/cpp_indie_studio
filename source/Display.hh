@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Sat May  7 00:35:44 2016 Thomas Bogard
+// Last update Sat May  7 12:57:04 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -21,13 +21,13 @@
 #endif
 
 // limits
-# define lim_min_x -150
-# define lim_max_x 7190
-# define lim_min_z 5050
-# define lim_max_z 12300
+# define	lim_min_x	(-150)
+# define	lim_max_x	(7190)
+# define	lim_min_z	(5050)
+# define	lim_max_z	(12300)
 
 // speed
-# define	speed 17
+# define	speed		(17)
 
 // model3d
 # define	M_RUN		"./models/BOMBERRUN.b3d"
@@ -43,37 +43,32 @@
 # define	T_PINK		"./textures/bomberman_pink.png"
 # define	T_PURPLE	"./textures/bomberman_purple.png"
 # define	T_RED		"./textures/bomberman_red.png"
+# define	T_WARNING	"./textures/warning.png"
 
 class		Display
 {
 public:
   class Event;
 
-  enum Action
+  enum Animation
     {
       STAND,
       RUN,
       DROP
     };
 
-  enum Collision
-    {
-      NONE,
-      COLLISION
-    };
-
   Display();
   ~Display();
 
 private:
-  // methods
+  // private methods
   int		driverChoice();
   void		showFpsDriver(int last_tick);
   int		createDevice();
   void		createCamera();
   void		createGround();
   void		createSkybox();
-  void		createMessageBox();
+  void		createImage(irr::gui::IGUIImage *img);
 
   irr::scene::IAnimatedMeshSceneNode *	createModel(const irr::io::path &model, const irr::io::path &texture,
 						    const int &x, const int &y, const int &z,
@@ -94,7 +89,7 @@ private:
   void		showPosModel();
 
 public:
-  // methods
+  // public methods
   void		init();
   void		run();
 
@@ -129,10 +124,13 @@ protected:
   irr::gui::IGUIEnvironment		*m_env;
   irr::gui::IGUISkin			*m_skin;
   irr::gui::IGUIFont			*m_font;
+  irr::gui::IGUIImage			*m_warning;
+  irr::gui::IGUIImage			*m_img;
+  bool					m_iswarning;
 
-  // enum
-  Action				m_action;
-  Action				mv_action;
+  // current animation
+  Animation				m_action;
+  Animation				mv_action;
 
   // positions
   irr::core::vector3df			m_model_position;
@@ -140,7 +138,7 @@ protected:
   irr::u32				m_rotation;
   irr::u32				m_prev_x;
   irr::u32				m_prev_z;
-  Collision				m_collision;
+  bool					m_collision;
 
 
 public:

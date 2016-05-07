@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sat May  7 11:51:41 2016 Thomas Bogard
+// Last update Sat May  7 12:56:37 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -14,7 +14,7 @@ Display::Display()
   : m_device(NULL), m_driver(NULL), m_camera(NULL),
     m_smgr(NULL), m_ground(NULL), m_model(NULL),
     m_rotation(0), m_prev_x(0), m_prev_z(0),
-    m_action(STAND), mv_action(STAND), m_collision(NONE)
+    m_action(STAND), mv_action(STAND), m_collision(false), m_iswarning(false)
 {
 }
 
@@ -68,7 +68,7 @@ void	Display::createGround()
 	m_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
 	m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/box.png"));
 	m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-	m_ground->setScale(irr::core::vector3df(48, 48, 48));
+	m_ground->setScale(irr::core::vector3df(46, 46, 46));
       }
 }
 
@@ -171,15 +171,15 @@ void			Display::run()
 
   for (int i = 0; i < 5; i++)
     {
-      const int& rx = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
-      const int& rz = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
-      mv_models.push_back(createModel(M_STAND, T_BLUE, rx, 250, rz, 270, 200));
+      const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
+      const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
+      mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, 270, 200));
     }
 
-  const int& rx = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
-  const int& rz = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
+  const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
+  const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
 
-  m_model = createModel(M_STAND, T_RED, rx, 250, rz, 270, 200);
+  m_model = createModel(M_STAND, T_RED, x, 250, z, 270, 200);
   while (m_device->run() && m_device)
     if (m_device->isWindowActive())
       {
@@ -198,11 +198,10 @@ void			Display::run()
 		std::cout << "COLLISION !!!" << std::endl;
 	      }
 	    mv_models[i]->setPosition(mv_models_position);
-	    // mv_models[i] = updateModel(mv_models[i], mv_models_position, rx, 250, rz);
+	    // mv_models[i] = updateModel(mv_models[i], mv_models_position, x, 250, z);
 	  }
 	eventPlayer(receiver);
-	m_model = updateModel(m_model, m_model_position, rx, 250, rz);
-
+	m_model = updateModel(m_model, m_model_position, x, 250, z);
 	m_driver->beginScene(true, true, 0);
 	m_smgr->drawAll();
 	m_env->drawAll();
@@ -212,52 +211,60 @@ void			Display::run()
   m_device->drop();
 }
 
-void	Display::createMessageBox()
+void	Display::createImage(irr::gui::IGUIImage *img)
 {
-  std::cout << "WARNINGGGGG " << std::endl;
-  // m_env->addStaticText(L"WARNING !", irr::core::rect<irr::s32>(5, 250, 235, 320), true, true, 0, -1, true);
-  m_env->addImage(m_driver->getTexture("./textures/warning.png"), irr::gui::position<int>(10, 10));
+  img = m_env->addImage(irr::core::rect<irr::s32>(100,100,200,225));
+  img->setImage(m_driver->getTexture("./textures/warning.png"));
+  img->setScaleImage(true);
+  m_driver->removeTexture(m_driver->getTexture("./textures/warning.png"));
+  m_iswarning = true;
 }
 
 void	Display::eventPlayer(Display::Event receiver)
 {
   if (receiver.IsKeyDown(irr::KEY_ESCAPE))
     puterr("Exit program");
+  // else if (receiver.IsKeyDown(irr::KEY_SPACE) && m_collision)
+  //   m_img->drop();
   else if (receiver.IsKeyDown(irr::KEY_KEY_W))
     {
       m_rotation = 180;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.Z > lim_max_z) && m_collision == NONE)
+      if (!(m_model_position.Z > lim_max_z))
 	m_model_position.Z += speed;
       else
-      	createMessageBox();
+	if (!m_iswarning)
+	  createImage(m_img);
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_S))
     {
       m_rotation = 0;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.Z < lim_min_z) && m_collision == NONE)
+      if (!(m_model_position.Z < lim_min_z))
 	m_model_position.Z -= speed;
       else
-      	createMessageBox();
+	if (!m_iswarning)
+	  createImage(m_img);
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_D))
     {
       m_rotation = 270;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.X > lim_max_x) && m_collision == NONE)
+      if (!(m_model_position.X > lim_max_x))
 	m_model_position.X += speed;
       else
-      	createMessageBox();
+	if (!m_iswarning)
+	  createImage(m_img);
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_A))
     {
       m_rotation = 90;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.X < lim_min_x) && m_collision == NONE)
+      if (!(m_model_position.X < lim_min_x))
 	m_model_position.X -= speed;
       else
-      	createMessageBox();
+	if (!m_iswarning)
+	  createImage(m_img);
     }
 }
 
