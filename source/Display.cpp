@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sat May  7 00:34:46 2016 Thomas Bogard
+// Last update Sat May  7 11:51:41 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -215,7 +215,8 @@ void			Display::run()
 void	Display::createMessageBox()
 {
   std::cout << "WARNINGGGGG " << std::endl;
-  m_env->addStaticText(L"WARNING !", irr::core::rect<irr::s32>(5, 250, 235, 320), true, true, 0, -1, true);
+  // m_env->addStaticText(L"WARNING !", irr::core::rect<irr::s32>(5, 250, 235, 320), true, true, 0, -1, true);
+  m_env->addImage(m_driver->getTexture("./textures/warning.png"), irr::gui::position<int>(10, 10));
 }
 
 void	Display::eventPlayer(Display::Event receiver)
