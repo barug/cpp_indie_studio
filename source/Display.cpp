@@ -5,16 +5,16 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sat May  7 12:56:37 2016 Thomas Bogard
+// Last update Mon May  9 15:20:14 2016 Erwan Dupard
 //
 
 # include "Display.hh"
 
 Display::Display()
-  : m_device(NULL), m_driver(NULL), m_camera(NULL),
-    m_smgr(NULL), m_ground(NULL), m_model(NULL),
-    m_rotation(0), m_prev_x(0), m_prev_z(0),
-    m_action(STAND), mv_action(STAND), m_collision(false), m_iswarning(false)
+  : _device(NULL), _driver(NULL), _camera(NULL),
+    _smgr(NULL), _ground(NULL), _model(NULL),
+    _rotation(0), _prev_x(0), _prev_z(0),
+    _action(STAND), mv_action(STAND), _collision(false), _iswarning(false)
 {
 }
 
@@ -32,16 +32,17 @@ int	Display::driverChoice()
 
 void	Display::showFpsDriver(int last_tick)
 {
-  const int	&fps = m_driver->getFPS();
+  const int	&fps = this->_driver->getFPS();
 
   if (last_tick != fps)
     {
+      /* stringw extended charset L"A" --> 00 41  && L"AB" --> 00 41 00 42 (accents for exemples)*/
       irr::core::stringw str = L"Bomberman - driver : [";
-      str += m_driver->getName();
+      str += this->_driver->getName();
       str += "] FPS:[";
       str += fps;
       str += "]";
-      m_device->setWindowCaption(str.c_str());
+      this->_device->setWindowCaption(str.c_str());
       last_tick = fps;
     }
 }
@@ -52,8 +53,8 @@ int	Display::createDevice()
 
   params.DriverType = driverType;
   params.WindowSize = irr::core::dimension2d<irr::u32>(1200, 800);
-  m_device = createDeviceEx(params);
-  if (!m_device)
+  this->_device = createDeviceEx(params);
+  if (!this->_device)
     return (-1);
   return (0);
 }
@@ -63,36 +64,36 @@ void	Display::createGround()
   for (int row = 0; row < 15; row++)
     for (int column = 0; column < 15; column++)
       {
-	m_smgr->addCubeSceneNode();
-	m_ground = m_smgr->addCubeSceneNode();
-	m_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
-	m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/box.png"));
-	m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-	m_ground->setScale(irr::core::vector3df(46, 46, 46));
+	this->_smgr->addCubeSceneNode();
+	this->_ground = this->_smgr->addCubeSceneNode();
+	this->_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
+	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	this->_ground->setScale(irr::core::vector3df(46, 46, 46));
       }
 }
 
 void	Display::createSkybox()
 {
-  m_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
-  m_skybox =
-    m_smgr->addSkyBoxSceneNode(m_driver->getTexture("./textures/planet.jpg"), // up
-			       m_driver->getTexture("./textures/space.jpg"),  // down
-			       m_driver->getTexture("./textures/space.jpg"),  // left
-			       m_driver->getTexture("./textures/space.jpg"),  // right
-			       m_driver->getTexture("./textures/space.jpg"),  // ft
-			       m_driver->getTexture("./textures/space.jpg")); // bk
-  if (!m_skybox)
+  this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
+  this->_skybox =
+    this->_smgr->addSkyBoxSceneNode(this->_driver->getTexture("./textures/planet.jpg"), // up
+			       this->_driver->getTexture("./textures/space.jpg"),  // down
+			       this->_driver->getTexture("./textures/space.jpg"),  // left
+			       this->_driver->getTexture("./textures/space.jpg"),  // right
+			       this->_driver->getTexture("./textures/space.jpg"),  // ft
+			       this->_driver->getTexture("./textures/space.jpg")); // bk
+  if (!this->_skybox)
     puterr("Skybox cannot be loaded");
-  m_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
+  this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
 void	Display::createCamera()
 {
-  m_camera = m_smgr->addCameraSceneNodeFPS(0, 100, 1);
-  m_camera->setFarValue(42000.0f);
-  m_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
-  m_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
+  this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100, 1);
+  this->_camera->setFarValue(42000.0f);
+  this->_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
+  this->_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
 }
 
 void	Display::init()
@@ -101,19 +102,19 @@ void	Display::init()
     puterr("Select an appropriate driver for your system");
   if (createDevice())
     puterr("Device cannot be created");
-  m_driver = m_device->getVideoDriver();
-  m_smgr = m_device->getSceneManager();
-  m_env = m_device->getGUIEnvironment();
-  m_driver->setTextureCreationFlag(irr::video::ETCF_ALWAYS_32_BIT, true);
-  m_device->getCursorControl()->setVisible(false);
+  this->_driver = this->_device->getVideoDriver();
+  this->_smgr = this->_device->getSceneManager();
+  this->_env = this->_device->getGUIEnvironment();
+  this->_driver->setTextureCreationFlag(irr::video::ETCF_ALWAYS_32_BIT, true);
+  this->_device->getCursorControl()->setVisible(false);
   createGround();
   createSkybox();
   createCamera();
-  m_skin = m_env->getSkin();
-  m_font = m_env->getFont("./font/game_over.ttf");
-  if (m_font)
-    m_skin->setFont(m_font);
-  m_skin->setFont(m_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
+  this->_skin = this->_env->getSkin();
+  this->_font = this->_env->getFont("./font/game_over.ttf");
+  if (this->_font)
+    this->_skin->setFont(this->_font);
+  this->_skin->setFont(this->_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
 }
 
 irr::scene::IAnimatedMeshSceneNode*	Display::createModel(const irr::io::path &model3d,
@@ -220,13 +221,13 @@ void	Display::createImage(irr::gui::IGUIImage *img)
   m_iswarning = true;
 }
 
-void	Display::eventPlayer(Display::Event receiver)
+void	Display::eventPlayer(const Display::Event &receiver)
 {
   if (receiver.IsKeyDown(irr::KEY_ESCAPE))
     puterr("Exit program");
   // else if (receiver.IsKeyDown(irr::KEY_SPACE) && m_collision)
   //   m_img->drop();
-  else if (receiver.IsKeyDown(irr::KEY_KEY_W))
+  else if (receiver.IsKeyDown(irr::KEY_KEY_W) || receiver.IsKeyDown(irr::KEY_KEY_Z))
     {
       m_rotation = 180;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
@@ -256,7 +257,7 @@ void	Display::eventPlayer(Display::Event receiver)
 	if (!m_iswarning)
 	  createImage(m_img);
     }
-  else if (receiver.IsKeyDown(irr::KEY_KEY_A))
+  else if (receiver.IsKeyDown(irr::KEY_KEY_A) || receiver.IsKeyDown(irr::KEY_KEY_Q))
     {
       m_rotation = 90;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));

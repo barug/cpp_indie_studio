@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Sat May  7 12:57:04 2016 Thomas Bogard
+// Last update Mon May  9 15:16:25 2016 Erwan Dupard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -13,11 +13,11 @@
 
 # include	<map>
 # include	<vector>
-# include	<irrlicht.h>
-# include	<driverChoice.h>
+# include	"irrlicht.h"
+# include	"driverChoice.h"
 
 #ifdef _MSC_VER
-#pragma comment(lib, "Irrlicht.lib")
+# pragma comment(lib, "Irrlicht.lib")
 #endif
 
 // limits
@@ -56,10 +56,8 @@ public:
       RUN,
       DROP
     };
-
   Display();
   ~Display();
-
 private:
   // private methods
   int		driverChoice();
@@ -82,7 +80,7 @@ private:
   bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
 
-  void		eventPlayer(Event receiver);
+  void		eventPlayer(const Event &receiver);
 
   // debug
   void		showPosCam();
@@ -108,37 +106,37 @@ public:
 
 protected:
   // video and device
-  irr::IrrlichtDevice			*m_device;
-  irr::video::E_DRIVER_TYPE		driverType;
-  irr::video::IVideoDriver		*m_driver;
+  irr::IrrlichtDevice			*_device;
+  irr::video::E_DRIVER_TYPE		_driverType;
+  irr::video::IVideoDriver		*_driver;
 
   // scene
-  irr::scene::ICameraSceneNode		*m_camera;
-  irr::scene::ISceneManager		*m_smgr;
-  irr::scene::ISceneNode		*m_ground;
-  irr::scene::ISceneNode		*m_skybox;
-  irr::scene::IAnimatedMeshSceneNode	*m_model;
+  irr::scene::ICameraSceneNode		*_camera;
+  irr::scene::ISceneManager		*_smgr;
+  irr::scene::ISceneNode		*_ground;
+  irr::scene::ISceneNode		*_skybox;
+  irr::scene::IAnimatedMeshSceneNode	*_model;
   std::vector<irr::scene::IAnimatedMeshSceneNode *> mv_models;
 
   // gui
-  irr::gui::IGUIEnvironment		*m_env;
-  irr::gui::IGUISkin			*m_skin;
-  irr::gui::IGUIFont			*m_font;
-  irr::gui::IGUIImage			*m_warning;
-  irr::gui::IGUIImage			*m_img;
-  bool					m_iswarning;
+  irr::gui::IGUIEnvironment		*_env;
+  irr::gui::IGUISkin			*_skin;
+  irr::gui::IGUIFont			*_font;
+  irr::gui::IGUIImage			*_warning;
+  irr::gui::IGUIImage			*_img;
+  bool					_iswarning;
 
   // current animation
-  Animation				m_action;
-  Animation				mv_action;
+  Animation				_action;
+  Animation				_mv_action;
 
   // positions
-  irr::core::vector3df			m_model_position;
-  irr::core::vector3df			m_camera_position;
-  irr::u32				m_rotation;
-  irr::u32				m_prev_x;
-  irr::u32				m_prev_z;
-  bool					m_collision;
+  irr::core::vector3df			_model_position;
+  irr::core::vector3df			_camera_position;
+  irr::u32				_rotation;
+  irr::u32				_prev_x;
+  irr::u32				_prev_z;
+  bool					_collision;
 
 
 public:
@@ -149,23 +147,23 @@ public:
     Event()
     {
       for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
-	KeyIsDown[i] = false;
+	this->_KeyIsDown[i] = false;
     }
 
     virtual bool OnEvent(const irr::SEvent& event)
     {
       if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-	KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+	this->_KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
       return false;
     }
 
-    virtual bool IsKeyDown(irr::EKEY_CODE keyCode) const
+    virtual bool IsKeyDown(const irr::EKEY_CODE &keyCode) const
     {
-      return KeyIsDown[keyCode];
+      return this->_KeyIsDown[keyCode];
     }
 
   private:
-    bool                          KeyIsDown[irr::KEY_KEY_CODES_COUNT];
+    bool                          _KeyIsDown[irr::KEY_KEY_CODES_COUNT];
   };
 
 };

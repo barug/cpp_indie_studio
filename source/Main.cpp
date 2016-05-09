@@ -152,6 +152,7 @@ int		main(int ac, char **av)
   int		prevPosZ = 0;
   int		lastFPS = -1;
   Action	current = STAND;
+
   device->setEventReceiver(&receiver);
   while (device->run() && device)
     if (device->isWindowActive())

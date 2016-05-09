@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Mon May  2 18:31:10 2016 Thomas Bogard
+## Last update Mon May  9 14:51:30 2016 Erwan Dupard
 ##
 
 CC		= g++
@@ -30,7 +30,6 @@ SRCS		= source/Main.cpp		\
 		  source/Entity.cpp		\
 		  source/Component.cpp		\
 		  source/EntityManager.cpp	\
-		  source/PositionComponent.cpp	\
 		  source/SpeedComponent.cpp	\
 
 OBJS		= $(SRCS:.cpp=.o)
