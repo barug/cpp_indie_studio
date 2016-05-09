@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Mon May  9 15:22:53 2016 Erwan Dupard
+// Last update Mon May  9 16:06:15 2016 Erwan Dupard
 //
 
 # include "Display.hh"
@@ -14,7 +14,7 @@ Display::Display()
   : _device(NULL), _driver(NULL), _camera(NULL),
     _smgr(NULL), _ground(NULL), _model(NULL),
     _rotation(0), _prev_x(0), _prev_z(0),
-    _action(STAND), mv_action(STAND), _collision(false), _iswarning(false)
+    _action(STAND), _mv_action(STAND), _collision(false), _iswarning(false)
 {
 }
 
@@ -24,8 +24,8 @@ Display::~Display()
 
 int	Display::driverChoice()
 {
-  driverType = irr::driverChoiceConsole();
-  if (driverType == irr::video::EDT_COUNT)
+  this->_driverType = irr::driverChoiceConsole();
+  if (this->_driverType == irr::video::EDT_COUNT)
     return (-1);
   return (0);
 }
@@ -51,7 +51,7 @@ int	Display::createDevice()
 {
   irr::SIrrlichtCreationParameters params;
 
-  params.DriverType = driverType;
+  params.DriverType = this->_driverType;
   params.WindowSize = irr::core::dimension2d<irr::u32>(1200, 800);
   this->_device = createDeviceEx(params);
   if (!this->_device)
@@ -64,12 +64,12 @@ void	Display::createGround()
   for (int row = 0; row < 15; row++)
     for (int column = 0; column < 15; column++)
       {
-	m_smgr->addCubeSceneNode();
-	m_ground = m_smgr->addCubeSceneNode();
-	m_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
-	m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/box.png"));
-	m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-	m_ground->setScale(irr::core::vector3df(50, 50, 50));
+	this->_smgr->addCubeSceneNode();
+	this->_ground = this->_smgr->addCubeSceneNode();
+	this->_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
+	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
 }
 
@@ -125,10 +125,10 @@ irr::scene::IAnimatedMeshSceneNode*	Display::createModel(const irr::io::path &mo
 {
   irr::scene::IAnimatedMeshSceneNode	*model;
 
-  model = m_smgr->addAnimatedMeshSceneNode(m_smgr->getMesh(model3d));
+  model = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model3d));
   if (!model)
     puterr("Model cannot be loaded : ", model3d.c_str());
-  model->setMaterialTexture(0, m_driver->getTexture(texture));
+  model->setMaterialTexture(0, this->_driver->getTexture(texture));
   model->setPosition(irr::core::vector3df(x, y, z));
   model->setAnimationSpeed(40);
   model->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -144,21 +144,21 @@ irr::scene::IAnimatedMeshSceneNode*	Display::updateModel(irr::scene::IAnimatedMe
   const int& current_x = model->getAbsolutePosition().X;
   const int& current_z = model->getAbsolutePosition().Z;
 
-  if ((current_x != m_prev_x || current_z != m_prev_z) &&
-      (m_prev_x && m_prev_z && m_action != RUN))
+  if ((current_x != this->_prev_x || current_z != this->_prev_z) &&
+      (this->_prev_x && this->_prev_z && this->_action != RUN))
     {
       model->remove();
-      model = createModel(M_RUN, T_RED, x, y, z, m_rotation, 200);
-      m_action = RUN;
+      model = createModel(M_RUN, T_RED, x, y, z, this->_rotation, 200);
+      this->_action = RUN;
     }
-  if (current_x == m_prev_x && current_z == m_prev_z && m_action != STAND)
+  if (current_x == this->_prev_x && current_z == this->_prev_z && this->_action != STAND)
     {
       model->remove();
-      model = createModel(M_STAND, T_RED, x, y, z, m_rotation, 200);
-      m_action = STAND;
+      model = createModel(M_STAND, T_RED, x, y, z, this->_rotation, 200);
+      this->_action = STAND;
     }
-  m_prev_x = current_x;
-  m_prev_z = current_z;
+  this->_prev_x = current_x;
+  this->_prev_z = current_z;
   model->setPosition(model_position);
   return model;
 }
@@ -168,57 +168,57 @@ void			Display::run()
   const int		&last_tick = -1;
   Display::Event	receiver;
 
-  m_device->setEventReceiver(&receiver);
+  this->_device->setEventReceiver(&receiver);
 
   for (int i = 0; i < 5; i++)
     {
       const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
       const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
-      mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, 270, 200));
+      this->_mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, 270, 200));
     }
 
   const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
   const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
 
-  m_model = createModel(M_STAND, T_RED, x, 250, z, 270, 200);
-  while (m_device->run() && m_device)
-    if (m_device->isWindowActive())
+  this->_model = createModel(M_STAND, T_RED, x, 250, z, 270, 200);
+  while (this->_device->run() && this->_device)
+    if (this->_device->isWindowActive())
       {
-	long X = m_model->getAbsolutePosition().X;
-	long Z = m_model->getAbsolutePosition().Z;
+	long X = this->_model->getAbsolutePosition().X;
+	long Z = this->_model->getAbsolutePosition().Z;
 
-	// m_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
-	// m_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
+	// this->_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
+	// this->_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
 
-	m_model_position = m_model->getPosition();
-	for (int i = 0; i < mv_models.size(); i++)
+	this->_model_position = this->_model->getPosition();
+	for (int i = 0; i < this->_mv_models.size(); i++)
 	  {
-	    irr::core::vector3df mv_models_position = mv_models[i]->getPosition();
-	    if (collision(mv_models[i], m_model))
+	    irr::core::vector3df mv_models_position = this->_mv_models[i]->getPosition();
+	    if (collision(this->_mv_models[i], this->_model))
 	      {
 		std::cout << "COLLISION !!!" << std::endl;
 	      }
-	    mv_models[i]->setPosition(mv_models_position);
+	    this->_mv_models[i]->setPosition(mv_models_position);
 	    // mv_models[i] = updateModel(mv_models[i], mv_models_position, x, 250, z);
 	  }
 	eventPlayer(receiver);
-	m_model = updateModel(m_model, m_model_position, x, 250, z);
-	m_driver->beginScene(true, true, 0);
-	m_smgr->drawAll();
-	m_env->drawAll();
-	m_driver->endScene();
+	this->_model = updateModel(this->_model, this->_model_position, x, 250, z);
+	this->_driver->beginScene(true, true, 0);
+	this->_smgr->drawAll();
+	this->_env->drawAll();
+	this->_driver->endScene();
 	showFpsDriver(last_tick);
       }
-  m_device->drop();
+  this->_device->drop();
 }
 
 void	Display::createImage(irr::gui::IGUIImage *img)
 {
-  img = m_env->addImage(irr::core::rect<irr::s32>(100,100,200,225));
-  img->setImage(m_driver->getTexture("./textures/warning.png"));
+  img = this->_env->addImage(irr::core::rect<irr::s32>(100,100,200,225));
+  img->setImage(this->_driver->getTexture("./textures/warning.png"));
   img->setScaleImage(true);
-  m_driver->removeTexture(m_driver->getTexture("./textures/warning.png"));
-  m_iswarning = true;
+  this->_driver->removeTexture(this->_driver->getTexture("./textures/warning.png"));
+  this->_iswarning = true;
 }
 
 void	Display::eventPlayer(const Display::Event &receiver)
@@ -227,31 +227,31 @@ void	Display::eventPlayer(const Display::Event &receiver)
     puterr("Exit program");
   else if (receiver.IsKeyDown(irr::KEY_KEY_W))
     {
-      m_rotation = 180;
-      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.Z > lim_max_z))
-	m_model_position.Z += speed;
+      this->_rotation = 180;
+      this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
+      if (!(this->_model_position.Z > lim_max_z))
+	this->_model_position.Z += speed;
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_S))
     {
-      m_rotation = 0;
-      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.Z < lim_min_z))
-	m_model_position.Z -= speed;
+      this->_rotation = 0;
+      this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
+      if (!(this->_model_position.Z < lim_min_z))
+	this->_model_position.Z -= speed;
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_D))
     {
-      m_rotation = 270;
-      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.X > lim_max_x))
-	m_model_position.X += speed;
+      this->_rotation = 270;
+      this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
+      if (!(this->_model_position.X > lim_max_x))
+	this->_model_position.X += speed;
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_A) || receiver.IsKeyDown(irr::KEY_KEY_Q))
     {
-      m_rotation = 90;
-      m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
-      if (!(m_model_position.X < lim_min_x))
-	m_model_position.X -= speed;
+      this->_rotation = 90;
+      this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
+      if (!(this->_model_position.X < lim_min_x))
+	this->_model_position.X -= speed;
     }
 }
 
@@ -264,24 +264,24 @@ bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 
 void			Display::showPosModel()
 {
-  long X1 = m_model_position.X;
-  long Y1 = m_model_position.Y;
-  long Z1 = m_model_position.Z;
+  long X1 = this->_model_position.X;
+  long Y1 = this->_model_position.Y;
+  long Z1 = this->_model_position.Z;
   std::cout << "position == X=" << X1 << " && Y=" << Y1 << " && Z=" << Z1 << std::endl;
 }
 
 void			Display::showPosCam()
 {
-  irr::core::vector3df m_camera_position = m_camera->getPosition();
-  irr::core::vector3df m_camera_target = m_camera->getTarget();
+  irr::core::vector3df camera_position = this->_camera->getPosition();
+  irr::core::vector3df camera_target = this->_camera->getTarget();
 
-  long X1 = m_camera_position.X;
-  long Y1 = m_camera_position.Y;
-  long Z1 = m_camera_position.Z;
+  long X1 = camera_position.X;
+  long Y1 = camera_position.Y;
+  long Z1 = camera_position.Z;
   std::cout << "position == " << X1 << " && " << Y1 << " && " << Z1 << std::endl;
 
-  long X2 = m_camera_target.X;
-  long Y2 = m_camera_target.Y;
-  long Z2 = m_camera_target.Z;
+  long X2 = camera_target.X;
+  long Y2 = camera_target.Y;
+  long Z2 = camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
 }

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May  9 15:16:25 2016 Erwan Dupard
+// Last update Mon May  9 15:27:34 2016 Erwan Dupard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -116,7 +116,7 @@ protected:
   irr::scene::ISceneNode		*_ground;
   irr::scene::ISceneNode		*_skybox;
   irr::scene::IAnimatedMeshSceneNode	*_model;
-  std::vector<irr::scene::IAnimatedMeshSceneNode *> mv_models;
+  std::vector<irr::scene::IAnimatedMeshSceneNode *> _mv_models;
 
   // gui
   irr::gui::IGUIEnvironment		*_env;

@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Mon May  9 14:51:30 2016 Erwan Dupard
+## Last update Mon May  9 16:02:49 2016 Erwan Dupard
 ##
 
 CC		= g++
@@ -20,9 +20,6 @@ NAME		= cpp_indie_studio
 
 NAMEDISPLAY	= displaytest
 
-SRCSDISPLAY	=	maindisplay.cpp \
-			source/Display.cpp
-
 OBJSDISPLAY	= $(SRCSDISPLAY:.cpp=.o)
 
 
@@ -31,18 +28,16 @@ SRCS		= source/Main.cpp		\
 		  source/Component.cpp		\
 		  source/EntityManager.cpp	\
 		  source/SpeedComponent.cpp	\
+		  source/Display.cpp
 
 OBJS		= $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME):	$(OBJS)
-		$(CC) -o $(NAME) $(OBJS) $(CXXFLAGS) $(CPPFLAGS)
+$(NAME): $(OBJS)
+	$(CC) -o $(NAME) $(OBJS) $(CXXFLAGS) $(CPPFLAGS)
 
 dp: $(NAMEDISPLAY)
-
-$(NAMEDISPLAY): $(OBJSDISPLAY)
-		$(CC) -o $(NAMEDISPLAY) $(OBJSDISPLAY) $(CXXFLAGS) $(CPPFLAGS)
 
 clean:
 	$(RM) $(OBJS)
