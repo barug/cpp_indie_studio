@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sat May  7 12:56:37 2016 Thomas Bogard
+// Last update Mon May  9 14:03:47 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -68,7 +68,7 @@ void	Display::createGround()
 	m_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
 	m_ground->setMaterialTexture(0, m_driver->getTexture("./textures/box.png"));
 	m_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-	m_ground->setScale(irr::core::vector3df(46, 46, 46));
+	m_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
 }
 
@@ -186,8 +186,8 @@ void			Display::run()
 	long X = m_model->getAbsolutePosition().X;
 	long Z = m_model->getAbsolutePosition().Z;
 
-	m_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
-	m_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
+	// m_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
+	// m_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
 
 	m_model_position = m_model->getPosition();
 	for (int i = 0; i < mv_models.size(); i++)
@@ -224,17 +224,12 @@ void	Display::eventPlayer(Display::Event receiver)
 {
   if (receiver.IsKeyDown(irr::KEY_ESCAPE))
     puterr("Exit program");
-  // else if (receiver.IsKeyDown(irr::KEY_SPACE) && m_collision)
-  //   m_img->drop();
   else if (receiver.IsKeyDown(irr::KEY_KEY_W))
     {
       m_rotation = 180;
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
       if (!(m_model_position.Z > lim_max_z))
 	m_model_position.Z += speed;
-      else
-	if (!m_iswarning)
-	  createImage(m_img);
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_S))
     {
@@ -242,9 +237,6 @@ void	Display::eventPlayer(Display::Event receiver)
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
       if (!(m_model_position.Z < lim_min_z))
 	m_model_position.Z -= speed;
-      else
-	if (!m_iswarning)
-	  createImage(m_img);
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_D))
     {
@@ -252,9 +244,6 @@ void	Display::eventPlayer(Display::Event receiver)
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
       if (!(m_model_position.X > lim_max_x))
 	m_model_position.X += speed;
-      else
-	if (!m_iswarning)
-	  createImage(m_img);
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_A))
     {
@@ -262,9 +251,6 @@ void	Display::eventPlayer(Display::Event receiver)
       m_model->setRotation(irr::core::vector3df(0, m_rotation, 0));
       if (!(m_model_position.X < lim_min_x))
 	m_model_position.X -= speed;
-      else
-	if (!m_iswarning)
-	  createImage(m_img);
     }
 }
 
