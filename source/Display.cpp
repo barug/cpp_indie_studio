@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 11 00:16:04 2016 Thomas Bogard
+// Last update Wed May 11 00:27:41 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -207,7 +207,7 @@ void			Display::run()
 	for (int i = 0; i < this->_mv_models.size(); i++)
 	  {
 	    const irr::core::vector3df& mv_models_position = this->_mv_models[i]->getPosition();
-	    this->_collision = (collision(this->_mv_models[i], this->_model, 100)) ? true : false;
+	    this->_collision = (collision(this->_mv_models[i], this->_model, 100) ? true : false);
 	    this->_mv_models[i]->setPosition(mv_models_position);
 	    // this->_mv_models[i] = updateModel(this->_mv_models[i], mv_models_position, x, 250, z);
 	  }
