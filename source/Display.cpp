@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Mon May  9 16:06:15 2016 Erwan Dupard
+// Last update Tue May 10 16:07:03 2016 Erwan Dupard
 //
 
 # include "Display.hh"
@@ -225,7 +225,7 @@ void	Display::eventPlayer(const Display::Event &receiver)
 {
   if (receiver.IsKeyDown(irr::KEY_ESCAPE))
     puterr("Exit program");
-  else if (receiver.IsKeyDown(irr::KEY_KEY_W))
+  else if (receiver.IsKeyDown(irr::KEY_KEY_W) || receiver.IsKeyDown(irr::KEY_KEY_Z))
     {
       this->_rotation = 180;
       this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
