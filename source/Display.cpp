@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 10 16:07:03 2016 Erwan Dupard
+// Last update Wed May 11 00:16:04 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -14,7 +14,8 @@ Display::Display()
   : _device(NULL), _driver(NULL), _camera(NULL),
     _smgr(NULL), _ground(NULL), _model(NULL),
     _rotation(0), _prev_x(0), _prev_z(0),
-    _action(STAND), _mv_action(STAND), _collision(false), _iswarning(false)
+    _action(STAND), _mv_action(STAND), _collision(false),
+    _iswarning(false), _dropped(false), _timer_drop(0)
 {
 }
 
@@ -78,11 +79,11 @@ void	Display::createSkybox()
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
   this->_skybox =
     this->_smgr->addSkyBoxSceneNode(this->_driver->getTexture("./textures/planet.jpg"), // up
-			       this->_driver->getTexture("./textures/space.jpg"),  // down
-			       this->_driver->getTexture("./textures/space.jpg"),  // left
-			       this->_driver->getTexture("./textures/space.jpg"),  // right
-			       this->_driver->getTexture("./textures/space.jpg"),  // ft
-			       this->_driver->getTexture("./textures/space.jpg")); // bk
+				    this->_driver->getTexture("./textures/space.jpg"),  // down
+				    this->_driver->getTexture("./textures/space.jpg"),  // left
+				    this->_driver->getTexture("./textures/space.jpg"),  // right
+				    this->_driver->getTexture("./textures/space.jpg"),  // ft
+				    this->_driver->getTexture("./textures/space.jpg")); // bk
   if (!this->_skybox)
     puterr("Skybox cannot be loaded");
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
@@ -144,18 +145,27 @@ irr::scene::IAnimatedMeshSceneNode*	Display::updateModel(irr::scene::IAnimatedMe
   const int& current_x = model->getAbsolutePosition().X;
   const int& current_z = model->getAbsolutePosition().Z;
 
-  if ((current_x != this->_prev_x || current_z != this->_prev_z) &&
-      (this->_prev_x && this->_prev_z && this->_action != RUN))
+  if (this->_timer_drop < this->_device->getTimer()->getTime() && this->_dropped)
     {
-      model->remove();
-      model = createModel(M_RUN, T_RED, x, y, z, this->_rotation, 200);
-      this->_action = RUN;
+      this->_action = DROP;
+      this->_timer_drop = 0;
+      this->_dropped = false;
     }
-  if (current_x == this->_prev_x && current_z == this->_prev_z && this->_action != STAND)
+  if (!this->_dropped)
     {
-      model->remove();
-      model = createModel(M_STAND, T_RED, x, y, z, this->_rotation, 200);
-      this->_action = STAND;
+      if ((current_x != this->_prev_x || current_z != this->_prev_z) &&
+	  (this->_prev_x && this->_prev_z && this->_action != RUN))
+	{
+	  model->remove();
+	  model = createModel(M_RUN, T_RED, x, y, z, this->_rotation, 300);
+	  this->_action = RUN;
+	}
+      if (current_x == this->_prev_x && current_z == this->_prev_z && this->_action != STAND)
+	{
+	  model->remove();
+	  model = createModel(M_STAND, T_RED, x, y, z, this->_rotation, 300);
+	  this->_action = STAND;
+	}
     }
   this->_prev_x = current_x;
   this->_prev_z = current_z;
@@ -165,42 +175,43 @@ irr::scene::IAnimatedMeshSceneNode*	Display::updateModel(irr::scene::IAnimatedMe
 
 void			Display::run()
 {
-  const int		&last_tick = -1;
+  const int&		last_tick = -1;
   Display::Event	receiver;
 
   this->_device->setEventReceiver(&receiver);
 
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 1; i++)
     {
+      const int& randrota = i * 4 + rand()% 90;
       const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
       const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
-      this->_mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, 270, 200));
+      this->_mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, randrota, 300));
     }
 
   const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
   const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
 
-  this->_model = createModel(M_STAND, T_RED, x, 250, z, 270, 200);
+  this->_model = createModel(M_STAND, T_RED, x, 250, z, 270, 300);
+
   while (this->_device->run() && this->_device)
     if (this->_device->isWindowActive())
       {
-	long X = this->_model->getAbsolutePosition().X;
-	long Z = this->_model->getAbsolutePosition().Z;
+	const long& X = this->_model->getAbsolutePosition().X;
+	const long& Z = this->_model->getAbsolutePosition().Z;
 
-	// this->_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
-	// this->_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
+	this->_camera->setPosition(irr::core::vector3df(3555, 5580, 8169));
+	this->_camera->setTarget(irr::core::vector3df(3551, -4905, 8926));
 
 	this->_model_position = this->_model->getPosition();
+
 	for (int i = 0; i < this->_mv_models.size(); i++)
 	  {
-	    irr::core::vector3df mv_models_position = this->_mv_models[i]->getPosition();
-	    if (collision(this->_mv_models[i], this->_model))
-	      {
-		std::cout << "COLLISION !!!" << std::endl;
-	      }
+	    const irr::core::vector3df& mv_models_position = this->_mv_models[i]->getPosition();
+	    this->_collision = (collision(this->_mv_models[i], this->_model, 100)) ? true : false;
 	    this->_mv_models[i]->setPosition(mv_models_position);
-	    // mv_models[i] = updateModel(mv_models[i], mv_models_position, x, 250, z);
+	    // this->_mv_models[i] = updateModel(this->_mv_models[i], mv_models_position, x, 250, z);
 	  }
+
 	eventPlayer(receiver);
 	this->_model = updateModel(this->_model, this->_model_position, x, 250, z);
 	this->_driver->beginScene(true, true, 0);
@@ -214,7 +225,7 @@ void			Display::run()
 
 void	Display::createImage(irr::gui::IGUIImage *img)
 {
-  img = this->_env->addImage(irr::core::rect<irr::s32>(100,100,200,225));
+  img = this->_env->addImage(irr::core::rect<irr::s32>(100, 100, 200, 225));
   img->setImage(this->_driver->getTexture("./textures/warning.png"));
   img->setScaleImage(true);
   this->_driver->removeTexture(this->_driver->getTexture("./textures/warning.png"));
@@ -225,33 +236,47 @@ void	Display::eventPlayer(const Display::Event &receiver)
 {
   if (receiver.IsKeyDown(irr::KEY_ESCAPE))
     puterr("Exit program");
+  else if (receiver.IsKeyDown(irr::KEY_SPACE))
+    {
+      if (this->_action != DROP && !this->_dropped)
+  	{
+  	  this->_timer_drop = this->_device->getTimer()->getTime() + 900;
+	  this->_model->remove();
+	  this->_model = createModel(M_DROP, T_BLACK, 0, 0, 0, this->_rotation, 300);
+    	  this->_dropped = true;
+    	}
+    }
   else if (receiver.IsKeyDown(irr::KEY_KEY_W) || receiver.IsKeyDown(irr::KEY_KEY_Z))
     {
+      if ((!(this->_model_position.Z > lim_max_z) &&
+	   !(this->_collision)) || this->_rotation != 180)
+	this->_model_position.Z += speed;
       this->_rotation = 180;
       this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-      if (!(this->_model_position.Z > lim_max_z))
-	this->_model_position.Z += speed;
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_S))
     {
+      if ((!(this->_model_position.Z < lim_min_z) &&
+	   !(this->_collision)) || this->_rotation != 0)
+	this->_model_position.Z -= speed;
       this->_rotation = 0;
       this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-      if (!(this->_model_position.Z < lim_min_z))
-	this->_model_position.Z -= speed;
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_D))
     {
+      if ((!(this->_model_position.X > lim_max_x) &&
+	   !(this->_collision)) || this->_rotation != 270)
+	this->_model_position.X += speed;
       this->_rotation = 270;
       this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-      if (!(this->_model_position.X > lim_max_x))
-	this->_model_position.X += speed;
     }
   else if (receiver.IsKeyDown(irr::KEY_KEY_A) || receiver.IsKeyDown(irr::KEY_KEY_Q))
     {
+      if ((!(this->_model_position.X < lim_min_x) &&
+	   !(this->_collision)) || this->_rotation != 90)
+	this->_model_position.X -= speed;
       this->_rotation = 90;
       this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-      if (!(this->_model_position.X < lim_min_x))
-	this->_model_position.X -= speed;
     }
 }
 
@@ -262,26 +287,34 @@ bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 	  intersectsWithBox(mesh2->getTransformedBoundingBox()));
 }
 
+bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+			   irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size)
+{
+  if (mesh1->getAbsolutePosition().getDistanceFrom(mesh2->getAbsolutePosition()) < size)
+    return true;
+  return false;
+}
+
 void			Display::showPosModel()
 {
-  long X1 = this->_model_position.X;
-  long Y1 = this->_model_position.Y;
-  long Z1 = this->_model_position.Z;
+  const long& X1 = this->_model_position.X;
+  const long& Y1 = this->_model_position.Y;
+  const long& Z1 = this->_model_position.Z;
   std::cout << "position == X=" << X1 << " && Y=" << Y1 << " && Z=" << Z1 << std::endl;
 }
 
 void			Display::showPosCam()
 {
-  irr::core::vector3df camera_position = this->_camera->getPosition();
-  irr::core::vector3df camera_target = this->_camera->getTarget();
+  const irr::core::vector3df& camera_position = this->_camera->getPosition();
+  const irr::core::vector3df& camera_target = this->_camera->getTarget();
 
-  long X1 = camera_position.X;
-  long Y1 = camera_position.Y;
-  long Z1 = camera_position.Z;
+  const long& X1 = camera_position.X;
+  const long& Y1 = camera_position.Y;
+  const long& Z1 = camera_position.Z;
   std::cout << "position == " << X1 << " && " << Y1 << " && " << Z1 << std::endl;
 
-  long X2 = camera_target.X;
-  long Y2 = camera_target.Y;
-  long Z2 = camera_target.Z;
+  const long& X2 = camera_target.X;
+  const long& Y2 = camera_target.Y;
+  const long& Z2 = camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
 }

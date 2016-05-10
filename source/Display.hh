@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May  9 15:27:34 2016 Erwan Dupard
+// Last update Tue May 10 22:58:26 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -27,7 +27,7 @@
 # define	lim_max_z	(12300)
 
 // speed
-# define	speed		(17)
+# define	speed		(25)
 
 // model3d
 # define	M_RUN		"./models/BOMBERRUN.b3d"
@@ -79,6 +79,8 @@ private:
 
   bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
+  bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+			  irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size);
 
   void		eventPlayer(const Event &receiver);
 
@@ -129,6 +131,8 @@ protected:
   // current animation
   Animation				_action;
   Animation				_mv_action;
+  bool					_dropped;
+  int					_timer_drop;
 
   // positions
   irr::core::vector3df			_model_position;
