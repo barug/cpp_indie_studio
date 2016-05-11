@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Wed May 11 16:09:19 2016 Barthelemy Gouby
+// Last update Wed May 11 16:35:13 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -29,10 +29,11 @@ public:
   void					movementSystem();
 
 private:
-  std::chrono::system_clock::time_point	_lastTick;
-  bool					_gameIsOn;
   EntityManager				_entityManager;
   EntityFactory				_entityFactory;
+  Display				_display;
+  std::chrono::system_clock::time_point	_lastTick;
+  bool					_gameIsOn;
   std::vector<void (Engine::*) ()>	_systems;
 };
 
