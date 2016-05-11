@@ -5,17 +5,17 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 11 12:21:35 2016 Barthelemy Gouby
+// Last update Wed May 11 13:43:22 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
 # define _ENTITY_FACTORY_HH_
 
 # include "Entity.hh"
-# include "Component.hh"
-# include "PositionComponent.hh"
-# include "ModelComponent.hh"
-# include "SpeedComponent.hh"
+# include "components/Component.hh"
+# include "components/PositionComponent.hh"
+# include "components/ModelComponent.hh"
+# include "components/SpeedComponent.hh"
 
 class				EntityFactory
 {
