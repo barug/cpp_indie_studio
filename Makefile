@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Wed May 11 13:44:07 2016 Barthelemy Gouby
+## Last update Wed May 11 14:07:04 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -24,6 +24,7 @@ OBJSDISPLAY	= $(SRCSDISPLAY:.cpp=.o)
 
 
 SRCS		= source/Main.cpp				\
+		  source/Engine.cpp				\
 		  source/EntityManager.cpp			\
 		  source/EntityFactory.cpp			\
 		  source/Entity.cpp				\
