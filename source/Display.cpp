@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 11 00:27:41 2016 Thomas Bogard
+// Last update Wed May 11 14:02:57 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -180,12 +180,11 @@ void			Display::run()
 
   this->_device->setEventReceiver(&receiver);
 
-  for (int i = 0; i < 1; i++)
+  for (int i = 0; i < 20; i++)
     {
-      const int& randrota = i * 4 + rand()% 90;
       const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
       const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
-      this->_mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, randrota, 300));
+      this->_mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, 90, 300));
     }
 
   const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
@@ -206,8 +205,16 @@ void			Display::run()
 
 	for (int i = 0; i < this->_mv_models.size(); i++)
 	  {
+	    const long& X = this->_mv_models[i]->getAbsolutePosition().X;
+	    const long& Z = this->_mv_models[i]->getAbsolutePosition().Z;
+	    std::cout << "model = " << i << " | X = "
+		      << X << " && Z = " << Z
+		      << " && collision = " << _collision << std::endl;
 	    const irr::core::vector3df& mv_models_position = this->_mv_models[i]->getPosition();
-	    this->_collision = (collision(this->_mv_models[i], this->_model, 100) ? true : false);
+	    this->_collision = (collision(this->_mv_models[i], this->_model, 170) ? true : false);
+	    if (collision(this->_mv_models[i], this->_model))
+	      std::cout << "collision between : model and " << this->_mv_models[i]
+			<< " model nb " << i << std::endl;
 	    this->_mv_models[i]->setPosition(mv_models_position);
 	    // this->_mv_models[i] = updateModel(this->_mv_models[i], mv_models_position, x, 250, z);
 	  }
@@ -280,15 +287,15 @@ void	Display::eventPlayer(const Display::Event &receiver)
     }
 }
 
-bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
-			   irr::scene::IAnimatedMeshSceneNode *mesh2)
+const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+				   irr::scene::IAnimatedMeshSceneNode *mesh2)
 {
   return (mesh1->getTransformedBoundingBox().
 	  intersectsWithBox(mesh2->getTransformedBoundingBox()));
 }
 
-bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
-			   irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size)
+const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+				   irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size)
 {
   if (mesh1->getAbsolutePosition().getDistanceFrom(mesh2->getAbsolutePosition()) < size)
     return true;

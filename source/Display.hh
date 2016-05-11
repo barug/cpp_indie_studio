@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 10 22:58:26 2016 Thomas Bogard
+// Last update Wed May 11 13:49:22 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -68,6 +68,7 @@ private:
   void		createSkybox();
   void		createImage(irr::gui::IGUIImage *img);
 
+  // model
   irr::scene::IAnimatedMeshSceneNode *	createModel(const irr::io::path &model, const irr::io::path &texture,
 						    const int &x, const int &y, const int &z,
 						    const irr::u32& rotation,
@@ -77,11 +78,13 @@ private:
 						    const irr::core::vector3df &model_position,
 						    const int& x, const int& y, const int& z);
 
-  bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+  // collision
+  const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
-  bool		collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
+  const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size);
 
+  // event
   void		eventPlayer(const Event &receiver);
 
   // debug
