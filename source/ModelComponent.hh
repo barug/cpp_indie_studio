@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Wed May 11 11:32:15 2016 Barthelemy Gouby
+// Last update Wed May 11 11:55:58 2016 Barthelemy Gouby
 //
 
 #ifndef _MODEL_COMPONENT_HH_
@@ -18,20 +18,13 @@ class				ModelComponent : public Component
 {
 public:
   ModelComponent();
-  ModelComponent(const std::string &model,
-		 const std::vector<std::string> &animations,
-		 const unsigned int &selectedAnimation);
+  ModelComponent(const std::string &model);
   ~ModelComponent();
   void					setModel(const std::string &model);
   const std::string			&getModel() const;
-  void					setAnimations(const std::vector<std::string> &animations);
-  void					changedSelectedAnimation(const unsigned int &animation);
-  const std::string			&getSelectedAnimation() const;
 
 private:
   std::string				_model;
-  std::vector<std::string>		_animations;
-  unsigned int				_selectedAnimation;
 };
 
 #endif /* !MODEL_COMPONENT */
