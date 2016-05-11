@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Tue May 10 22:40:42 2016 Thomas Bogard
+## Last update Wed May 11 13:44:07 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -23,11 +23,15 @@ NAMEDISPLAY	= displaytest
 OBJSDISPLAY	= $(SRCSDISPLAY:.cpp=.o)
 
 
-SRCS		= source/Main.cpp		\
-		  source/Entity.cpp		\
-		  source/Component.cpp		\
-		  source/EntityManager.cpp	\
-		  source/SpeedComponent.cpp	\
+SRCS		= source/Main.cpp				\
+		  source/EntityManager.cpp			\
+		  source/EntityFactory.cpp			\
+		  source/Entity.cpp				\
+		  source/components/Component.cpp		\
+		  source/components/PositionComponent.cpp	\
+		  source/components/SpeedComponent.cpp		\
+		  source/components/ModelComponent.cpp		\
+		  source/components/AnimationComponent.cpp	\
 		  source/Display.cpp
 
 OBJS		= $(SRCS:.cpp=.o)

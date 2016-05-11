@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:51:51 2016 Barthelemy Gouby
-// Last update Mon May  2 16:37:59 2016 Barthelemy Gouby
+// Last update Wed May 11 13:27:06 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_HH_
@@ -13,7 +13,7 @@
 
 # include <string>
 # include <vector>
-# include "Component.hh"
+# include "components/Component.hh"
 
 class				Entity
 {
