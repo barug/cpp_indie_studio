@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Wed May 11 16:33:32 2016 Barthelemy Gouby
+// Last update Fri May 13 11:23:10 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -15,6 +15,7 @@
 # include	<vector>
 # include	"irrlicht.h"
 # include	"driverChoice.h"
+# include	"Entity.hh"
 
 #ifdef _MSC_VER
 # pragma comment(lib, "Irrlicht.lib")
@@ -79,6 +80,8 @@ private:
 						    const int& x, const int& y, const int& z);
 
   // collision
+  const bool	getIfBlocked(Entity *entity);
+
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
@@ -90,6 +93,8 @@ private:
   // debug
   void		showPosCam();
   void		showPosModel();
+
+  void		refreshScreen();
 
 public:
   // public methods

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Wed May 11 16:35:13 2016 Barthelemy Gouby
+// Last update Fri May 13 10:29:12 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -13,6 +13,7 @@
 
 # include <chrono>
 # include <vector>
+# include "Display.hh"
 # include "EntityManager.hh"
 # include "EntityFactory.hh"
 

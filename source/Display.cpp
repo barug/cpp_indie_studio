@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 11 14:02:57 2016 Thomas Bogard
+// Last update Fri May 13 11:25:27 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -287,6 +287,12 @@ void	Display::eventPlayer(const Display::Event &receiver)
     }
 }
 
+const bool	Display::getIfBlocked(Entity *entity)
+{
+
+}
+
+
 const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 				   irr::scene::IAnimatedMeshSceneNode *mesh2)
 {
@@ -324,4 +330,9 @@ void			Display::showPosCam()
   const long& Y2 = camera_target.Y;
   const long& Z2 = camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
+}
+
+void			Display::refreshScreen()
+{
+
 }

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 11 16:23:32 2016 Barthelemy Gouby
+// Last update Fri May 13 12:00:13 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -16,6 +16,12 @@ Engine::Engine()
 
 Engine::~Engine()
 {}
+
+void					Engine::initGame()
+{
+  this->_display.init();
+  
+}
 
 void					Engine::gameLoop()
 {
@@ -31,5 +37,6 @@ void					Engine::gameLoop()
 	  for (auto system: this->_systems)
 	    (this->*system)();
 	}
+      this->_display.refreshScreen();
     }
 }
