@@ -6,6 +6,10 @@ class			Display
   std::map		map<unsigned int, irr::scene::IAnimatedMeshSceneNode>	_models;
 
 public:
+  int			initDisplay();
+  int			refreshScreen();
+  int			closeDisplay();
+
   int			createModel(unsigned int id,
 				    ModelComponent model,
 				    AnimationComponent animation,
