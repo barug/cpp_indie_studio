@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 11 13:43:22 2016 Barthelemy Gouby
+// Last update Tue May 17 17:14:47 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -23,7 +23,7 @@ public:
   EntityFactory();
   ~EntityFactory();
 
-  Entity			*createSolidBlock(const unsigned int &x, const unsigned int &y);
+  Entity			*createSolidBlock(const unsigned int &x, const unsigned int &y, const unsigned int &rotation);
 
 private:
   unsigned int			_nextFreeId;

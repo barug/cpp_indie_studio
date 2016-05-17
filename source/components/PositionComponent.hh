@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:11:32 2016 Barthelemy Gouby
-// Last update Tue May 17 16:23:24 2016 Barthelemy Gouby
+// Last update Tue May 17 17:18:57 2016 Barthelemy Gouby
 //
 
 #ifndef _POSITION_COMPONENT_HH_
@@ -18,19 +18,19 @@ class				PositionComponent : public Component
 {
 public:
   PositionComponent();
-  PositionComponent(const int &x, const int &y, const int rotation);
+  PositionComponent(const unsigned int &x, const unsigned int &y, const unsigned int rotation);
   ~PositionComponent();
-  void				setX(const int &x);
-  void				setY(const int &y);
-  void				setRotation(const int &rotation);
-  const int			&getX() const;
-  const int			&getY() const;
-  const int			&getRotation() const;
+  void				setX(const unsigned int &x);
+  void				setY(const unsigned int &y);
+  void				setRotation(const unsigned int &rotation);
+  const unsigned int			&getX() const;
+  const unsigned int			&getY() const;
+  const unsigned int			&getRotation() const;
 
 private:
-  int				_x;
-  int				_y;
-  int				_rotation;
+  unsigned int				_x;
+  unsigned int				_y;
+  unsigned int				_rotation;
 };
 
 #endif /* !POSITION_COMPONENT */

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:13:50 2016 Barthelemy Gouby
-// Last update Tue May 17 16:23:45 2016 Barthelemy Gouby
+// Last update Tue May 17 17:19:14 2016 Barthelemy Gouby
 //
 
 #include "PositionComponent.hh"
@@ -14,29 +14,29 @@ PositionComponent::PositionComponent()
   : Component("PositionComponent")
 {}
 
-PositionComponent::PositionComponent(const int &x, const int &y, const int rotation)
+PositionComponent::PositionComponent(const unsigned int &x, const unsigned int &y, const unsigned int rotation)
   : Component("PositionComponent"), _x(x), _y(y), _rotation(rotation)
 {}
 
 PositionComponent::~PositionComponent()
 {}
 
-void				PositionComponent::setX(const int &x)
+void				PositionComponent::setX(const unsigned int &x)
 {
   this->_x = x;
 }
 
-void				PositionComponent::setY(const int &y)
+void				PositionComponent::setY(const unsigned int &y)
 {
   this->_y = y;
 }
 
-const int			&PositionComponent::getX() const
+const unsigned int			&PositionComponent::getX() const
 {
   return (this->_x);
 }
 
-const int			&PositionComponent::getY() const
+const unsigned int			&PositionComponent::getY() const
 {
   return (this->_y);
 }

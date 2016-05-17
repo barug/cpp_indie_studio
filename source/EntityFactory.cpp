@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 17 16:19:42 2016 Barthelemy Gouby
+// Last update Tue May 17 17:15:18 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -17,11 +17,11 @@ EntityFactory::EntityFactory()
 EntityFactory::~EntityFactory()
 {}
 
-Entity			*EntityFactory::createSolidBlock(const unsigned int &x, const unsigned int &y)
+Entity			*EntityFactory::createSolidBlock(const unsigned int &x, const unsigned int &y, const unsigned int &rotation)
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("solidBlock.obj", "solidBlock.text", 10);
-  PositionComponent	*positionComponent = new PositionComponent(x, y);
+  PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
 
   solidBlock->addComponent(modelComponent);
   solidBlock->addComponent(positionComponent);
