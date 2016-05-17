@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 13 11:25:27 2016 Barthelemy Gouby
+// Last update Tue May 17 16:15:25 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -23,7 +23,7 @@ Display::~Display()
 {
 }
 
-int	Display::driverChoice()
+int		Display::driverChoice()
 {
   this->_driverType = irr::driverChoiceConsole();
   if (this->_driverType == irr::video::EDT_COUNT)
@@ -31,7 +31,7 @@ int	Display::driverChoice()
   return (0);
 }
 
-void	Display::showFpsDriver(int last_tick)
+void		Display::showFpsDriver(int last_tick)
 {
   const int	&fps = this->_driver->getFPS();
 
@@ -48,7 +48,7 @@ void	Display::showFpsDriver(int last_tick)
     }
 }
 
-int	Display::createDevice()
+int		Display::createDevice()
 {
   irr::SIrrlichtCreationParameters params;
 
@@ -60,7 +60,7 @@ int	Display::createDevice()
   return (0);
 }
 
-void	Display::createGround()
+void		Display::createGround()
 {
   for (int row = 0; row < 15; row++)
     for (int column = 0; column < 15; column++)
@@ -74,7 +74,7 @@ void	Display::createGround()
       }
 }
 
-void	Display::createSkybox()
+void		Display::createSkybox()
 {
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
   this->_skybox =
@@ -89,7 +89,7 @@ void	Display::createSkybox()
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
-void	Display::createCamera()
+void		Display::createCamera()
 {
   this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100, 1);
   this->_camera->setFarValue(42000.0f);
@@ -97,7 +97,7 @@ void	Display::createCamera()
   this->_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
 }
 
-void	Display::init()
+int		Display::initDisplay()
 {
   if (driverChoice())
     puterr("Select an appropriate driver for your system");
@@ -118,27 +118,61 @@ void	Display::init()
   this->_skin->setFont(this->_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
 }
 
-irr::scene::IAnimatedMeshSceneNode*	Display::createModel(const irr::io::path &model3d,
-							     const irr::io::path &texture,
-							     const int &x, const int &y, const int &z,
-							     const irr::u32& rotation,
-							     const irr::u32& scale)
+int		Display::createModel(unsigned int id, ModelComponent model,
+				     AnimationComponent animation, PositionComponent pos)
 {
-  irr::scene::IAnimatedMeshSceneNode	*model;
+  const irr::path&	texture;
+  const irr::path&	model3d;
+  irr::scene::IAnimatedMeshSceneNode * animated_model;
 
-  model = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model3d));
-  if (!model)
-    puterr("Model cannot be loaded : ", model3d.c_str());
-  model->setMaterialTexture(0, this->_driver->getTexture(texture));
-  model->setPosition(irr::core::vector3df(x, y, z));
-  model->setAnimationSpeed(40);
-  model->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  model->setScale(irr::core::vector3df(scale, scale, scale));
-  model->setRotation(irr::core::vector3df(0, rotation, 0));
-  return model;
+  texture = (const irr::path&)model.getTexture();
+  model3d = (const irr::path&)animation.getSelectedAnimation();
+  animated_model = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model3d));
+  if (!animated_model)
+    {
+      std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
+      return (RETURN_FAILURE);
+    }
+  animated_model->setMaterialTexture(0, this->_driver->getTexture(texture));
+  animated_model->setPosition(irr::core::vector3df(pos.getX(), pos.getY(), 0));
+  animated_model->setAnimationSpeed(40);
+  animated_model->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  animated_model->setScale(irr::core::vector3df(200, 200, 200));
+  animated_model->setRotation(irr::core::vector3df(0, pos.getRotation, 0));
+  _mapmodel.emplace(id, animated_model);
 }
 
-irr::scene::IAnimatedMeshSceneNode*	Display::updateModel(irr::scene::IAnimatedMeshSceneNode *model,
+int		Display::updateModel(unsigned int id, ModelComponent model,
+				     AnimationComponent animation, PositionComponent pos)
+{
+  const irr::path&	texture;
+  const irr::path&	model3d;
+  irr::scene::IAnimatedMeshSceneNode * animated_model;
+
+  texture = (const irr::path&)model.getTexture();
+  model3d = (const irr::path&)animation.getSelectedAnimation();
+
+  animated_model = _mapmodel.find(id);
+
+  const int& current_x = animated_model->getAbsolutePosition().X;
+  const int& current_y = animated_model->getAbsolutePosition().Y;
+
+  if (!animated_model)
+    {
+      std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
+      return (RETURN_FAILURE);
+    }
+
+  animated_model->setMaterialTexture(0, this->_driver->getTexture(texture));
+  animated_model->setPosition(irr::core::vector3df(pos.getX(), pos.getY(), 0));
+  animated_model->setAnimationSpeed(40);
+  animated_model->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  animated_model->setScale(irr::core::vector3df(200, 200, 200));
+  animated_model->setRotation(irr::core::vector3df(0, pos.getRotation(), 0));
+}
+
+
+irr::scene::IAnimatedMeshSceneNode*	Display::updateModel_old(irr::scene::IAnimatedMeshSceneNode *model,
 							     const irr::core::vector3df &model_position,
 							     const int& x, const int& y, const int& z)
 {
@@ -173,70 +207,31 @@ irr::scene::IAnimatedMeshSceneNode*	Display::updateModel(irr::scene::IAnimatedMe
   return model;
 }
 
-void			Display::run()
+int		Display::refreshScreen()
 {
-  const int&		last_tick = -1;
-  Display::Event	receiver;
+  Display::Event receiver;
 
   this->_device->setEventReceiver(&receiver);
 
-  for (int i = 0; i < 20; i++)
+  if (this->_device->run() && this->_device)
     {
-      const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
-      const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
-      this->_mv_models.push_back(createModel(M_STAND, T_BLUE, x, 250, z, 90, 300));
+      this->_camera->setPosition(irr::core::vector3df(3555, 5580, 8169));
+      this->_camera->setTarget(irr::core::vector3df(3551, -4905, 8926));
+      eventPlayer(receiver);
+      this->_driver->beginScene(true, true, 0);
+      this->_smgr->drawAll();
+      this->_env->drawAll();
+      this->_driver->endScene();
+      showFpsDriver(last_tick);
     }
-
-  const int& x = rand()%(lim_max_x - lim_min_x + 1) + lim_min_x;
-  const int& z = rand()%(lim_max_z - lim_min_z + 1) + lim_min_z;
-
-  this->_model = createModel(M_STAND, T_RED, x, 250, z, 270, 300);
-
-  while (this->_device->run() && this->_device)
-    if (this->_device->isWindowActive())
-      {
-	const long& X = this->_model->getAbsolutePosition().X;
-	const long& Z = this->_model->getAbsolutePosition().Z;
-
-	this->_camera->setPosition(irr::core::vector3df(3555, 5580, 8169));
-	this->_camera->setTarget(irr::core::vector3df(3551, -4905, 8926));
-
-	this->_model_position = this->_model->getPosition();
-
-	for (int i = 0; i < this->_mv_models.size(); i++)
-	  {
-	    const long& X = this->_mv_models[i]->getAbsolutePosition().X;
-	    const long& Z = this->_mv_models[i]->getAbsolutePosition().Z;
-	    std::cout << "model = " << i << " | X = "
-		      << X << " && Z = " << Z
-		      << " && collision = " << _collision << std::endl;
-	    const irr::core::vector3df& mv_models_position = this->_mv_models[i]->getPosition();
-	    this->_collision = (collision(this->_mv_models[i], this->_model, 170) ? true : false);
-	    if (collision(this->_mv_models[i], this->_model))
-	      std::cout << "collision between : model and " << this->_mv_models[i]
-			<< " model nb " << i << std::endl;
-	    this->_mv_models[i]->setPosition(mv_models_position);
-	    // this->_mv_models[i] = updateModel(this->_mv_models[i], mv_models_position, x, 250, z);
-	  }
-
-	eventPlayer(receiver);
-	this->_model = updateModel(this->_model, this->_model_position, x, 250, z);
-	this->_driver->beginScene(true, true, 0);
-	this->_smgr->drawAll();
-	this->_env->drawAll();
-	this->_driver->endScene();
-	showFpsDriver(last_tick);
-      }
-  this->_device->drop();
 }
 
-void	Display::createImage(irr::gui::IGUIImage *img)
+int		Display::closeDisplay()
 {
-  img = this->_env->addImage(irr::core::rect<irr::s32>(100, 100, 200, 225));
-  img->setImage(this->_driver->getTexture("./textures/warning.png"));
-  img->setScaleImage(true);
-  this->_driver->removeTexture(this->_driver->getTexture("./textures/warning.png"));
-  this->_iswarning = true;
+  if (!this->_device)
+    return (RETURN_FAILURE);
+  this->_device->drop();
+  return (RETURN_SUCCESS);
 }
 
 void	Display::eventPlayer(const Display::Event &receiver)
@@ -330,9 +325,4 @@ void			Display::showPosCam()
   const long& Y2 = camera_target.Y;
   const long& Z2 = camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
-}
-
-void			Display::refreshScreen()
-{
-
 }

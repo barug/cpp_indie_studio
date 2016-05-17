@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 13 11:23:10 2016 Barthelemy Gouby
+// Last update Tue May 17 15:58:52 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -16,6 +16,10 @@
 # include	"irrlicht.h"
 # include	"driverChoice.h"
 # include	"Entity.hh"
+
+# include	"./components/AnimationComponent.hh"
+# include	"./components/ModelComponent.hh"
+# include	"./components/PositionComponent.hh"
 
 #ifdef _MSC_VER
 # pragma comment(lib, "Irrlicht.lib")
@@ -67,17 +71,9 @@ private:
   void		createCamera();
   void		createGround();
   void		createSkybox();
-  void		createImage(irr::gui::IGUIImage *img);
 
-  // model
-  irr::scene::IAnimatedMeshSceneNode *	createModel(const irr::io::path &model, const irr::io::path &texture,
-						    const int &x, const int &y, const int &z,
-						    const irr::u32& rotation,
-						    const irr::u32& scale);
+  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *> _mapmodel;
 
-  irr::scene::IAnimatedMeshSceneNode *	updateModel(irr::scene::IAnimatedMeshSceneNode *model,
-						    const irr::core::vector3df &model_position,
-						    const int& x, const int& y, const int& z);
 
   // collision
   const bool	getIfBlocked(Entity *entity);
@@ -87,19 +83,18 @@ private:
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size);
 
-  // event
-  void		eventPlayer(const Event &receiver);
-
   // debug
   void		showPosCam();
   void		showPosModel();
 
-  void		refreshScreen();
 
 public:
   // public methods
   void		init();
   void		run();
+  int		initDisplay();
+  void		refreshScreen();
+  int		closeDisplay();
 
   // against error
   void		puterr(const char * const err)
@@ -126,15 +121,12 @@ protected:
   irr::scene::ISceneNode		*_ground;
   irr::scene::ISceneNode		*_skybox;
   irr::scene::IAnimatedMeshSceneNode	*_model;
-  std::vector<irr::scene::IAnimatedMeshSceneNode *> _mv_models;
 
   // gui
   irr::gui::IGUIEnvironment		*_env;
   irr::gui::IGUISkin			*_skin;
   irr::gui::IGUIFont			*_font;
-  irr::gui::IGUIImage			*_warning;
   irr::gui::IGUIImage			*_img;
-  bool					_iswarning;
 
   // current animation
   Animation				_action;
@@ -169,12 +161,18 @@ public:
       return false;
     }
 
+    virtual bool IsKeyUp(const irr::EKEY_CODE &keyCode) const
+    {
+      return this->_KeyIsDown[keyCode];
+    }
+
     virtual bool IsKeyDown(const irr::EKEY_CODE &keyCode) const
     {
       return this->_KeyIsDown[keyCode];
     }
 
   private:
+    bool                          _KeyIsUp[irr::KEY_KEY_CODES_COUNT];
     bool                          _KeyIsDown[irr::KEY_KEY_CODES_COUNT];
   };
 
