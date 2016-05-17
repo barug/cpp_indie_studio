@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:11:32 2016 Barthelemy Gouby
-// Last update Mon May  2 16:45:26 2016 Barthelemy Gouby
+// Last update Tue May 17 15:00:50 2016 Barthelemy Gouby
 //
 
 #ifndef _POSITION_COMPONENT_HH_
@@ -22,12 +22,15 @@ public:
   ~PositionComponent();
   void				setX(const int &x);
   void				setY(const int &y);
+  void				setRotation(const int &rotation);
   const int			&getX() const;
   const int			&getY() const;
+  const int			&getRotation() const;
 
 private:
   int				_x;
   int				_y;
+  int				_rotation;
 };
 
 #endif /* !POSITION_COMPONENT */
