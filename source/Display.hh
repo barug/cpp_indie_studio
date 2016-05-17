@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 17 17:57:27 2016 Thomas Bogard
+// Last update Tue May 17 18:59:43 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -142,14 +142,14 @@ public:
   int		refreshScreen();
   int		closeDisplay();
   void		eventPlayer(const Event &receiver);
-  int		createModel(unsigned int id,
-			    ModelComponent model,
-			    AnimationComponent animation,
-			    PositionComponent pos);
+  int		createModel(const unsigned int id,
+			    ModelComponent *model,
+			    AnimationComponent *animation,
+			    PositionComponent *pos);
   int		updateModel(unsigned int id,
-			    ModelComponent model,
-			    AnimationComponent animation,
-			    PositionComponent pos);
+			    ModelComponent *model,
+			    AnimationComponent *animation,
+			    PositionComponent *pos);
   const bool	getIfBlocked(Entity *entity);
 
   // against error

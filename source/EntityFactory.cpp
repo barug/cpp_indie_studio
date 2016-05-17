@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 17 18:04:49 2016 Barthelemy Gouby
+// Last update Tue May 17 18:45:44 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -20,7 +20,7 @@ EntityFactory::~EntityFactory()
 Entity			*EntityFactory::createSolidBlock(const unsigned int &x, const unsigned int &y, const unsigned int &rotation)
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("BOMBERDROP.b3d", "solidBlock.text", 10);
+  ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d", "./textures/bomberman_black.png", 10);
   PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
 
   solidBlock->addComponent(modelComponent);

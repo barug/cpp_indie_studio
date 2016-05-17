@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 17 18:32:12 2016 Thomas Bogard
+// Last update Tue May 17 19:03:43 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -136,44 +136,44 @@ int		Display::init()
   createSkybox();
   createCamera();
   this->_skin = this->_env->getSkin();
-  this->_font = this->_env->getFont("./font/game_over.ttf");
-  if (this->_font)
-    this->_skin->setFont(this->_font);
-  this->_skin->setFont(this->_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
+  // this->_font = this->_env->getFont("./font/game_over.ttf");
+  // if (this->_font)
+  //   this->_skin->setFont(this->_font);
+  // this->_skin->setFont(this->_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
 }
 
 int		Display::createModel(unsigned int id,
-				     ModelComponent model,
-				     AnimationComponent animation,
-				     PositionComponent pos)
+				     ModelComponent *model,
+				     AnimationComponent *animation,
+				     PositionComponent *pos)
 {
-  const irr::io::path& texture = (const irr::io::path&)model.getTexture();
-  const irr::io::path& model3d = (const irr::io::path&)animation.getSelectedAnimation();
+  // const irr::io::path& texture = model->getTexture();
+  // const irr::io::path& model3d = model->getModel();
 
   irr::scene::IAnimatedMeshSceneNode *
-    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model3d));
+    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
 
   if (!node)
     {
-      std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
+      // std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
       return (-1);
     }
-  node->setMaterialTexture(0, this->_driver->getTexture(texture));
-  node->setPosition(irr::core::vector3df(pos.getX(), pos.getY(), 0));
+  node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
+  node->setPosition(irr::core::vector3df(pos->getX(), pos->getY(), 0));
   node->setAnimationSpeed(40);
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   node->setScale(irr::core::vector3df(200, 200, 200));
-  node->setRotation(irr::core::vector3df(0, pos.getRotation(), 0));
+  node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   _mapmodel.emplace(id, node);
 }
 
 int		Display::updateModel(unsigned int id,
-				     ModelComponent model,
-				     AnimationComponent animation,
-				     PositionComponent pos)
+				     ModelComponent *model,
+				     AnimationComponent *animation,
+				     PositionComponent *pos)
 {
-  const irr::io::path& texture = (const irr::io::path&)model.getTexture();
-  const irr::io::path& model3d = (const irr::io::path&)animation.getSelectedAnimation();
+  // const irr::io::path& texture = (const irr::io::path&)model.getTexture();
+  // const irr::io::path& model3d = (const irr::io::path&)animation.getSelectedAnimation();
 
   auto search = _mapmodel.find(id);
   if (search != _mapmodel.end())
@@ -183,15 +183,15 @@ int		Display::updateModel(unsigned int id,
       const int& current_y = node->getAbsolutePosition().Y;
       if (!node)
 	{
-	  std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
+	  // std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
 	  return (-1);
 	}
-      node->setMaterialTexture(0, this->_driver->getTexture(texture));
-      node->setPosition(irr::core::vector3df(pos.getX(), pos.getY(), 0));
+      // node->setMaterialTexture(0, this->_driver->getTexture(model.getTexture));
+      node->setPosition(irr::core::vector3df(pos->getX(), pos->getY(), 0));
       node->setAnimationSpeed(40);
       node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
       node->setScale(irr::core::vector3df(200, 200, 200));
-      node->setRotation(irr::core::vector3df(0, pos.getRotation(), 0));
+      node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
     }
   else
     std::cout << "id not found" << std::endl;

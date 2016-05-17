@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Wed May 11 16:05:53 2016 Barthelemy Gouby
+## Last update Tue May 17 18:47:11 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -14,7 +14,7 @@ RM		= rm -f
 
 CXXFLAGS	+= -I./include -I/usr/X11R6/include -I./source
 
-CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm -std=c++11
+CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm -std=c++11 -g3
 
 NAME		= cpp_indie_studio
 
