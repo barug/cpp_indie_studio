@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri May 13 12:00:13 2016 Barthelemy Gouby
+// Last update Tue May 17 18:17:56 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -19,8 +19,13 @@ Engine::~Engine()
 
 void					Engine::initGame()
 {
+  Entity				*test;
   this->_display.init();
-  
+  // test = this->_entityFactory.createSolidBlock();
+  // this->_display.createModel(test.getId(),
+  // 			     test.getComponent("ModelComponent"),
+  // 			     test.getComponent("AnimationComponent"),
+  // 			     test.getComponent("PositionComponent"));
 }
 
 void					Engine::gameLoop()
