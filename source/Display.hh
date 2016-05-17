@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 17 17:05:40 2016 Barthelemy Gouby
+// Last update Tue May 17 17:57:27 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -47,19 +47,72 @@
 # define	T_RED		"./textures/bomberman_red.png"
 # define	T_WARNING	"./textures/warning.png"
 
+enum Context
+  {
+    GAME = 0,
+    MENU_ENABLE,
+    MENU_DISABLE,
+    GAMEOVER,
+    RESTART
+  };
+
+enum Key
+  {
+    NONE = 0,
+    KEY_UP,
+    KEY_DOWN,
+    KEY_LEFT,
+    KEY_RIGHT,
+    KEY_Z, KEY_W,
+    KEY_S,
+    KEY_D,
+    KEY_Q, KEY_A,
+    KEY_1,
+    KEY_2,
+    KEY_3,
+    KEY_4,
+    KEY_5,
+    KEY_6,
+    KEY_7,
+    KEY_8,
+    KEY_9,
+    KEY_0,
+    KEY_SPACE,
+    KEY_ESCAPE
+  };
+
 class		Display
 {
 public:
+  Display();
+  ~Display();
+
   class Event;
 
   enum Animation
     {
-      STAND,
+      STAND = 0,
       RUN,
       DROP
     };
-  Display();
-  ~Display();
+
+
+  void		setContext(const Context& context);
+  Context	getContext() const;
+
+
+  void		setKey(const Key& key);
+  Key		getKey() const;
+
+  irr::IrrlichtDevice	*getDevice() const;
+
+protected:
+  Animation	_animation;
+  Context	_context;
+  Key		_key;
+  Key		_lastkey;
+  Key		_actukey;
+
 private:
   // private methods
   int		driverChoice();
@@ -85,15 +138,18 @@ private:
 
 public:
   // public methods
-  void		init();
-  void		run();
-  int		initDisplay();
-  void		refreshScreen();
+  int		init();
+  int		refreshScreen();
   int		closeDisplay();
-  int		createModel(unsigned int id, ModelComponent model,
-			    AnimationComponent animation, PositionComponent pos);
-  int		updateModel(unsigned int id, ModelComponent model,
-			    AnimationComponent animation, PositionComponent pos);
+  void		eventPlayer(const Event &receiver);
+  int		createModel(unsigned int id,
+			    ModelComponent model,
+			    AnimationComponent animation,
+			    PositionComponent pos);
+  int		updateModel(unsigned int id,
+			    ModelComponent model,
+			    AnimationComponent animation,
+			    PositionComponent pos);
   const bool	getIfBlocked(Entity *entity);
 
   // against error
@@ -130,18 +186,12 @@ protected:
 
   // current animation
   Animation				_action;
-  Animation				_mv_action;
   bool					_dropped;
   int					_timer_drop;
 
   // positions
   irr::core::vector3df			_model_position;
   irr::core::vector3df			_camera_position;
-  irr::u32				_rotation;
-  irr::u32				_prev_x;
-  irr::u32				_prev_z;
-  bool					_collision;
-
 
 public:
   // class for multiple event with keyboard

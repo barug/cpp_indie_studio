@@ -1,11 +1,11 @@
 //
 // PositionComponent.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Mon May  2 16:13:50 2016 Barthelemy Gouby
-// Last update Tue May 17 17:19:14 2016 Barthelemy Gouby
+// Last update Tue May 17 17:54:45 2016 Thomas Bogard
 //
 
 #include "PositionComponent.hh"
@@ -39,4 +39,9 @@ const unsigned int			&PositionComponent::getX() const
 const unsigned int			&PositionComponent::getY() const
 {
   return (this->_y);
+}
+
+const unsigned int			&PositionComponent::getRotation() const
+{
+  return (this->_rotation);
 }
