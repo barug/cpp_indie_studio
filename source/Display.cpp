@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 17 17:55:57 2016 Thomas Bogard
+// Last update Tue May 17 18:32:12 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -86,8 +86,13 @@ void		Display::createGround()
       {
 	this->_smgr->addCubeSceneNode();
 	this->_ground = this->_smgr->addCubeSceneNode();
-	this->_ground->setPosition(irr::core::vector3df(500 * row, 0, 5200 + (500 * column)));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
+	this->_ground->setPosition(irr::core::vector3df(500 * row, 0, 500 * column));
+	if (row == 0)
+	  this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/bomberman_pink.png"));
+	else if (column == 0)
+	  this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/bomberman_blue.png"));
+	else
+	  this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
@@ -112,8 +117,8 @@ void		Display::createCamera()
 {
   this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100, 1);
   this->_camera->setFarValue(42000.0f);
-  this->_camera->setPosition(irr::core::vector3df(3600, 4800, 6100));
-  this->_camera->setTarget(irr::core::vector3df(3600, -3300, 9100));
+  this->_camera->setPosition(irr::core::vector3df(5350, 5400, 4000));
+  this->_camera->setTarget(irr::core::vector3df(3350, -2930, 4000));
 }
 
 int		Display::init()
@@ -200,8 +205,6 @@ int		Display::refreshScreen()
   this->_device->setEventReceiver(&receiver);
   if (this->_device->run() && this->_device)
     {
-      this->_camera->setPosition(irr::core::vector3df(3555, 5580, 8169));
-      this->_camera->setTarget(irr::core::vector3df(3551, -4905, 8926));
       eventPlayer(receiver);
       this->_driver->beginScene(true, true, 0);
       this->_smgr->drawAll();
@@ -224,53 +227,15 @@ void	Display::eventPlayer(const Display::Event &receiver)
   if (receiver.IsKeyDown(irr::KEY_ESCAPE))
     puterr("Exit program");
   else if (receiver.IsKeyDown(irr::KEY_SPACE))
-    {
-      this->_key = KEY_SPACE;
-
-      // if (this->_action != DROP && !this->_dropped)
-      // 	{
-      // 	  this->_timer_drop = this->_device->getTimer()->getTime() + 900;
-      // 	  this->_model->remove();
-      // 	  this->_model = createModel(M_DROP, T_BLACK, 0, 0, 0, this->_rotation, 300);
-      // 	  this->_dropped = true;
-      // 	}
-    }
+    this->_key = KEY_SPACE;
   else if (receiver.IsKeyDown(irr::KEY_KEY_W) || receiver.IsKeyDown(irr::KEY_KEY_Z))
-    {
-      this->_key = KEY_SPACE;
-      // if ((!(this->_model_position.Z > lim_max_z) &&
-      // 	   !(this->_collision)) || this->_rotation != 180)
-      // 	this->_model_position.Z += 20;
-      // this->_rotation = 180;
-      // this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-    }
+    this->_key = KEY_Z;
   else if (receiver.IsKeyDown(irr::KEY_KEY_S))
-    {
-      // setKey(KEY_S);
-      // if ((!(this->_model_position.Z < lim_min_z) &&
-      // 	   !(this->_collision)) || this->_rotation != 0)
-      // 	this->_model_position.Z -= 20;
-      // this->_rotation = 0;
-      // this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-    }
+    this->_key = KEY_S;
   else if (receiver.IsKeyDown(irr::KEY_KEY_D))
-    {
-      // setKey(KEY_D);
-      // if ((!(this->_model_position.X > lim_max_x) &&
-      // 	   !(this->_collision)) || this->_rotation != 270)
-      // 	this->_model_position.X += 20;
-      // this->_rotation = 270;
-      // this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-    }
+    this->_key = KEY_D;
   else if (receiver.IsKeyDown(irr::KEY_KEY_A) || receiver.IsKeyDown(irr::KEY_KEY_Q))
-    {
-      // setKey(KEY_Q);
-      // if ((!(this->_model_position.X < lim_min_x) &&
-      // 	   !(this->_collision)) || this->_rotation != 90)
-      // 	this->_model_position.X -= 20;
-      // this->_rotation = 90;
-      // this->_model->setRotation(irr::core::vector3df(0, this->_rotation, 0));
-    }
+    this->_key = KEY_Q;
 }
 
 const bool	Display::getIfBlocked(Entity *entity)
@@ -280,10 +245,8 @@ const bool	Display::getIfBlocked(Entity *entity)
   if (search != _mapmodel.end())
     {
       irr::scene::IAnimatedMeshSceneNode * node = search->second;
-
     }
-  else
-    std::cout << "id not found" << std::endl;
+  return (false);
 }
 
 
@@ -298,8 +261,8 @@ const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 				   irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size)
 {
   if (mesh1->getAbsolutePosition().getDistanceFrom(mesh2->getAbsolutePosition()) < size)
-    return true;
-  return false;
+    return (true);
+  return (false);
 }
 
 void			Display::showPosModel()
