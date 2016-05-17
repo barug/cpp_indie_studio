@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:11:32 2016 Barthelemy Gouby
-// Last update Tue May 17 15:00:50 2016 Barthelemy Gouby
+// Last update Tue May 17 16:23:24 2016 Barthelemy Gouby
 //
 
 #ifndef _POSITION_COMPONENT_HH_
@@ -18,7 +18,7 @@ class				PositionComponent : public Component
 {
 public:
   PositionComponent();
-  PositionComponent(const int &x, const int &y);
+  PositionComponent(const int &x, const int &y, const int rotation);
   ~PositionComponent();
   void				setX(const int &x);
   void				setY(const int &y);

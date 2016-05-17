@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Fri May 13 17:58:31 2016 Barthelemy Gouby
+// Last update Tue May 17 16:21:48 2016 Barthelemy Gouby
 //
 
 #ifndef _MODEL_COMPONENT_HH_
@@ -20,7 +20,7 @@ public:
   ModelComponent();
   ModelComponent(const std::string &model,
 		 const std::string &texture,
-		 unsigned int &scale);
+		 unsigned int scale);
   ~ModelComponent();
   void					setModel(const std::string &model);
   const std::string			&getModel() const;

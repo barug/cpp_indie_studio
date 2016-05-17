@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 11:19:20 2016 Barthelemy Gouby
-// Last update Fri May 13 18:00:45 2016 Barthelemy Gouby
+// Last update Tue May 17 16:24:55 2016 Barthelemy Gouby
 //
 
 #include "ModelComponent.hh"
@@ -16,7 +16,7 @@ ModelComponent::ModelComponent()
 
 ModelComponent::ModelComponent(const std::string &model,
 			       const std::string &texture,
-			       unsigned int &scale)
+			       unsigned int scale)
   : Component("ModelComponent"),
     _model(model),
     _texture(texture),
@@ -36,22 +36,22 @@ const std::string			&ModelComponent::getModel() const
   return (this->_model);
 }
 
-void					setTexture(const std::string &texture)
+void					ModelComponent::setTexture(const std::string &texture)
 {
   this->_texture = texture;
 }
 
-const std::string			&getTexture() const
+const std::string			&ModelComponent::getTexture() const
 {
   return (this->_texture);
 }
 
-void					setScale(const unsigned int &&scale)
+void					ModelComponent::setScale(const unsigned int &&scale)
 {
   this->_scale = scale;
 }
 
-const unsigned int			&getScale() const
+const unsigned int			&ModelComponent::getScale() const
 {
   return (this->_scale);
 }

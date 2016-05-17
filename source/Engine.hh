@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Fri May 13 10:29:12 2016 Barthelemy Gouby
+// Last update Tue May 17 16:17:30 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -25,7 +25,8 @@ public:
   Engine();
   ~Engine();
 
-  void					gameLoop();		
+  void				        initGame();
+  void					gameLoop();
 
   void					movementSystem();
 

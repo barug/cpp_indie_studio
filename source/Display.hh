@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 17 15:58:52 2016 Thomas Bogard
+// Last update Tue May 17 17:05:40 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -30,9 +30,6 @@
 # define	lim_max_x	(7190)
 # define	lim_min_z	(5050)
 # define	lim_max_z	(12300)
-
-// speed
-# define	speed		(25)
 
 // model3d
 # define	M_RUN		"./models/BOMBERRUN.b3d"
@@ -76,8 +73,6 @@ private:
 
 
   // collision
-  const bool	getIfBlocked(Entity *entity);
-
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
@@ -95,6 +90,11 @@ public:
   int		initDisplay();
   void		refreshScreen();
   int		closeDisplay();
+  int		createModel(unsigned int id, ModelComponent model,
+			    AnimationComponent animation, PositionComponent pos);
+  int		updateModel(unsigned int id, ModelComponent model,
+			    AnimationComponent animation, PositionComponent pos);
+  const bool	getIfBlocked(Entity *entity);
 
   // against error
   void		puterr(const char * const err)
