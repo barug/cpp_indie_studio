@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 16:09:33 2016 Thomas Bogard
+// Last update Wed May 18 16:13:33 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -129,7 +129,7 @@ int		Display::createModel(unsigned int id,
       return (-1);
     }
   node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
-  node->setPosition(irr::core::vector3df(pos->getX(), 0, pos->getY()));
+  node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
   node->setAnimationSpeed(40);
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   node->setScale(irr::core::vector3df(200, 200, 200));
@@ -152,7 +152,7 @@ int		Display::updateModel(unsigned int id,
 	{
 	  return (-1);
 	}
-      node->setPosition(irr::core::vector3df(pos->getX(), pos->getY(), 0));
+      node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
       node->setAnimationSpeed(40);
       node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
       node->setScale(irr::core::vector3df(200, 200, 200));
@@ -172,7 +172,7 @@ int		Display::refreshScreen()
       this->_smgr->drawAll();
       this->_env->drawAll();
       this->_driver->endScene();
-      showPosCam();
+      // showPosCam();
       showFpsDriver(last_tick);
     }
 }
