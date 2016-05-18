@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 17 18:59:43 2016 Barthelemy Gouby
+// Last update Wed May 18 15:00:37 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -122,9 +122,6 @@ private:
   void		createGround();
   void		createSkybox();
 
-  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *> _mapmodel;
-
-
   // collision
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
@@ -166,6 +163,8 @@ public:
   }
 
 protected:
+  // class Event;
+
   // video and device
   irr::IrrlichtDevice			*_device;
   irr::video::E_DRIVER_TYPE		_driverType;
@@ -193,6 +192,13 @@ protected:
   irr::core::vector3df			_model_position;
   irr::core::vector3df			_camera_position;
 
+  //Event receiver
+  Display::Event						_receiver;
+
+  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_mapmodel;
+  std::map<unsigned int, EventListener>				_listeners;
+
+
 public:
   // class for multiple event with keyboard
   class		Event : public irr::IEventReceiver
@@ -209,6 +215,7 @@ public:
       if (event.EventType == irr::EET_KEY_INPUT_EVENT)
 	this->_KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
       return false;
+
     }
 
     virtual bool IsKeyUp(const irr::EKEY_CODE &keyCode) const
@@ -224,6 +231,20 @@ public:
   private:
     bool                          _KeyIsUp[irr::KEY_KEY_CODES_COUNT];
     bool                          _KeyIsDown[irr::KEY_KEY_CODES_COUNT];
+  };
+    
+  void				createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys);
+  std::vector<irr::EKEY_CODE>	getKeysDownForId(unsigned int id);
+  
+  class				EventListener
+  {
+  public:
+    EventListener(std::vector<irr::EKEY_CODE> keys, EventReceiver *receiver);
+    std::vector<irr::EKEY_CODE>	*getKeysDown();
+    
+  private:
+    std::vector<irr::EKEY_CODE>	_keys;
+    EventReceiver		*receiver;
   };
 
 };

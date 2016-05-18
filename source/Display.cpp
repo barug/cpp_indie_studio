@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 17 19:03:43 2016 Barthelemy Gouby
+// Last update Wed May 18 14:55:12 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -135,11 +135,7 @@ int		Display::init()
   createGround();
   createSkybox();
   createCamera();
-  this->_skin = this->_env->getSkin();
-  // this->_font = this->_env->getFont("./font/game_over.ttf");
-  // if (this->_font)
-  //   this->_skin->setFont(this->_font);
-  // this->_skin->setFont(this->_env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
+  this->_device->setEventReceiver(this->_receiver);
 }
 
 int		Display::createModel(unsigned int id,
@@ -147,15 +143,11 @@ int		Display::createModel(unsigned int id,
 				     AnimationComponent *animation,
 				     PositionComponent *pos)
 {
-  // const irr::io::path& texture = model->getTexture();
-  // const irr::io::path& model3d = model->getModel();
-
   irr::scene::IAnimatedMeshSceneNode *
     node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
 
   if (!node)
     {
-      // std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
       return (-1);
     }
   node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
@@ -172,9 +164,6 @@ int		Display::updateModel(unsigned int id,
 				     AnimationComponent *animation,
 				     PositionComponent *pos)
 {
-  // const irr::io::path& texture = (const irr::io::path&)model.getTexture();
-  // const irr::io::path& model3d = (const irr::io::path&)animation.getSelectedAnimation();
-
   auto search = _mapmodel.find(id);
   if (search != _mapmodel.end())
     {
@@ -183,10 +172,8 @@ int		Display::updateModel(unsigned int id,
       const int& current_y = node->getAbsolutePosition().Y;
       if (!node)
 	{
-	  // std::cerr << "Model " << model3d.c_str() << " cannot be loaded." << std::endl;
 	  return (-1);
 	}
-      // node->setMaterialTexture(0, this->_driver->getTexture(model.getTexture));
       node->setPosition(irr::core::vector3df(pos->getX(), pos->getY(), 0));
       node->setAnimationSpeed(40);
       node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -199,10 +186,8 @@ int		Display::updateModel(unsigned int id,
 
 int		Display::refreshScreen()
 {
-  Display::Event receiver;
   const int&	last_tick = -1;
 
-  this->_device->setEventReceiver(&receiver);
   if (this->_device->run() && this->_device)
     {
       eventPlayer(receiver);
@@ -287,4 +272,31 @@ void			Display::showPosCam()
   const long& Y2 = camera_target.Y;
   const long& Z2 = camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
+}
+
+
+void				Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys)
+{
+  this->_listenes.emplace(id, new EventListener(keys, &(this->_receiver)));
+}
+
+std::vector<irr::EKEY_CODE>	Display::getKeysDownForId(unsigned int id)
+{
+  return (this->_listeners.find(id)->second->getKeysDown());
+}
+
+EventListener::EventListener(std::vector<irr::EKEY_CODE> keys, EventReceiver *receiver)
+  :  _keys(keys), _receiver(receiver)
+{}
+
+std::vector<irr::EKEY_CODE>	*EventListener::getKeysDown()
+{
+  std::vector<irr::EKEY_CODE> keysDown = new std::vector<irr::EKEY_CODE>;
+  
+  for (irr::EKEY_CODE key : _keys)
+    {
+      if (this->_receiver->isKeyDown(key));
+      keysDown->push_back(key);
+    }
+  return (keysDown);
 }
