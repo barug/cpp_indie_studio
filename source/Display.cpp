@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 15:44:16 2016 Barthelemy Gouby
+// Last update Wed May 18 15:55:33 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -95,8 +95,8 @@ void		Display::createCamera()
 {
   this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100, 1);
   this->_camera->setFarValue(42000.0f);
-  this->_camera->setPosition(irr::core::vector3df(5350, 5400, 4000));
-  this->_camera->setTarget(irr::core::vector3df(3350, -2930, 4000));
+  this->_camera->setPosition(irr::core::vector3df(3350, 5700, 1000));
+  this->_camera->setTarget(irr::core::vector3df(3350, -650, 3000));
 }
 
 int		Display::init()
@@ -172,6 +172,7 @@ int		Display::refreshScreen()
       this->_smgr->drawAll();
       this->_env->drawAll();
       this->_driver->endScene();
+      showPosCam();
       showFpsDriver(last_tick);
     }
 }
