@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 16:45:25 2016 Thomas Bogard
+// Last update Wed May 18 16:47:28 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -191,7 +191,7 @@ int		Display::closeDisplay()
   return (0);
 }
 
-bool		Display::windowIsActive() const
+const bool	Display::windowIsActive() const
 {
   return ((!this->_device || !this->_device->run()) ? false : true);
 }

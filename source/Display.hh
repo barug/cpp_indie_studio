@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Wed May 18 16:42:28 2016 Thomas Bogard
+// Last update Wed May 18 16:47:37 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -81,7 +81,7 @@ private:
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size);
-  bool		windowIsActive() const;
+  const bool	windowIsActive() const;
 
   // debug
   void		showPosCam();
