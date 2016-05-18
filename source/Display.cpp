@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 16:47:28 2016 Thomas Bogard
+// Last update Wed May 18 16:53:15 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -126,6 +126,7 @@ int		Display::createModel(unsigned int id,
 
   if (!node)
     {
+      std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
       return (-1);
     }
   node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
@@ -150,14 +151,15 @@ int		Display::updateModel(unsigned int id,
       const int& current_y = node->getAbsolutePosition().Y;
       if (!node)
 	{
+	  std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
 	  return (-1);
 	}
-      // if (node->getMesh().c_str() == M_STAND &&
-      // 	  (curent_x != pos->getX() || curent_y != pos->getY())
-      // 	{
-      // 	  node->remove();
-      // 	  node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN)));
-      // 	}
+      if (model->getModel().c_str() == M_STAND &&
+      	  (current_x != pos->getX() || current_y != pos->getY()))
+      	{
+      	  node->remove();
+      	  node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
+	}
       node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
       node->setAnimationSpeed(40);
       node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
