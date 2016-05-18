@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Tue May 17 19:26:34 2016 Barthelemy Gouby
+// Last update Wed May 18 15:59:04 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -21,12 +21,20 @@ Engine::~Engine()
 void					Engine::initGame()
 {
   Entity				*test;
+  Entity				*test2;
+
   this->_display.init();
   test = this->_entityFactory.createSolidBlock(500, 500, 0);
   this->_display.createModel(test->getId(),
   			     (ModelComponent*)test->getComponent("ModelComponent"),
   			     (AnimationComponent*)test->getComponent("AnimationComponent"),
   			     (PositionComponent*)test->getComponent("PositionComponent"));
+  test2 = this->_entityFactory.createSolidBlock(3000, 3000, 0);
+  this->_display.createModel(test2->getId(),
+  			     (ModelComponent*)test2->getComponent("ModelComponent"),
+  			     (AnimationComponent*)test2->getComponent("AnimationComponent"),
+  			     (PositionComponent*)test2->getComponent("PositionComponent"));
+
 }
 
 void					Engine::gameLoop()
