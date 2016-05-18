@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Wed May 18 15:32:25 2016 Barthelemy Gouby
+// Last update Wed May 18 15:44:04 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -17,6 +17,7 @@
 # include	"driverChoice.h"
 # include	"Entity.hh"
 # include	"EventReceiver.hh"
+# include	"EventListener.hh"
 
 # include	"./components/AnimationComponent.hh"
 # include	"./components/ModelComponent.hh"
@@ -101,7 +102,7 @@ public:
 			    PositionComponent *pos);
   const bool	getIfBlocked(Entity *entity);
   void				createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys);
-  std::vector<irr::EKEY_CODE>	getKeysDownForId(unsigned int id);
+  std::vector<irr::EKEY_CODE>	*getKeysDownForId(unsigned int id);
 
   // against error
   void		puterr(const char * const err)
@@ -147,10 +148,10 @@ protected:
   irr::core::vector3df			_camera_position;
 
   //Event receiver
-  Event						_receiver;
+  EventReceiver						_receiver;
 
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_mapmodel;
-  std::map<unsigned int, EventListener>				_listeners;
+  std::map<unsigned int, EventListener *>				_listeners;
   
 };
 

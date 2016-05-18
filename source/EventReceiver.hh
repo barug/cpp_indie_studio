@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 15:22:24 2016 Barthelemy Gouby
-// Last update Wed May 18 15:26:08 2016 Barthelemy Gouby
+// Last update Wed May 18 15:51:05 2016 Barthelemy Gouby
 //
 
 #ifndef _EVENT_RECEIVER_HH_

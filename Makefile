@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Tue May 17 18:47:11 2016 Barthelemy Gouby
+## Last update Wed May 18 15:49:32 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -34,7 +34,9 @@ SRCS		= source/Main.cpp				\
 		  source/components/ModelComponent.cpp		\
 		  source/components/AnimationComponent.cpp	\
 		  source/systems/movementSystem.cpp		\
-		  source/Display.cpp
+		  source/Display.cpp				\
+		  source/EventReceiver.cpp			\
+		  source/EventListener.cpp			\
 
 OBJS		= $(SRCS:.cpp=.o)
 

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 15:30:23 2016 Barthelemy Gouby
+// Last update Wed May 18 15:44:16 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -13,34 +13,12 @@
 Display::Display()
   : _device(NULL), _driver(NULL), _camera(NULL),
     _smgr(NULL), _ground(NULL), _model(NULL),
-    _action(STAND), _dropped(false), _timer_drop(0),
-    _context(GAME), _key(NONE)
-
+    _action(STAND), _dropped(false), _timer_drop(0)
 {
 }
 
 Display::~Display()
 {
-}
-
-void		Display::setContext(const Context& context)
-{
-  this->_context = context;
-}
-
-Context		Display::getContext() const
-{
-  return (this->_context);
-}
-
-void		Display::setKey(const Key& key)
-{
-  this->_key = key;
-}
-
-Key		Display::getKey() const
-{
-  return (this->_key);
 }
 
 int		Display::driverChoice()
@@ -135,7 +113,7 @@ int		Display::init()
   createGround();
   createSkybox();
   createCamera();
-  this->_device->setEventReceiver(this->_receiver);
+  this->_device->setEventReceiver(&(this->_receiver));
 }
 
 int		Display::createModel(unsigned int id,
@@ -259,10 +237,10 @@ void			Display::showPosCam()
 
 void				Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys)
 {
-  this->_listenes.emplace(id, new EventListener(keys, &(this->_receiver)));
+  this->_listeners.emplace(id, new EventListener(keys, &(this->_receiver)));
 }
 
-std::vector<irr::EKEY_CODE>	Display::getKeysDownForId(unsigned int id)
+std::vector<irr::EKEY_CODE>	*Display::getKeysDownForId(unsigned int id)
 {
   return (this->_listeners.find(id)->second->getKeysDown());
 }

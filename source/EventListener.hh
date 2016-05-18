@@ -5,24 +5,25 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 15:27:32 2016 Barthelemy Gouby
-// Last update Wed May 18 15:28:40 2016 Barthelemy Gouby
+// Last update Wed May 18 15:50:09 2016 Barthelemy Gouby
 //
 
 #ifndef _EVENT_LISTENER_HH_
 # define _EVENT_LISTENER_HH_
 
 # include <vector>
+# include "irrlicht.h"
 # include "EventReceiver.hh"
 
 class				EventListener
 {
 public:
-  EventListener(std::vector<irr::EKEY_CODE> keys, EventReceiver *receiver);
+  EventListener(const std::vector<irr::EKEY_CODE> &keys, const EventReceiver *receiver);
     std::vector<irr::EKEY_CODE>	*getKeysDown();
   
 private:
   std::vector<irr::EKEY_CODE>	_keys;
-  EventReceiver		*receiver;
+  const EventReceiver		*_receiver;
 };
 
 #endif /* !_EVENT_LISTENER_HH_ */
