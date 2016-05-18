@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 16:13:33 2016 Thomas Bogard
+// Last update Wed May 18 16:43:16 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -152,6 +152,12 @@ int		Display::updateModel(unsigned int id,
 	{
 	  return (-1);
 	}
+      // if (node->getMesh().c_str() == M_STAND &&
+      // 	  (curent_x != pos->getX() || curent_y != pos->getY())
+      // 	{
+      // 	  node->remove();
+      // 	  node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN)));
+      // 	}
       node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
       node->setAnimationSpeed(40);
       node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -183,6 +189,11 @@ int		Display::closeDisplay()
     return (-1);
   this->_device->drop();
   return (0);
+}
+
+bool		Display::windowIsActive() const
+{
+  return (true ? this->_device || this->_device->run() : false);
 }
 
 const bool	Display::getIfBlocked(Entity *entity)
