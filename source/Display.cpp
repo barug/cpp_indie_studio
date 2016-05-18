@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 14:55:12 2016 Barthelemy Gouby
+// Last update Wed May 18 15:30:23 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -190,7 +190,6 @@ int		Display::refreshScreen()
 
   if (this->_device->run() && this->_device)
     {
-      eventPlayer(receiver);
       this->_driver->beginScene(true, true, 0);
       this->_smgr->drawAll();
       this->_env->drawAll();
@@ -205,22 +204,6 @@ int		Display::closeDisplay()
     return (-1);
   this->_device->drop();
   return (0);
-}
-
-void	Display::eventPlayer(const Display::Event &receiver)
-{
-  if (receiver.IsKeyDown(irr::KEY_ESCAPE))
-    puterr("Exit program");
-  else if (receiver.IsKeyDown(irr::KEY_SPACE))
-    this->_key = KEY_SPACE;
-  else if (receiver.IsKeyDown(irr::KEY_KEY_W) || receiver.IsKeyDown(irr::KEY_KEY_Z))
-    this->_key = KEY_Z;
-  else if (receiver.IsKeyDown(irr::KEY_KEY_S))
-    this->_key = KEY_S;
-  else if (receiver.IsKeyDown(irr::KEY_KEY_D))
-    this->_key = KEY_D;
-  else if (receiver.IsKeyDown(irr::KEY_KEY_A) || receiver.IsKeyDown(irr::KEY_KEY_Q))
-    this->_key = KEY_Q;
 }
 
 const bool	Display::getIfBlocked(Entity *entity)
@@ -274,7 +257,6 @@ void			Display::showPosCam()
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
 }
 
-
 void				Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys)
 {
   this->_listenes.emplace(id, new EventListener(keys, &(this->_receiver)));
@@ -283,20 +265,4 @@ void				Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE
 std::vector<irr::EKEY_CODE>	Display::getKeysDownForId(unsigned int id)
 {
   return (this->_listeners.find(id)->second->getKeysDown());
-}
-
-EventListener::EventListener(std::vector<irr::EKEY_CODE> keys, EventReceiver *receiver)
-  :  _keys(keys), _receiver(receiver)
-{}
-
-std::vector<irr::EKEY_CODE>	*EventListener::getKeysDown()
-{
-  std::vector<irr::EKEY_CODE> keysDown = new std::vector<irr::EKEY_CODE>;
-  
-  for (irr::EKEY_CODE key : _keys)
-    {
-      if (this->_receiver->isKeyDown(key));
-      keysDown->push_back(key);
-    }
-  return (keysDown);
 }
