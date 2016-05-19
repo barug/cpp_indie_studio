@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Wed May 18 15:44:04 2016 Barthelemy Gouby
+// Last update Wed May 18 16:47:37 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -81,6 +81,7 @@ private:
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2, const int& size);
+  const bool	windowIsActive() const;
 
   // debug
   void		showPosCam();
@@ -152,7 +153,7 @@ protected:
 
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_mapmodel;
   std::map<unsigned int, EventListener *>				_listeners;
-  
+
 };
 
 # endif		// __DISPLAY_HH__

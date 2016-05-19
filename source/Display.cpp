@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 16:13:33 2016 Thomas Bogard
+// Last update Wed May 18 17:22:51 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -126,6 +126,7 @@ int		Display::createModel(unsigned int id,
 
   if (!node)
     {
+      std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
       return (-1);
     }
   node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
@@ -147,10 +148,17 @@ int		Display::updateModel(unsigned int id,
     {
       irr::scene::IAnimatedMeshSceneNode * node = search->second;
       const int& current_x = node->getAbsolutePosition().X;
-      const int& current_y = node->getAbsolutePosition().Y;
+      const int& current_y = node->getAbsolutePosition().Z;
       if (!node)
 	{
+	  std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
 	  return (-1);
+	}
+      if (model->getModel().c_str() == M_STAND &&
+      	  (current_x != pos->getX() || current_y != pos->getY()))
+      	{
+      	  node->remove();
+      	  node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
 	}
       node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
       node->setAnimationSpeed(40);
@@ -179,20 +187,36 @@ int		Display::refreshScreen()
 
 int		Display::closeDisplay()
 {
-  if (!this->_device)
-    return (-1);
+  // if (!this->_device)
+  //   return (-1);
   this->_device->drop();
-  return (0);
+  // return (0);
 }
 
-const bool	Display::getIfBlocked(Entity *entity)
+const bool	Display::windowIsActive() const
 {
-  const int &id = entity->getId();
-  auto search = _mapmodel.find(id);
-  if (search != _mapmodel.end())
-    {
-      irr::scene::IAnimatedMeshSceneNode * node = search->second;
-    }
+  return ((!this->_device || !this->_device->run()) ? false : true);
+}
+
+const bool	Display::getIfBlocked(Entity *entity1
+				      // Entity *entity2
+				      )
+{
+  irr::scene::IAnimatedMeshSceneNode * node1;
+  irr::scene::IAnimatedMeshSceneNode * node2;
+
+  const int &id1 = entity1->getId();
+  // const int &id2 = entity2->getId();
+
+  auto search1 = _mapmodel.find(id1);
+  if (search1 != _mapmodel.end())
+    node1 = search1->second;
+
+  // auto search2 = _mapmodel.find(id2);
+  // if (search2 != _mapmodel.end())
+  //   node2 = search2->second;
+
+  // return (collision(node1, node2));
   return (false);
 }
 
