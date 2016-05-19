@@ -5,15 +5,12 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 18 17:22:51 2016 Thomas Bogard
+// Last update Thu May 19 17:44:38 2016 Thomas Bogard
 //
 
 # include "Display.hh"
 
 Display::Display()
-  : _device(NULL), _driver(NULL), _camera(NULL),
-    _smgr(NULL), _ground(NULL), _model(NULL),
-    _action(STAND), _dropped(false), _timer_drop(0)
 {
 }
 
@@ -21,6 +18,7 @@ Display::~Display()
 {
 }
 
+// irrlicht device
 int		Display::driverChoice()
 {
   this->_driverType = irr::driverChoiceConsole();
@@ -45,7 +43,7 @@ void		Display::showFpsDriver(int last_tick)
     }
 }
 
-int		Display::createDevice()
+int		Display::initDevice()
 {
   irr::SIrrlichtCreationParameters params;
 
@@ -57,7 +55,7 @@ int		Display::createDevice()
   return (0);
 }
 
-void		Display::createGround()
+void		Display::initGround()
 {
   for (int row = 0; row < 15; row++)
     for (int column = 0; column < 15; column++)
@@ -65,18 +63,13 @@ void		Display::createGround()
 	this->_smgr->addCubeSceneNode();
 	this->_ground = this->_smgr->addCubeSceneNode();
 	this->_ground->setPosition(irr::core::vector3df(500 * row, 0, 500 * column));
-	if (row == 0)
-	  this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/bomberman_pink.png"));
-	else if (column == 0)
-	  this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/bomberman_blue.png"));
-	else
-	  this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
 }
 
-void		Display::createSkybox()
+void		Display::initSkybox()
 {
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
   this->_skybox =
@@ -91,7 +84,7 @@ void		Display::createSkybox()
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
-void		Display::createCamera()
+void		Display::initCamera()
 {
   this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100, 1);
   this->_camera->setFarValue(42000.0f);
@@ -103,71 +96,18 @@ int		Display::init()
 {
   if (driverChoice())
     puterr("Select an appropriate driver for your system");
-  if (createDevice())
+  if (initDevice())
     puterr("Device cannot be created");
   this->_driver = this->_device->getVideoDriver();
   this->_smgr = this->_device->getSceneManager();
   this->_env = this->_device->getGUIEnvironment();
   this->_driver->setTextureCreationFlag(irr::video::ETCF_ALWAYS_32_BIT, true);
   this->_device->getCursorControl()->setVisible(false);
-  createGround();
-  createSkybox();
-  createCamera();
+  this->_device->setResizable(true);
+  this->initGround();
+  this->initSkybox();
+  this->initCamera();
   this->_device->setEventReceiver(&(this->_receiver));
-}
-
-int		Display::createModel(unsigned int id,
-				     ModelComponent *model,
-				     AnimationComponent *animation,
-				     PositionComponent *pos)
-{
-  irr::scene::IAnimatedMeshSceneNode *
-    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
-
-  if (!node)
-    {
-      std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
-      return (-1);
-    }
-  node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
-  node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
-  node->setAnimationSpeed(40);
-  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  node->setScale(irr::core::vector3df(200, 200, 200));
-  node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-  _mapmodel.emplace(id, node);
-}
-
-int		Display::updateModel(unsigned int id,
-				     ModelComponent *model,
-				     AnimationComponent *animation,
-				     PositionComponent *pos)
-{
-  auto search = _mapmodel.find(id);
-  if (search != _mapmodel.end())
-    {
-      irr::scene::IAnimatedMeshSceneNode * node = search->second;
-      const int& current_x = node->getAbsolutePosition().X;
-      const int& current_y = node->getAbsolutePosition().Z;
-      if (!node)
-	{
-	  std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
-	  return (-1);
-	}
-      if (model->getModel().c_str() == M_STAND &&
-      	  (current_x != pos->getX() || current_y != pos->getY()))
-      	{
-      	  node->remove();
-      	  node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
-	}
-      node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
-      node->setAnimationSpeed(40);
-      node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-      node->setScale(irr::core::vector3df(200, 200, 200));
-      node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-    }
-  else
-    std::cout << "id not found" << std::endl;
 }
 
 int		Display::refreshScreen()
@@ -187,10 +127,8 @@ int		Display::refreshScreen()
 
 int		Display::closeDisplay()
 {
-  // if (!this->_device)
-  //   return (-1);
   this->_device->drop();
-  // return (0);
+  return (0);
 }
 
 const bool	Display::windowIsActive() const
@@ -198,28 +136,76 @@ const bool	Display::windowIsActive() const
   return ((!this->_device || !this->_device->run()) ? false : true);
 }
 
+// models
+int		Display::createModel(unsigned int id,
+				     ModelComponent *model,
+				     AnimationComponent *animation,
+				     PositionComponent *pos)
+{
+  irr::scene::IAnimatedMeshSceneNode *
+    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
+
+  if (!node)
+    {
+      std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
+      return (1);
+    }
+  node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
+  node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
+  node->setAnimationSpeed(40);
+  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  node->setScale(irr::core::vector3df(200, 200, 200));
+  node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
+  this->_map_model.emplace(id, node);
+  return (0);
+}
+
+int		Display::updateModel(unsigned int id,
+				     ModelComponent *model,
+				     AnimationComponent *animation,
+				     PositionComponent *pos)
+{
+  auto search = _map_model.find(id);
+  if (search != _map_model.end())
+    {
+      irr::scene::IAnimatedMeshSceneNode * node = search->second;
+      const int& current_x = node->getAbsolutePosition().X;
+      const int& current_y = node->getAbsolutePosition().Z;
+      if (!node)
+	{
+	  std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
+	  return (1);
+	}
+      if ((current_x != pos->getX() || current_y != pos->getY()))
+	if (model->getModel().c_str() == M_STAND)
+	  {
+	    node->remove();
+	    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
+	  }
+      node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
+      node->setAnimationSpeed(40);
+      node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+      node->setScale(irr::core::vector3df(200, 200, 200));
+      node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
+      return (0);
+    }
+  else
+    {
+      std::cout << "id not found" << std::endl;
+      return (1);
+    }
+}
+
+// collision
 const bool	Display::getIfBlocked(Entity *entity1
 				      // Entity *entity2
 				      )
 {
-  irr::scene::IAnimatedMeshSceneNode * node1;
-  irr::scene::IAnimatedMeshSceneNode * node2;
-
-  const int &id1 = entity1->getId();
-  // const int &id2 = entity2->getId();
-
-  auto search1 = _mapmodel.find(id1);
-  if (search1 != _mapmodel.end())
-    node1 = search1->second;
-
-  // auto search2 = _mapmodel.find(id2);
-  // if (search2 != _mapmodel.end())
-  //   node2 = search2->second;
-
-  // return (collision(node1, node2));
   return (false);
+  // good version, waiting for you baru :
+  // return (collision(this->_map_model.find(entity1->getId())->second,
+  // 		    this->_map_model.find(entity2->getId())->second, 200));
 }
-
 
 const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 				   irr::scene::IAnimatedMeshSceneNode *mesh2)
@@ -236,14 +222,18 @@ const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
   return (false);
 }
 
-void			Display::showPosModel()
+// event listener
+void		Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys)
 {
-  const long& X1 = this->_model_position.X;
-  const long& Y1 = this->_model_position.Y;
-  const long& Z1 = this->_model_position.Z;
-  std::cout << "position == X=" << X1 << " && Y=" << Y1 << " && Z=" << Z1 << std::endl;
+  this->_listeners.emplace(id, new EventListener(keys, &(this->_receiver)));
 }
 
+std::vector<irr::EKEY_CODE>	*Display::getKeysDownForId(unsigned int id)
+{
+  return (this->_listeners.find(id)->second->getKeysDown());
+}
+
+// private for debug
 void			Display::showPosCam()
 {
   const irr::core::vector3df& camera_position = this->_camera->getPosition();
@@ -258,14 +248,4 @@ void			Display::showPosCam()
   const long& Y2 = camera_target.Y;
   const long& Z2 = camera_target.Z;
   std::cout << "target == " << X2 << " && " << Y2 << " && " << Z2 << std::endl;
-}
-
-void				Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys)
-{
-  this->_listeners.emplace(id, new EventListener(keys, &(this->_receiver)));
-}
-
-std::vector<irr::EKEY_CODE>	*Display::getKeysDownForId(unsigned int id)
-{
-  return (this->_listeners.find(id)->second->getKeysDown());
 }

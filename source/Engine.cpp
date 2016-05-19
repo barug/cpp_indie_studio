@@ -1,11 +1,11 @@
 //
 // Engine.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Thu May 19 13:30:03 2016 Barthelemy Gouby
+// Last update Thu May 19 17:50:14 2016 Thomas Bogard
 //
 
 #include <unistd.h>
@@ -38,7 +38,7 @@ void					Engine::initGame()
 void					Engine::gameLoop()
 {
   std::chrono::system_clock::time_point	now;
-  
+
   this->_lastTick = std::chrono::system_clock::now();
   while (this->_gameIsOn)
     {
@@ -49,7 +49,7 @@ void					Engine::gameLoop()
 	  for (auto system: this->_systems)
 	    (this->*system)();
 	}
-      this->_display.refreshScreen();
+      (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
     }
   this->_display.closeDisplay();
 }
