@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 14:17:14 2016 Barthelemy Gouby
-// Last update Tue May 17 15:00:41 2016 Barthelemy Gouby
+// Last update Thu May 19 13:30:07 2016 Barthelemy Gouby
 //
 
 #ifndef _SPEED_COMPONENT_HH_

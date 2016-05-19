@@ -5,9 +5,10 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 15:24:05 2016 Barthelemy Gouby
-// Last update Wed May 18 15:25:39 2016 Barthelemy Gouby
+// Last update Thu May 19 13:28:36 2016 Barthelemy Gouby
 //
 
+#include <iostream>
 #include "EventReceiver.hh"
 
 EventReceiver::EventReceiver()
@@ -19,14 +20,15 @@ EventReceiver::EventReceiver()
 bool EventReceiver::OnEvent(const irr::SEvent& event)
 {
   if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+    {
       this->_KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+    }
   return false;
-  
 }
 
 bool EventReceiver::IsKeyUp(const irr::EKEY_CODE &keyCode) const
 {
-  return this->_KeyIsDown[keyCode];
+  return this->_KeyIsUp[keyCode];
 }
 
 bool EventReceiver::IsKeyDown(const irr::EKEY_CODE &keyCode) const

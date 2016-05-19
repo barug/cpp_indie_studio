@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 15:28:59 2016 Barthelemy Gouby
-// Last update Wed May 18 15:51:10 2016 Barthelemy Gouby
+// Last update Thu May 19 13:29:56 2016 Barthelemy Gouby
 //
 
 #include "EventListener.hh"
@@ -20,8 +20,8 @@ std::vector<irr::EKEY_CODE>	*EventListener::getKeysDown()
   
   for (irr::EKEY_CODE key : _keys)
     {
-      if (this->_receiver->IsKeyDown(key));
-      keysDown->push_back(key);
+      if (this->_receiver->IsKeyDown(key))
+	keysDown->push_back(key);
     }
   return (keysDown);
 }

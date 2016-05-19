@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Tue May 17 17:05:55 2016 Barthelemy Gouby
+// Last update Thu May 19 12:25:16 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -25,7 +25,10 @@ void			Engine::movementSystem()
 	  speed = (SpeedComponent*) movable->getComponent("SpeedComponent");
 	  position->setX(position->getX() + speed->getSpeedX());
 	  position->setY(position->getY() + speed->getSpeedY());
-	  // this->_display.updateModel(movable);
+	  this->_display.updateModel(movable->getId(),
+				     (ModelComponent*)movable->getComponent("ModelComponent"),
+				     (AnimationComponent*)movable->getComponent("AnimationComponent"),
+				     (PositionComponent*)movable->getComponent("PositionComponent"));
 	}
     }
 }

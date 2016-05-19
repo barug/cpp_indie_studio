@@ -5,17 +5,20 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Tue May 17 17:14:47 2016 Barthelemy Gouby
+// Last update Wed May 18 17:53:33 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
 # define _ENTITY_FACTORY_HH_
 
 # include "Entity.hh"
+# include "irrlicht.h"
+# include "Display.hh"
 # include "components/Component.hh"
 # include "components/PositionComponent.hh"
 # include "components/ModelComponent.hh"
 # include "components/SpeedComponent.hh"
+# include "components/PlayerInputComponent.hh"
 
 class				EntityFactory
 {
@@ -23,8 +26,18 @@ public:
   EntityFactory();
   ~EntityFactory();
 
-  Entity			*createSolidBlock(const unsigned int &x, const unsigned int &y, const unsigned int &rotation);
-
+  Entity			*createSolidBlock(const unsigned int &x,
+						  const unsigned int &y,
+						  const unsigned int &rotation);
+  Entity			*createPlayer(const unsigned int &x,
+					      const unsigned int &y,
+					      const unsigned int &rotation,
+					      irr::EKEY_CODE keyUp,
+					      irr::EKEY_CODE keyDown,
+					      irr::EKEY_CODE keyRight,
+					      irr::EKEY_CODE keyLeft,
+					      irr::EKEY_CODE keyBomb,
+					      Display *display);
 private:
   unsigned int			_nextFreeId;
 };

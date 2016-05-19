@@ -5,14 +5,15 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 18 15:59:04 2016 Barthelemy Gouby
+// Last update Thu May 19 13:30:03 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
+#include <iostream>
 #include "Engine.hh"
 
 Engine::Engine()
-  : _systems({&Engine::movementSystem})
+  : _systems({&Engine::playerInputSystem, &Engine::movementSystem})
 {}
 
 Engine::~Engine()
@@ -20,21 +21,18 @@ Engine::~Engine()
 
 void					Engine::initGame()
 {
-  Entity				*test;
+  Entity				*player;
   Entity				*test2;
 
   this->_display.init();
-  test = this->_entityFactory.createSolidBlock(500, 500, 0);
-  this->_display.createModel(test->getId(),
-  			     (ModelComponent*)test->getComponent("ModelComponent"),
-  			     (AnimationComponent*)test->getComponent("AnimationComponent"),
-  			     (PositionComponent*)test->getComponent("PositionComponent"));
-  test2 = this->_entityFactory.createSolidBlock(3000, 3000, 0);
-  this->_display.createModel(test2->getId(),
-  			     (ModelComponent*)test2->getComponent("ModelComponent"),
-  			     (AnimationComponent*)test2->getComponent("AnimationComponent"),
-  			     (PositionComponent*)test2->getComponent("PositionComponent"));
-
+  player = this->_entityFactory.createPlayer(500, 500, 0, irr::KEY_KEY_Z,
+					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
+					     irr::KEY_SPACE, &(this->_display));
+  this->_entityManager.addEntity(player);
+  this->_display.createModel(player->getId(),
+  			     (ModelComponent*)player->getComponent("ModelComponent"),
+  			     (AnimationComponent*)player->getComponent("AnimationComponent"),
+  			     (PositionComponent*)player->getComponent("PositionComponent"));
 }
 
 void					Engine::gameLoop()
@@ -45,13 +43,13 @@ void					Engine::gameLoop()
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();
-      if (std::chrono::duration_cast<std::chrono::milliseconds>(this->_lastTick - now).count() > TICK_DURATION)
+      if (std::chrono::duration_cast<std::chrono::milliseconds>(now - this->_lastTick).count() > TICK_DURATION)
 	{
-	  
 	  this->_lastTick = now;
 	  for (auto system: this->_systems)
 	    (this->*system)();
 	}
       this->_display.refreshScreen();
     }
+  this->_display.closeDisplay();
 }

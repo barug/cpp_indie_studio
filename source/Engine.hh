@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Tue May 17 16:17:30 2016 Barthelemy Gouby
+// Last update Thu May 19 13:37:03 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -17,7 +17,8 @@
 # include "EntityManager.hh"
 # include "EntityFactory.hh"
 
-# define TICK_DURATION			(100)
+# define TICK_DURATION			(10)
+# define PLAYER_MOVEMENT_SPEED		(50)
 
 class					Engine
 {
@@ -29,7 +30,7 @@ public:
   void					gameLoop();
 
   void					movementSystem();
-
+  void					playerInputSystem();
 private:
   EntityManager				_entityManager;
   EntityFactory				_entityFactory;
