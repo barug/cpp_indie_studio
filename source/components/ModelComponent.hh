@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Tue May 17 16:21:48 2016 Barthelemy Gouby
+// Last update Thu May 19 13:59:18 2016 Erwan Dupard
 //
 
 #ifndef _MODEL_COMPONENT_HH_
@@ -26,7 +26,7 @@ public:
   const std::string			&getModel() const;
   void					setTexture(const std::string &texture);
   const std::string			&getTexture() const;
-  void					setScale(const unsigned int &&scale);
+  void					setScale(const unsigned int &scale);
   const unsigned int			&getScale() const;
 
 private:
