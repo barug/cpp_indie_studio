@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Thu May 19 12:25:16 2016 Barthelemy Gouby
+// Last update Fri May 20 12:52:43 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -14,21 +14,6 @@ void			Engine::movementSystem()
 {
   std::vector<Entity*>  *movableEntities = this->_entityManager.getEntitiesWithComponents({"PositionComponent"
 											, "SpeedComponent"});
-  PositionComponent	*position;
-  SpeedComponent	*speed;
-
   for (Entity *movable: *movableEntities)
-    {
-      if (!this->_display.getIfBlocked(movable))
-	{
-	  position = (PositionComponent*) movable->getComponent("PositionComponent");
-	  speed = (SpeedComponent*) movable->getComponent("SpeedComponent");
-	  position->setX(position->getX() + speed->getSpeedX());
-	  position->setY(position->getY() + speed->getSpeedY());
-	  this->_display.updateModel(movable->getId(),
-				     (ModelComponent*)movable->getComponent("ModelComponent"),
-				     (AnimationComponent*)movable->getComponent("AnimationComponent"),
-				     (PositionComponent*)movable->getComponent("PositionComponent"));
-	}
-    }
+    this->_display.moveModel(movable);
 }

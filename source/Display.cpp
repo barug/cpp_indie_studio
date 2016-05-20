@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu May 19 17:44:38 2016 Thomas Bogard
+// Last update Fri May 20 12:54:43 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -137,13 +137,13 @@ const bool	Display::windowIsActive() const
 }
 
 // models
-int		Display::createModel(unsigned int id,
-				     ModelComponent *model,
-				     AnimationComponent *animation,
-				     PositionComponent *pos)
+int		Display::createModel(Entity *entity)
 {
-  irr::scene::IAnimatedMeshSceneNode *
-    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
+  unsigned int				id = entity->getId();
+  ModelComponent			*model = (ModelComponent*)entity->getComponent("ModelComponent");
+  AnimationComponent			*animation = (AnimationComponent*)entity->getComponent("AnimationComponent");
+  PositionComponent			*pos = (PositionComponent*)entity->getComponent("PositionComponent");
+  irr::scene::IAnimatedMeshSceneNode	*node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
 
   if (!node)
     {
@@ -156,15 +156,18 @@ int		Display::createModel(unsigned int id,
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   node->setScale(irr::core::vector3df(200, 200, 200));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
+  node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_map_model.emplace(id, node);
   return (0);
 }
 
-int		Display::updateModel(unsigned int id,
-				     ModelComponent *model,
-				     AnimationComponent *animation,
-				     PositionComponent *pos)
+int		Display::updateModel(Entity *entity)
 {
+  unsigned int				id = entity->getId();
+  ModelComponent			*model = (ModelComponent*)entity->getComponent("ModelComponent");
+  AnimationComponent			*animation = (AnimationComponent*)entity->getComponent("AnimationComponent");
+  PositionComponent			*pos = (PositionComponent*)entity->getComponent("PositionComponent");
+
   auto search = _map_model.find(id);
   if (search != _map_model.end())
     {
@@ -196,15 +199,47 @@ int		Display::updateModel(unsigned int id,
     }
 }
 
-// collision
-const bool	Display::getIfBlocked(Entity *entity1
-				      // Entity *entity2
-				      )
+int		Display::moveModel(Entity *entity)
 {
+  unsigned int				id = entity->getId();
+  auto search = _map_model.find(id);
+
+  if (search != _map_model.end())
+    {
+      irr::scene::IAnimatedMeshSceneNode	*node = search->second;
+      const int					currentX = node->getAbsolutePosition().X;
+      const int					currentY = node->getAbsolutePosition().Z;
+      unsigned int				id = entity->getId();
+      SpeedComponent				*speed = (SpeedComponent*)entity->getComponent("SpeedComponent");
+      PositionComponent				*position = (PositionComponent*)entity->getComponent("PositionComponent");
+      if (speed->getSpeedX() || speed->getSpeedY())
+	{
+	  node->setPosition(irr::core::vector3df(currentX + speed->getSpeedX(),
+						 300,
+						 currentY + speed->getSpeedY()));
+	  node->updateAbsolutePosition();
+	  if (getIfBlocked(node))
+	    {
+	      node->setPosition(irr::core::vector3df(currentX,
+						     300,
+						     currentY));
+	      node->updateAbsolutePosition();
+	    }
+	}
+    }      
+}
+
+// collision
+const bool	Display::getIfBlocked(irr::scene::IAnimatedMeshSceneNode *movingNode)
+{
+  for (std::pair<const unsigned int, irr::scene::IAnimatedMeshSceneNode*> sceneNode: this->_map_model)
+    {
+      if (movingNode != sceneNode.second && collision(movingNode, sceneNode.second))
+	{
+	  return (true);
+	}
+    }
   return (false);
-  // good version, waiting for you baru :
-  // return (collision(this->_map_model.find(entity1->getId())->second,
-  // 		    this->_map_model.find(entity2->getId())->second, 200));
 }
 
 const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,

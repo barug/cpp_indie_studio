@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Thu May 19 17:50:14 2016 Thomas Bogard
+// Last update Fri May 20 12:01:05 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -25,14 +25,14 @@ void					Engine::initGame()
   Entity				*test2;
 
   this->_display.init();
+  test2 = this->_entityFactory.createSolidBlock(1000, 1000, 0);
   player = this->_entityFactory.createPlayer(500, 500, 0, irr::KEY_KEY_Z,
 					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
 					     irr::KEY_SPACE, &(this->_display));
   this->_entityManager.addEntity(player);
-  this->_display.createModel(player->getId(),
-  			     (ModelComponent*)player->getComponent("ModelComponent"),
-  			     (AnimationComponent*)player->getComponent("AnimationComponent"),
-  			     (PositionComponent*)player->getComponent("PositionComponent"));
+  this->_entityManager.addEntity(test2);
+  this->_display.createModel(player);
+  this->_display.createModel(test2);
 }
 
 void					Engine::gameLoop()

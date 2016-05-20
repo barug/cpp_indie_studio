@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Thu May 19 17:47:12 2016 Thomas Bogard
+// Last update Fri May 20 12:02:44 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -23,6 +23,7 @@
 # include	"./components/AnimationComponent.hh"
 # include	"./components/ModelComponent.hh"
 # include	"./components/PositionComponent.hh"
+# include	"./components/SpeedComponent.hh"
 
 #ifdef _MSC_VER
 # pragma comment(lib, "Irrlicht.lib")
@@ -37,15 +38,9 @@ public:
   int		refreshScreen();
   int		closeDisplay();
   const bool	windowIsActive() const;
-  int		createModel(const unsigned int id,
-			    ModelComponent *model,
-			    AnimationComponent *animation,
-			    PositionComponent *pos);
-  int		updateModel(unsigned int id,
-			    ModelComponent *model,
-			    AnimationComponent *animation,
-			    PositionComponent *pos);
-  const bool	getIfBlocked(Entity *entity);
+  int		createModel(Entity *entity);
+  int		updateModel(Entity *entity);
+  int		moveModel(Entity *entity);
 
   // event listener
   void				createEventListener(unsigned int id,
@@ -97,6 +92,7 @@ private:
   void		initCamera();
   void		initGround();
   void		initSkybox();
+  const bool	getIfBlocked(irr::scene::IAnimatedMeshSceneNode *movingNode);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
