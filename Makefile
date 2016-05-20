@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Wed May 18 17:14:47 2016 Barthelemy Gouby
+## Last update Fri May 20 13:54:37 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -32,8 +32,8 @@ SRCS		= source/Main.cpp				\
 		  source/components/PositionComponent.cpp	\
 		  source/components/SpeedComponent.cpp		\
 		  source/components/ModelComponent.cpp		\
-		  source/components/AnimationComponent.cpp	\
 		  source/components/PlayerInputComponent.cpp	\
+		  source/components/SolidityComponent.cpp	\
 		  source/systems/movementSystem.cpp		\
 		  source/systems/playerInputSystem.cpp		\
 		  source/Display.cpp				\

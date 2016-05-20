@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 18 17:53:33 2016 Barthelemy Gouby
+// Last update Fri May 20 14:01:08 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -19,6 +19,7 @@
 # include "components/ModelComponent.hh"
 # include "components/SpeedComponent.hh"
 # include "components/PlayerInputComponent.hh"
+# include "components/SolidityComponent.hh"
 
 class				EntityFactory
 {

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 20 12:02:44 2016 Barthelemy Gouby
+// Last update Fri May 20 16:28:39 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -24,6 +24,7 @@
 # include	"./components/ModelComponent.hh"
 # include	"./components/PositionComponent.hh"
 # include	"./components/SpeedComponent.hh"
+# include	"./components/SolidityComponent.hh"
 
 #ifdef _MSC_VER
 # pragma comment(lib, "Irrlicht.lib")
@@ -41,6 +42,9 @@ public:
   int		createModel(Entity *entity);
   int		updateModel(Entity *entity);
   int		moveModel(Entity *entity);
+  int		updateModelPosition(const unsigned int &id,
+				    const unsigned int &x,
+				    const unsigned int &y);
 
   // event listener
   void				createEventListener(unsigned int id,
@@ -72,7 +76,7 @@ protected:
   irr::scene::ISceneNode		*_ground;
   irr::scene::ISceneNode		*_skybox;
   irr::scene::IAnimatedMeshSceneNode	*_model;
-  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_map_model;
+  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
 
   // positions
   irr::core::vector3df			_model_position;

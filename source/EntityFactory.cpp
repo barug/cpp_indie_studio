@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Thu May 19 12:22:51 2016 Barthelemy Gouby
+// Last update Fri May 20 13:56:12 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -26,9 +26,11 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 							     "./textures/bomberman_black.png",
 							     10);
   PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
+  SolidityComponent	*solidityComponent = new SolidityComponent;
 
   solidBlock->addComponent(modelComponent);
   solidBlock->addComponent(positionComponent);
+  solidBlock->addComponent(solidityComponent);
   this->_nextFreeId++;
   return (solidBlock);
 }

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Thu May 19 13:37:25 2016 Barthelemy Gouby
+// Last update Fri May 20 14:30:26 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -48,4 +48,3 @@ void				Engine::playerInputSystem()
 	}
     }
 }
-

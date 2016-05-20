@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 20 12:54:43 2016 Barthelemy Gouby
+// Last update Fri May 20 16:38:51 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -157,7 +157,7 @@ int		Display::createModel(Entity *entity)
   node->setScale(irr::core::vector3df(200, 200, 200));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   node->setDebugDataVisible(irr::scene::EDS_BBOX);
-  this->_map_model.emplace(id, node);
+  this->_models.emplace(id, node);
   return (0);
 }
 
@@ -165,11 +165,10 @@ int		Display::updateModel(Entity *entity)
 {
   unsigned int				id = entity->getId();
   ModelComponent			*model = (ModelComponent*)entity->getComponent("ModelComponent");
-  AnimationComponent			*animation = (AnimationComponent*)entity->getComponent("AnimationComponent");
   PositionComponent			*pos = (PositionComponent*)entity->getComponent("PositionComponent");
 
-  auto search = _map_model.find(id);
-  if (search != _map_model.end())
+  auto search = _models.find(id);
+  if (search != _models.end())
     {
       irr::scene::IAnimatedMeshSceneNode * node = search->second;
       const int& current_x = node->getAbsolutePosition().X;
@@ -199,12 +198,25 @@ int		Display::updateModel(Entity *entity)
     }
 }
 
+int		Display::updateModelPosition(const unsigned int &id, const unsigned int &x, const unsigned int &y)
+{
+  auto		search = _models.find(id);
+  if (search != _models.end())
+    {
+      irr::scene::IAnimatedMeshSceneNode  *node = search->second;
+      node->setPosition(irr::core::vector3df(x,
+					     300,
+					     y));
+      node->updateAbsolutePosition();
+    }
+}
+
 int		Display::moveModel(Entity *entity)
 {
   unsigned int				id = entity->getId();
-  auto search = _map_model.find(id);
+  auto search = _models.find(id);
 
-  if (search != _map_model.end())
+  if (search != _models.end())
     {
       irr::scene::IAnimatedMeshSceneNode	*node = search->second;
       const int					currentX = node->getAbsolutePosition().X;
@@ -232,14 +244,25 @@ int		Display::moveModel(Entity *entity)
 // collision
 const bool	Display::getIfBlocked(irr::scene::IAnimatedMeshSceneNode *movingNode)
 {
-  for (std::pair<const unsigned int, irr::scene::IAnimatedMeshSceneNode*> sceneNode: this->_map_model)
+  for (std::pair<const unsigned int, irr::scene::IAnimatedMeshSceneNode*> sceneNode: this->_models)
     {
-      if (movingNode != sceneNode.second && collision(movingNode, sceneNode.second))
+      if (movingNode != sceneNode.second
+	  // && sceneNode.->getComponent("SolidityComponent")
+	  && collision(movingNode, sceneNode.second))
 	{
 	  return (true);
 	}
     }
   return (false);
+}
+
+const bool	Display::collision(const unsigned int &firstId, const unsigned int &secondId)
+{
+  irr::scene::IAnimatedMeshSceneNode firstNode = this->_models.find(firstId).second;
+  irr::scene::IAnimatedMeshSceneNode secondNode = this->_models.find(secondId).second;
+
+  return (firstNode->getTransformedBoundingBox().
+	  intersectsWithBox(secondNode->getTransformedBoundingBox()));
 }
 
 const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
