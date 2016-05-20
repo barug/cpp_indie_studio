@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 20 16:38:51 2016 Barthelemy Gouby
+// Last update Fri May 20 17:09:19 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -258,8 +258,8 @@ const bool	Display::getIfBlocked(irr::scene::IAnimatedMeshSceneNode *movingNode)
 
 const bool	Display::collision(const unsigned int &firstId, const unsigned int &secondId)
 {
-  irr::scene::IAnimatedMeshSceneNode firstNode = this->_models.find(firstId).second;
-  irr::scene::IAnimatedMeshSceneNode secondNode = this->_models.find(secondId).second;
+  irr::scene::IAnimatedMeshSceneNode *firstNode = this->_models.find(firstId)->second;
+  irr::scene::IAnimatedMeshSceneNode *secondNode = this->_models.find(secondId)->second;
 
   return (firstNode->getTransformedBoundingBox().
 	  intersectsWithBox(secondNode->getTransformedBoundingBox()));

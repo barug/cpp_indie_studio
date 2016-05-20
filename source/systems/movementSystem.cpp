@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Fri May 20 16:40:31 2016 Barthelemy Gouby
+// Last update Fri May 20 17:07:51 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -20,20 +20,29 @@ void			Engine::movementSystem()
   PositionComponent	*positionComponent;
   unsigned int		newX;
   unsigned int		newY;
-  
+  bool			blocked = false;
+
   for (Entity *movable: *movableEntities)
     {
       speedComponent = (SpeedComponent*) movable->getComponent("SpeedComponent");
       positionComponent = (PositionComponent*) movable->getComponent("PositionComponent");
-      newX = positionComponent->setX(positionComponent->getX() + speedComponent->getSpeedX());
-      newY = positionComponent->setY(PositionComponent->getY() + speedComponent->getSpeedY());
+      newX = positionComponent->getX() + speedComponent->getSpeedX();
+      newY = positionComponent->getY() + speedComponent->getSpeedY();
       this->_display.updateModelPosition(movable->getId(), newX, newY);
       for (Entity *solid: *solidEntities)
 	{
-	  if (solid != movable && colision(movable->getId(), solid->getId))
+	  if (solid != movable && this->_display.collision(movable->getId(), solid->getId()))
 	    {
-
+	      blocked = true;
+	      break;
 	    }
+	}
+      if (blocked)
+	this->_display.updateModelPosition(movable->getId(), positionComponent->getX(), positionComponent->getY());
+      else
+	{
+	  positionComponent->setX(newX);
+	  positionComponent->setY(newY);
 	}
     }
 }

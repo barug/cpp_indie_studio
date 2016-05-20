@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 20 16:28:39 2016 Barthelemy Gouby
+// Last update Fri May 20 17:07:33 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -45,7 +45,7 @@ public:
   int		updateModelPosition(const unsigned int &id,
 				    const unsigned int &x,
 				    const unsigned int &y);
-
+  const bool	collision(const unsigned int &firstId, const unsigned int &secondId);
   // event listener
   void				createEventListener(unsigned int id,
 						    std::vector<irr::EKEY_CODE> keys);
