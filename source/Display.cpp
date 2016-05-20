@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 20 17:09:19 2016 Barthelemy Gouby
+// Last update Fri May 20 17:13:45 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -209,51 +209,6 @@ int		Display::updateModelPosition(const unsigned int &id, const unsigned int &x,
 					     y));
       node->updateAbsolutePosition();
     }
-}
-
-int		Display::moveModel(Entity *entity)
-{
-  unsigned int				id = entity->getId();
-  auto search = _models.find(id);
-
-  if (search != _models.end())
-    {
-      irr::scene::IAnimatedMeshSceneNode	*node = search->second;
-      const int					currentX = node->getAbsolutePosition().X;
-      const int					currentY = node->getAbsolutePosition().Z;
-      unsigned int				id = entity->getId();
-      SpeedComponent				*speed = (SpeedComponent*)entity->getComponent("SpeedComponent");
-      PositionComponent				*position = (PositionComponent*)entity->getComponent("PositionComponent");
-      if (speed->getSpeedX() || speed->getSpeedY())
-	{
-	  node->setPosition(irr::core::vector3df(currentX + speed->getSpeedX(),
-						 300,
-						 currentY + speed->getSpeedY()));
-	  node->updateAbsolutePosition();
-	  if (getIfBlocked(node))
-	    {
-	      node->setPosition(irr::core::vector3df(currentX,
-						     300,
-						     currentY));
-	      node->updateAbsolutePosition();
-	    }
-	}
-    }      
-}
-
-// collision
-const bool	Display::getIfBlocked(irr::scene::IAnimatedMeshSceneNode *movingNode)
-{
-  for (std::pair<const unsigned int, irr::scene::IAnimatedMeshSceneNode*> sceneNode: this->_models)
-    {
-      if (movingNode != sceneNode.second
-	  // && sceneNode.->getComponent("SolidityComponent")
-	  && collision(movingNode, sceneNode.second))
-	{
-	  return (true);
-	}
-    }
-  return (false);
 }
 
 const bool	Display::collision(const unsigned int &firstId, const unsigned int &secondId)

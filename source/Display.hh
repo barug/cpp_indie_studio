@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 20 17:07:33 2016 Barthelemy Gouby
+// Last update Fri May 20 17:14:07 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -41,7 +41,6 @@ public:
   const bool	windowIsActive() const;
   int		createModel(Entity *entity);
   int		updateModel(Entity *entity);
-  int		moveModel(Entity *entity);
   int		updateModelPosition(const unsigned int &id,
 				    const unsigned int &x,
 				    const unsigned int &y);
@@ -96,7 +95,6 @@ private:
   void		initCamera();
   void		initGround();
   void		initSkybox();
-  const bool	getIfBlocked(irr::scene::IAnimatedMeshSceneNode *movingNode);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 			  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool	collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
