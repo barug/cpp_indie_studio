@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 20 17:13:45 2016 Barthelemy Gouby
+// Last update Sat May 21 14:26:16 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -198,15 +198,15 @@ int		Display::updateModel(Entity *entity)
     }
 }
 
-int		Display::updateModelPosition(const unsigned int &id, const unsigned int &x, const unsigned int &y)
+int		Display::updateModelPosition(const unsigned int &id, const unsigned int &rotation,
+					     const unsigned int &x, const unsigned int &y)
 {
   auto		search = _models.find(id);
   if (search != _models.end())
     {
       irr::scene::IAnimatedMeshSceneNode  *node = search->second;
-      node->setPosition(irr::core::vector3df(x,
-					     300,
-					     y));
+      node->setPosition(irr::core::vector3df(x, 300, y));
+      node->setRotation(irr::core::vector3df(0, rotation, 0));
       node->updateAbsolutePosition();
     }
 }

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 20 17:14:07 2016 Barthelemy Gouby
+// Last update Sat May 21 14:25:51 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -41,9 +41,8 @@ public:
   const bool	windowIsActive() const;
   int		createModel(Entity *entity);
   int		updateModel(Entity *entity);
-  int		updateModelPosition(const unsigned int &id,
-				    const unsigned int &x,
-				    const unsigned int &y);
+  int		updateModelPosition(const unsigned int &id, const unsigned int &rotation,
+				    const unsigned int &x, const unsigned int &y);
   const bool	collision(const unsigned int &firstId, const unsigned int &secondId);
   // event listener
   void				createEventListener(unsigned int id,
