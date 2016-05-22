@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Sat May 21 14:25:51 2016 Thomas Bogard
+// Last update Sun May 22 04:06:45 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -40,7 +40,9 @@ public:
   int		closeDisplay();
   const bool	windowIsActive() const;
   int		createModel(Entity *entity);
-  int		updateModel(Entity *entity);
+  int		updateModelAnimation(const unsigned int &id, const unsigned int &rotation,
+				     const unsigned int &posX, const unsigned int &oldX,
+				     const unsigned int &posY, const unsigned int &oldY);
   int		updateModelPosition(const unsigned int &id, const unsigned int &rotation,
 				    const unsigned int &x, const unsigned int &y);
   const bool	collision(const unsigned int &firstId, const unsigned int &secondId);
@@ -62,6 +64,14 @@ public:
     exit(EXIT_FAILURE);
   }
 
+  enum Animation
+    {
+      NONE = 0,
+      STAND,
+      RUN,
+      DROP
+    };
+
 protected:
   // video and device
   irr::IrrlichtDevice			*_device;
@@ -75,6 +85,7 @@ protected:
   irr::scene::ISceneNode		*_skybox;
   irr::scene::IAnimatedMeshSceneNode	*_model;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
+  std::map<unsigned int, Animation>	_animation;
 
   // positions
   irr::core::vector3df			_model_position;

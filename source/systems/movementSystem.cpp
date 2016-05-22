@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Sat May 21 14:22:32 2016 Thomas Bogard
+// Last update Sun May 22 04:02:01 2016 Thomas Bogard
 //
 
 #include "../Engine.hh"
@@ -37,6 +37,8 @@ void			Engine::movementSystem()
 	      break;
 	    }
 	}
+
+      // rotation
       if (newX < positionComponent->getX())
         positionComponent->setRotation(90);
       else if (newX > positionComponent->getX())
@@ -45,6 +47,12 @@ void			Engine::movementSystem()
         positionComponent->setRotation(360);
       else if (newY > positionComponent->getY())
         positionComponent->setRotation(180);
+      // update animation
+      this->_display.updateModelAnimation(movable->getId(), positionComponent->getRotation(),
+                                          positionComponent->getX(), positionComponent->getOldX(),
+                                          positionComponent->getY(), positionComponent->getOldY());
+      positionComponent->setOldX(positionComponent->getX());
+      positionComponent->setOldY(positionComponent->getY());
 
       if (blocked)
 	this->_display.updateModelPosition(movable->getId(), positionComponent->getRotation(),

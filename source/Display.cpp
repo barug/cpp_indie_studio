@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sat May 21 14:26:16 2016 Thomas Bogard
+// Last update Sun May 22 04:06:00 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -158,43 +158,50 @@ int		Display::createModel(Entity *entity)
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
+  this->_animation.emplace(id, NONE);
   return (0);
 }
 
-int		Display::updateModel(Entity *entity)
+int		Display::updateModelAnimation(const unsigned int &id, const unsigned int &rotation,
+                                              const unsigned int &posX, const unsigned int &oldX,
+                                              const unsigned int &posY, const unsigned int &oldY)
 {
-  unsigned int				id = entity->getId();
-  ModelComponent			*model = (ModelComponent*)entity->getComponent("ModelComponent");
-  PositionComponent			*pos = (PositionComponent*)entity->getComponent("PositionComponent");
+  auto		model = this->_models.find(id);
+  auto		anim = this->_animation.find(id);
 
-  auto search = _models.find(id);
-  if (search != _models.end())
+  if (model != this->_models.end())
     {
-      irr::scene::IAnimatedMeshSceneNode * node = search->second;
-      const int& current_x = node->getAbsolutePosition().X;
-      const int& current_y = node->getAbsolutePosition().Z;
-      if (!node)
-	{
-	  std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
-	  return (1);
-	}
-      if ((current_x != pos->getX() || current_y != pos->getY()))
-	if (model->getModel().c_str() == M_STAND)
-	  {
-	    node->remove();
-	    node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
-	  }
-      node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
-      node->setAnimationSpeed(40);
-      node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-      node->setScale(irr::core::vector3df(200, 200, 200));
-      node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-      return (0);
-    }
-  else
-    {
-      std::cout << "id not found" << std::endl;
-      return (1);
+      if (anim != this->_animation.end())
+        {
+          if ((oldX != posX || oldY != posY) && (oldX && oldY && anim->second != RUN))
+            {
+              model->second->remove();
+              model->second =
+                this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
+              model->second->setMaterialTexture(0, this->_driver->getTexture(T_GREEN));
+              model->second->setPosition(irr::core::vector3df(posX, 300, posY));
+              model->second->setRotation(irr::core::vector3df(0, rotation, 0));
+              model->second->setAnimationSpeed(40);
+              model->second->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+              model->second->setScale(irr::core::vector3df(300, 300, 300));
+              model->second->updateAbsolutePosition();
+              anim->second = RUN;
+            }
+          if ((oldX == posX && oldY == posY) && anim->second != STAND)
+            {
+              model->second->remove();
+              model->second =
+                this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_STAND));
+              model->second->setMaterialTexture(0, this->_driver->getTexture(T_RED));
+              model->second->setPosition(irr::core::vector3df(posX, 300, posY));
+              model->second->setRotation(irr::core::vector3df(0, rotation, 0));
+              model->second->setAnimationSpeed(40);
+              model->second->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+              model->second->setScale(irr::core::vector3df(300, 300, 300));
+              model->second->updateAbsolutePosition();
+              anim->second = STAND;
+            }
+        }
     }
 }
 
