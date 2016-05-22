@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sun May 22 04:06:00 2016 Thomas Bogard
+// Last update Sun May 22 04:12:06 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -187,7 +187,7 @@ int		Display::updateModelAnimation(const unsigned int &id, const unsigned int &r
               model->second->updateAbsolutePosition();
               anim->second = RUN;
             }
-          if ((oldX == posX && oldY == posY) && anim->second != STAND)
+          if (oldX == posX && oldY == posY && anim->second != STAND)
             {
               model->second->remove();
               model->second =
