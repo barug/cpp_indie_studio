@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May 23 11:14:51 2016 Barthelemy Gouby
+// Last update Mon May 23 14:49:08 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -43,6 +43,7 @@ public:
   int		closeDisplay();
   const bool	windowIsActive() const;
   int		createModel(Entity *entity);
+  void		removeModel(Entity *Entity);
   int		updateModelAnimation(const unsigned int &id, const unsigned int &rotation,
 				     const unsigned int &posX, const unsigned int &oldX,
 				     const unsigned int &posY, const unsigned int &oldY);

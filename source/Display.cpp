@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Mon May 23 14:40:42 2016 Barthelemy Gouby
+// Last update Mon May 23 14:50:52 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -160,6 +160,18 @@ int		Display::createModel(Entity *entity)
   this->_models.emplace(id, node);
   this->_animation.emplace(id, NONE);
   return (0);
+}
+
+void		Display::removeModel(Entity *entity)
+{
+  unsigned int	id = entity->getId();
+  auto		model = this->_models.find(id);
+
+  if (model != this->_models.end())
+    {
+      model->second->remove();
+      this->_models.erase(id);
+    }
 }
 
 int		Display::updateModelAnimation(const unsigned int &id, const unsigned int &rotation,

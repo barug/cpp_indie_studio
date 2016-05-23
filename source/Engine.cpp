@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 14:28:53 2016 Barthelemy Gouby
+// Last update Mon May 23 14:58:55 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -15,7 +15,8 @@
 Engine::Engine()
   : _systems({&Engine::playerInputSystem,
 	&Engine::movementSystem,
-	&Engine::ExplosiveSystem})
+	&Engine::ExplosiveSystem,
+	&Engine::ExplosionSystem})
 {}
 
 Engine::~Engine()

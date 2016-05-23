@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Mon May 23 14:41:28 2016 Barthelemy Gouby
+// Last update Mon May 23 14:51:31 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -34,7 +34,7 @@ Entity			*EntityFactory::createNormalBomb(const unsigned int &x,
   Entity		*normalBomb = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/BomB.obj",
 							     "./textures/BomB.png",
-							     50);
+							     25);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
   ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3);
@@ -54,7 +54,7 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
   Entity		*explosion = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/BomB.obj",
 							     "./textures/BomB.png",
-							     50);
+							     25);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
   ExplosionComponent	*explosionComponent = new ExplosionComponent(100);

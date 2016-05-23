@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Mon May 23 14:33:55 2016 Barthelemy Gouby
+// Last update Mon May 23 15:03:19 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -38,6 +38,7 @@ void				Engine::ExplosiveSystem()
 		this->_entityFactory.createExplosion(bombPosition->getX() + i * TILE_SIZE,
 						     bombPosition->getY(),
 						     0);
+	      this->_entityManager.addEntity(newExplosionRight);
 	      this->_display.createModel(newExplosionRight);
 	      newExplosionDown =
 		this->_entityFactory.createExplosion(bombPosition->getX(),
@@ -52,6 +53,8 @@ void				Engine::ExplosiveSystem()
 	      this->_entityManager.addEntity(newExplosionUp);
 	      this->_display.createModel(newExplosionUp);
 	    }
+	  this->_display.removeModel(explosive);
+	  this->_entityManager.destroyEntity(explosive->getId());
 	}
       else
 	explosiveComponent->setTimerLength(explosiveComponent->getTimerLength() - 1);

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Mon May 23 12:16:38 2016 Barthelemy Gouby
+// Last update Mon May 23 15:00:07 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -32,6 +32,7 @@ public:
   void					movementSystem();
   void					playerInputSystem();
   void					ExplosiveSystem();
+  void					ExplosionSystem();
 private:
   EntityManager				_entityManager;
   EntityFactory				_entityFactory;
