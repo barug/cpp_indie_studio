@@ -25,31 +25,31 @@ int main(void)
   irr::core::dimension2d<irr::u32> ss;
 
   ss = device->getVideoDriver()->getScreenSize();
+  irr::gui::IGUIButton *bouton_quit;
+  
+  ss = device->getVideoDriver()->getScreenSize();
   int middleOfScreen = ss.Width / 2;
   int left = middleOfScreen-64;
   int leftmid = middleOfScreen-32;
   int right = middleOfScreen+64;
   int rightmid = middleOfScreen+32;
-  irr::gui::IGUIButton *bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
+  bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
   bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
-      
-
-  // irr::gui::IGUIButton *bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
-  // bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
-  
-  // irr::gui::IGUIButton *bouton_quit = gui->addButton(irr::core::rect<irr::s32>(290,320,510,360), 0, -1);
-  // bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
 
   while(device->run ())                                             // la boucle de rendu
     {
-      ss = device->getVideoDriver()->getScreenSize();
-      middleOfScreen = ss.Width / 2;
-      left = middleOfScreen-64;
-      leftmid = middleOfScreen-32;
-      right = middleOfScreen+64;
-      rightmid = middleOfScreen+32;
-      bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
-      bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
+      if (device->getVideoDriver()->getScreenSize() != ss)
+	{
+	  gui->clear();	  
+	  ss = device->getVideoDriver()->getScreenSize();
+	  middleOfScreen = ss.Width / 2;
+	  left = middleOfScreen-64;
+	  leftmid = middleOfScreen-32;
+	  right = middleOfScreen+64;
+	  rightmid = middleOfScreen+32;
+	  bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
+	  bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
+	}
       driver->beginScene(true, true,
       			 irr::video::SColor (0,120,120,120));
       driver->draw2DImage(image,                                    // dessin de l'image
@@ -61,11 +61,10 @@ int main(void)
       if (bouton_quit->isPressed() == true) 
 	{
 	  device->drop ();
-	  return 0;
+	  return (0);
 	}
       gui->drawAll();
-      driver->endScene ();
-      gui->clear();
+      driver->endScene ();      
     }
  
   device->drop ();
