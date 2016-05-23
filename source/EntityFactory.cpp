@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Mon May 23 15:31:34 2016 Barthelemy Gouby
+// Last update Mon May 23 15:55:50 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -70,9 +70,9 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 							 const unsigned int &rotation)
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d",
-							     "./textures/bomberman_black.png",
-							     200);
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
+							     "./textures/box.png",
+							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
 

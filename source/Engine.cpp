@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 15:28:19 2016 Barthelemy Gouby
+// Last update Mon May 23 16:04:02 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -49,18 +49,14 @@ void					Engine::initMap()
       if (map.at(i) == SOLIDBLOCK)
         {
           entity = this->_entityFactory.createSolidBlock((i/15)*500,(i%15)*500, 0);
-          ModelComponent		*model = (ModelComponent*)entity->getComponent("ModelComponent");
-          model->setModel("./models/cube.obj");
-          model->setTexture("./textures/box.png");
-          model->setScale(375);
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }
       else if (map.at(i) == BOT)
         {
           entity = this->_entityFactory.createSolidBlock((i/15)*500,(i%15)*500, 0);
-	  this->_entityManager.addEntity(entity);
           this->_display.createModel(entity);
+	  this->_entityManager.addEntity(entity);
         }
     }
 }
