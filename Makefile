@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Fri May 20 13:54:37 2016 Barthelemy Gouby
+## Last update Mon May 23 14:30:27 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -34,8 +34,11 @@ SRCS		= source/Main.cpp				\
 		  source/components/ModelComponent.cpp		\
 		  source/components/PlayerInputComponent.cpp	\
 		  source/components/SolidityComponent.cpp	\
+		  source/components/ExplosiveComponent.cpp	\
+		  source/components/ExplosionComponent.cpp	\
 		  source/systems/movementSystem.cpp		\
 		  source/systems/playerInputSystem.cpp		\
+		  source/systems/ExplosiveSystem.cpp		\
 		  source/Display.cpp				\
 		  source/EventReceiver.cpp			\
 		  source/EventListener.cpp			\

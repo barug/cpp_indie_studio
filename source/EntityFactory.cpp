@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Fri May 20 13:56:12 2016 Barthelemy Gouby
+// Last update Mon May 23 14:41:28 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -17,6 +17,56 @@ EntityFactory::EntityFactory()
 EntityFactory::~EntityFactory()
 {}
 
+PositionComponent	*getClosestTileCenter(const unsigned int &x,
+					      const unsigned int &y,
+					      const unsigned int &rotation)
+{
+  PositionComponent	*positionComponent = new PositionComponent((x / TILE_SIZE) * TILE_SIZE,
+								   (y / TILE_SIZE) * TILE_SIZE,
+								   rotation);
+  return (positionComponent);
+}
+
+Entity			*EntityFactory::createNormalBomb(const unsigned int &x,
+					  const unsigned int &y,
+					  const unsigned int &rotation)
+{
+  Entity		*normalBomb = new Entity(this->_nextFreeId);
+  ModelComponent	*modelComponent = new ModelComponent("./models/BomB.obj",
+							     "./textures/BomB.png",
+							     50);
+  PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
+  SolidityComponent	*solidityComponent = new SolidityComponent;
+  ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3);
+
+  normalBomb->addComponent(modelComponent);
+  normalBomb->addComponent(positionComponent);
+  normalBomb->addComponent(solidityComponent);
+  normalBomb->addComponent(explosiveComponent);
+  this->_nextFreeId++;
+  return (normalBomb);
+}
+
+Entity			*EntityFactory::createExplosion(const unsigned int &x,
+					 const unsigned int &y,
+					 const unsigned int &rotation)
+{
+  Entity		*explosion = new Entity(this->_nextFreeId);
+  ModelComponent	*modelComponent = new ModelComponent("./models/BomB.obj",
+							     "./textures/BomB.png",
+							     50);
+  PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
+  SolidityComponent	*solidityComponent = new SolidityComponent;
+  ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
+
+  explosion->addComponent(modelComponent);
+  explosion->addComponent(positionComponent);
+  explosion->addComponent(solidityComponent);
+  explosion->addComponent(explosionComponent);
+  this->_nextFreeId++;
+  return (explosion);
+}
+
 Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 							 const unsigned int &y,
 							 const unsigned int &rotation)
@@ -24,8 +74,8 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
   Entity		*solidBlock = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d",
 							     "./textures/bomberman_black.png",
-							     10);
-  PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
+							     200);
+  PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
 
   solidBlock->addComponent(modelComponent);
@@ -48,7 +98,7 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
   Entity		*player = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d",
 							     "./textures/bomberman_black.png",
-							     10);
+							     200);
   PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
   SpeedComponent	*speedComponent = new SpeedComponent(0, 0, 0);
   PlayerInputComponent	*playerInputComponent = new PlayerInputComponent(keyUp,

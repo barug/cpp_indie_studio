@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Sun May 22 04:06:45 2016 Thomas Bogard
+// Last update Mon May 23 11:14:51 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -29,6 +29,9 @@
 #ifdef _MSC_VER
 # pragma comment(lib, "Irrlicht.lib")
 #endif
+
+# define	TILE_SIZE (500)
+# define	MAP_SIZE (15)
 
 class		Display
 {

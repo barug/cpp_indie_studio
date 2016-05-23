@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sun May 22 04:12:06 2016 Thomas Bogard
+// Last update Mon May 23 14:40:42 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -57,12 +57,12 @@ int		Display::initDevice()
 
 void		Display::initGround()
 {
-  for (int row = 0; row < 15; row++)
-    for (int column = 0; column < 15; column++)
+  for (int row = 0; row < MAP_SIZE; row++)
+    for (int column = 0; column < MAP_SIZE; column++)
       {
 	this->_smgr->addCubeSceneNode();
 	this->_ground = this->_smgr->addCubeSceneNode();
-	this->_ground->setPosition(irr::core::vector3df(500 * row, 0, 500 * column));
+	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row, 0, TILE_SIZE * column));
 	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
@@ -154,7 +154,7 @@ int		Display::createModel(Entity *entity)
   node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
   node->setAnimationSpeed(40);
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  node->setScale(irr::core::vector3df(200, 200, 200));
+  node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
@@ -175,30 +175,16 @@ int		Display::updateModelAnimation(const unsigned int &id, const unsigned int &r
         {
           if ((oldX != posX || oldY != posY) && (oldX && oldY && anim->second != RUN))
             {
-              model->second->remove();
-              model->second =
-                this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_RUN));
+	      model->second->setMesh(this->_smgr->getMesh(M_RUN));
               model->second->setMaterialTexture(0, this->_driver->getTexture(T_GREEN));
-              model->second->setPosition(irr::core::vector3df(posX, 300, posY));
-              model->second->setRotation(irr::core::vector3df(0, rotation, 0));
-              model->second->setAnimationSpeed(40);
               model->second->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-              model->second->setScale(irr::core::vector3df(300, 300, 300));
-              model->second->updateAbsolutePosition();
               anim->second = RUN;
             }
           if (oldX == posX && oldY == posY && anim->second != STAND)
             {
-              model->second->remove();
-              model->second =
-                this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(M_STAND));
-              model->second->setMaterialTexture(0, this->_driver->getTexture(T_RED));
-              model->second->setPosition(irr::core::vector3df(posX, 300, posY));
-              model->second->setRotation(irr::core::vector3df(0, rotation, 0));
-              model->second->setAnimationSpeed(40);
+	      model->second->setMesh(this->_smgr->getMesh(M_STAND));
+              model->second->setMaterialTexture(0, this->_driver->getTexture(T_GREEN));
               model->second->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-              model->second->setScale(irr::core::vector3df(300, 300, 300));
-              model->second->updateAbsolutePosition();
               anim->second = STAND;
             }
         }
