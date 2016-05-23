@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Mon May 23 14:50:52 2016 Barthelemy Gouby
+// Last update Mon May 23 18:45:12 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -62,7 +62,9 @@ void		Display::initGround()
       {
 	this->_smgr->addCubeSceneNode();
 	this->_ground = this->_smgr->addCubeSceneNode();
-	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row, 0, TILE_SIZE * column));
+	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
+							0,
+							TILE_SIZE * column + TILE_SIZE / 2));
 	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
@@ -214,6 +216,21 @@ int		Display::updateModelPosition(const unsigned int &id, const unsigned int &ro
       node->setRotation(irr::core::vector3df(0, rotation, 0));
       node->updateAbsolutePosition();
     }
+}
+
+const bool	Display::tileIsOccupied(const unsigned int &x,
+					const unsigned int &y,
+					std::vector<Entity*> *entities)
+{
+
+  irr::scene::IAnimatedMeshSceneNode *node;
+  for (Entity *entity: *entities)
+    {
+      node = this->_models.find(entity->getId())->second;
+      if (node->getTransformedBoundingBox().isPointInside(irr::core::vector3df(x, 300, y)))
+	return (true);
+    }
+  return (false);
 }
 
 const bool	Display::collision(const unsigned int &firstId, const unsigned int &secondId)

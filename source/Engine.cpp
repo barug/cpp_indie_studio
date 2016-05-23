@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 16:04:02 2016 Barthelemy Gouby
+// Last update Mon May 23 18:48:20 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -29,15 +29,15 @@ void					Engine::initMap()
     {
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -48,13 +48,15 @@ void					Engine::initMap()
     {
       if (map.at(i) == SOLIDBLOCK)
         {
-          entity = this->_entityFactory.createSolidBlock((i/15)*500,(i%15)*500, 0);
+          entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }
       else if (map.at(i) == BOT)
         {
-          entity = this->_entityFactory.createSolidBlock((i/15)*500,(i%15)*500, 0);
+          entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }
@@ -65,41 +67,19 @@ void					Engine::initGame()
 {
   Entity				*player1;
   Entity				*player2;
-  Entity				*test2;
-  Entity				*test3;
-  Entity				*test4;
-  Entity				*bomb;
-  Entity				*bomb2;
 
   this->_display.init();
-  test2 = this->_entityFactory.createSolidBlock(1000, 1000, 0);
-  test3 = this->_entityFactory.createSolidBlock(1675, 1675, 0);
-  test4 = this->_entityFactory.createSolidBlock(1735, 872, 0);
-
-  player1 = this->_entityFactory.createPlayer(500, 500, 0, irr::KEY_KEY_Z,
+  player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
 					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
 					     irr::KEY_SPACE, &(this->_display));
   player2 = this->_entityFactory.createPlayer(4000, 4000, 0, irr::KEY_UP,
 					     irr::KEY_DOWN, irr::KEY_RIGHT, irr::KEY_LEFT,
 					     irr::KEY_RETURN, &(this->_display));
-  bomb = this->_entityFactory.createNormalBomb(2000, 2000, 0);
-  bomb2 = this->_entityFactory.createNormalBomb(3000, 3000, 0);
 
   this->_entityManager.addEntity(player1);
   this->_entityManager.addEntity(player2);
-  this->_entityManager.addEntity(test2);
-  this->_entityManager.addEntity(test3);
-  this->_entityManager.addEntity(test4);
-  this->_entityManager.addEntity(bomb);
-  this->_entityManager.addEntity(bomb2);
-
   this->_display.createModel(player1);
   this->_display.createModel(player2);
-  this->_display.createModel(test2);
-  this->_display.createModel(test3);
-  this->_display.createModel(test4);
-  this->_display.createModel(bomb);
-  this->_display.createModel(bomb2);
 
   this->initMap();
 }

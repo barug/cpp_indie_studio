@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Mon May 23 15:07:12 2016 Barthelemy Gouby
+// Last update Mon May 23 18:01:33 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -48,6 +48,11 @@ private:
   std::chrono::system_clock::time_point	_lastTick;
   bool					_gameIsOn;
   std::vector<void (Engine::*) ()>	_systems;
+
+  void					_addNewExplosion(const unsigned int &x,
+							 const unsigned &y,
+							 std::vector<Entity*> *solids,
+							 bool &isBlocked);
 };
 
 #endif /* !_ENGINE_HH_ */

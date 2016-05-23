@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Mon May 23 15:55:50 2016 Barthelemy Gouby
+// Last update Mon May 23 18:47:48 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -21,8 +21,8 @@ PositionComponent	*getClosestTileCenter(const unsigned int &x,
 					      const unsigned int &y,
 					      const unsigned int &rotation)
 {
-  PositionComponent	*positionComponent = new PositionComponent((x / TILE_SIZE) * TILE_SIZE,
-								   (y / TILE_SIZE) * TILE_SIZE,
+  PositionComponent	*positionComponent = new PositionComponent((x / TILE_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   (y / TILE_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 								   rotation);
   return (positionComponent);
 }
@@ -36,12 +36,10 @@ Entity			*EntityFactory::createNormalBomb(const unsigned int &x,
 							     "./textures/BomB.png",
 							     25);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
-  SolidityComponent	*solidityComponent = new SolidityComponent;
   ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3);
 
   normalBomb->addComponent(modelComponent);
   normalBomb->addComponent(positionComponent);
-  normalBomb->addComponent(solidityComponent);
   normalBomb->addComponent(explosiveComponent);
   this->_nextFreeId++;
   return (normalBomb);
@@ -82,6 +80,27 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
   this->_nextFreeId++;
   return (solidBlock);
 }
+
+Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
+								const unsigned int &y,
+								const unsigned int &rotation)
+{
+  Entity		*destructibleBlock = new Entity(this->_nextFreeId);
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
+							     "./textures/box.png",
+							     375);
+  PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
+  SolidityComponent	*solidityComponent = new SolidityComponent;
+  DestructibleComponent	*destructibleComponent = new DestructibleComponent(DestructibleComponent::BLOCK);
+
+  destructibleBlock->addComponent(modelComponent);
+  destructibleBlock->addComponent(positionComponent);
+  destructibleBlock->addComponent(solidityComponent);
+  destructibleBlock->addComponent(destructibleComponent);
+  this->_nextFreeId++;
+  return (destructibleBlock);
+}
+
 
 Entity			*EntityFactory::createPlayer(const unsigned int &x,
 						     const unsigned int &y,

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May 23 14:49:08 2016 Barthelemy Gouby
+// Last update Mon May 23 18:00:46 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -49,7 +49,11 @@ public:
 				     const unsigned int &posY, const unsigned int &oldY);
   int		updateModelPosition(const unsigned int &id, const unsigned int &rotation,
 				    const unsigned int &x, const unsigned int &y);
-  const bool	collision(const unsigned int &firstId, const unsigned int &secondId);
+const bool	tileIsOccupied(const unsigned int &x,
+			       const unsigned int &y,
+			       std::vector<Entity*> *entities);
+  const bool	collision(const unsigned int &firstId,
+			  const unsigned int &secondId);
   // event listener
   void				createEventListener(unsigned int id,
 						    std::vector<irr::EKEY_CODE> keys);
