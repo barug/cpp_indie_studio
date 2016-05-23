@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 14:58:55 2016 Barthelemy Gouby
+// Last update Mon May 23 15:10:11 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -21,6 +21,49 @@ Engine::Engine()
 
 Engine::~Engine()
 {}
+
+void					Engine::initMap()
+{
+  Entity				*entity;
+  std::vector<int>			map =
+    {
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
+
+  for (unsigned int i = 0; i < map.size(); i++)
+    {
+      if (map.at(i) == SOLIDBLOCK)
+        {
+          entity = this->_entityFactory.createSolidBlock((i/15)*500,(i%15)*500, 0);
+          ModelComponent		*model = (ModelComponent*)entity->getComponent("ModelComponent");
+          model->setModel("./models/cube.obj");
+          model->setTexture("./textures/box.png");
+          model->setScale(375);
+          this->_display.createModel(entity);
+	  this->_entityManager.addEntity(entity);
+        }
+      else if (map.at(i) == BOT)
+        {
+          entity = this->_entityFactory.createSolidBlock((i/15)*500,(i%15)*500, 0);
+	  this->_entityManager.addEntity(entity);
+          this->_display.createModel(entity);
+        }
+    }
+}
 
 void					Engine::initGame()
 {
@@ -57,6 +100,7 @@ void					Engine::initGame()
   this->_display.createModel(test4);
   this->_display.createModel(bomb);
 
+  this->initMap();
 }
 
 void					Engine::gameLoop()
