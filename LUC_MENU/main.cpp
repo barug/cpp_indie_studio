@@ -34,7 +34,7 @@ int main(void)
   int right = middleOfScreen+64;
   int rightmid = middleOfScreen+32;
   bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
-  bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
+  bouton_quit->setImage(driver->getTexture("textures/exit.png"));
 
   while(device->run ())                                             // la boucle de rendu
     {
@@ -48,7 +48,7 @@ int main(void)
 	  right = middleOfScreen+64;
 	  rightmid = middleOfScreen+32;
 	  bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
-	  bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
+	  bouton_quit->setImage(driver->getTexture("textures/exit.png"));
 	}
       if (bouton_quit->isPressed() == true) 
 	{
