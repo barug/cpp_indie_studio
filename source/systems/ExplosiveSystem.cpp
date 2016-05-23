@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Mon May 23 15:03:19 2016 Barthelemy Gouby
+// Last update Mon May 23 15:31:09 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -15,6 +15,7 @@ void				Engine::ExplosiveSystem()
   std::vector<Entity*>		*explosives = this->_entityManager.getEntitiesWithComponents({"ExplosiveComponent"});
   PositionComponent		*bombPosition;
   ExplosiveComponent		*explosiveComponent;
+  Entity			*newExplosionCenter;
   Entity			*newExplosionLeft;
   Entity			*newExplosionRight;
   Entity			*newExplosionDown;
@@ -26,6 +27,12 @@ void				Engine::ExplosiveSystem()
       if (explosiveComponent->getTimerLength() <= 0)
 	{
 	  bombPosition = (PositionComponent*) explosive->getComponent("PositionComponent");
+	  newExplosionCenter = 
+	    this->_entityFactory.createExplosion(bombPosition->getX(),
+						 bombPosition->getY(),
+						 0);
+	  this->_entityManager.addEntity(newExplosionCenter);
+	  this->_display.createModel(newExplosionCenter);
 	  for (unsigned int i = 1; i <= explosiveComponent->getExplosionSize(); i++)
 	    {
 	      newExplosionLeft = 

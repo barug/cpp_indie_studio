@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Mon May  2 16:42:05 2016 Barthelemy Gouby
+// Last update Mon May 23 15:27:29 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -26,7 +26,10 @@ void			EntityManager::destroyEntity(const unsigned int &id)
   for (std::vector<Entity*>::iterator it = this->_entities.begin(); it != this->_entities.end(); it++)
     {
       if ((*it)->getId() == id)
-	this->_entities.erase(it);
+	{
+	  it = this->_entities.erase(it);
+	  break;
+	}
     }
 }
 
