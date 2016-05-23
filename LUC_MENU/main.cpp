@@ -19,7 +19,7 @@ int main(void)
   irr::video::IVideoDriver* driver = device->getVideoDriver ();
   irr::scene::ISceneManager *sceneManager = device->getSceneManager ();
  
-  irr::video::ITexture *image = driver->getTexture ("textures/space.jpg");  // chargement de la texture
+  irr::video::ITexture *image = driver->getTexture ("textures/menu.png");  // chargement de la texture
   irr::gui::IGUIEnvironment *gui = device->getGUIEnvironment();
  
   irr::core::dimension2d<irr::u32> ss;
@@ -50,25 +50,37 @@ int main(void)
 	  bouton_quit = gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
 	  bouton_quit->setImage(driver->getTexture("textures/exit2.png"));
 	}
-      driver->beginScene(true, true,
-      			 irr::video::SColor (0,120,120,120));
-      driver->draw2DImage(image,                                    // dessin de l'image
-      			  irr::core::position2d<irr::s32>(0,0),
-      			  irr::core::rect<irr::s32>(0,0, ss.Width, ss.Height),
-      			  0,
-      			  irr::video::SColor (255,255,255,255),
-      			  true);
-      gui->drawAll();
-      driver->endScene ();
       if (bouton_quit->isPressed() == true) 
 	{
-	  gui->clear();
-	  device->drop ();
-	  return (0);
+	  //gui->clear();
+	  //device->drop ();
+	  driver->endScene ();
+	  break;
 	}
-            
+      driver->beginScene(true, true,
+			 irr::video::SColor (0,120,120,120));
+      driver->draw2DImage(image,                                    // dessin de l'image
+			  irr::core::position2d<irr::s32>(0,0),
+			  irr::core::rect<irr::s32>(0,0, ss.Width, ss.Height),
+			  0,
+			  irr::video::SColor (255,255,255,255),
+			  true);
+      gui->drawAll();
+      driver->endScene (); 
     }
- 
-  device->drop ();
-  return 0;
+  
+  while (1)
+    {
+      image = driver->getTexture ("textures/space.jpg");
+      driver->beginScene(true, true,
+			 irr::video::SColor (0,120,120,120));
+      driver->draw2DImage(image,                                    // dessin de l'image
+			  irr::core::position2d<irr::s32>(0,0),
+			  irr::core::rect<irr::s32>(0,0, ss.Width, ss.Height),
+			  0,
+			  irr::video::SColor (255,255,255,255),
+			  true);
+      driver->endScene ();
+    }
+  //return 0;
 }
