@@ -13,7 +13,7 @@ int main(void)
 {
  
   irr::IrrlichtDevice* device = irr::createDevice(irr::video::EDT_OPENGL,
-  						  irr::core::dimension2d<irr::u32>(640,480), 32);
+  						  irr::core::dimension2d<irr::u32>(1200,800), 32);
 
   device->setResizable(true);
   irr::video::IVideoDriver* driver = device->getVideoDriver ();
@@ -58,13 +58,15 @@ int main(void)
       			  0,
       			  irr::video::SColor (255,255,255,255),
       			  true);
+      gui->drawAll();
+      driver->endScene ();
       if (bouton_quit->isPressed() == true) 
 	{
+	  gui->clear();
 	  device->drop ();
 	  return (0);
 	}
-      gui->drawAll();
-      driver->endScene ();      
+            
     }
  
   device->drop ();
