@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 15:10:11 2016 Barthelemy Gouby
+// Last update Mon May 23 15:15:24 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -73,6 +73,7 @@ void					Engine::initGame()
   Entity				*test3;
   Entity				*test4;
   Entity				*bomb;
+  Entity				*bomb2;
 
   this->_display.init();
   test2 = this->_entityFactory.createSolidBlock(1000, 1000, 0);
@@ -86,12 +87,15 @@ void					Engine::initGame()
 					     irr::KEY_DOWN, irr::KEY_RIGHT, irr::KEY_LEFT,
 					     irr::KEY_RETURN, &(this->_display));
   bomb = this->_entityFactory.createNormalBomb(2000, 2000, 0);
+  bomb2 = this->_entityFactory.createNormalBomb(3000, 3000, 0);
+
   this->_entityManager.addEntity(player1);
   this->_entityManager.addEntity(player2);
   this->_entityManager.addEntity(test2);
   this->_entityManager.addEntity(test3);
   this->_entityManager.addEntity(test4);
   this->_entityManager.addEntity(bomb);
+  this->_entityManager.addEntity(bomb2);
 
   this->_display.createModel(player1);
   this->_display.createModel(player2);
@@ -99,6 +103,7 @@ void					Engine::initGame()
   this->_display.createModel(test3);
   this->_display.createModel(test4);
   this->_display.createModel(bomb);
+  this->_display.createModel(bomb2);
 
   this->initMap();
 }
