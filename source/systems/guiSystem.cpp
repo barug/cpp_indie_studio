@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 20:12:10 2016 Thomas Bogard
-// Last update Tue May 24 20:14:37 2016 Thomas Bogard
+// Last update Wed May 25 00:02:24 2016 Thomas Bogard
 //
 
 # include "../Engine.hh"
@@ -21,9 +21,9 @@ void		Engine::guiSystem()
     {
       playerInputComponent = (PlayerInputComponent*) player->getComponent("PlayerInputComponent");
       positionComponent = (PositionComponent*) player->getComponent("PositionComponent");
-      for (unsigned int x = 1; x < playerInputComponent->getMaxBombs(); x++)
-	{
-	  std::cout << "je passe par la ma gueule" << std::endl;
-	}
+      // for (unsigned int x = 1; x < playerInputComponent->getMaxBombs(); x++)
+      // 	{
+      // 	  std::cout << "je passe par la ma gueule" << std::endl;
+      // 	}
     }
 }

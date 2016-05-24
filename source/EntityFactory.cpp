@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 19:25:47 2016 Barthelemy Gouby
+// Last update Wed May 25 00:00:53 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -53,9 +53,9 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
 					 const unsigned int &rotation)
 {
   Entity		*explosion = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/bomb.obj",
-							     "./textures/bomb.png",
-							     25);
+  ModelComponent	*modelComponent = new ModelComponent("./models/explosion.b3d",
+							     "./textures/fire.jpg",
+							     100);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
 
