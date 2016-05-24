@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 18:43:32 2016 Barthelemy Gouby
+// Last update Tue May 24 18:49:18 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -70,7 +70,7 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 							 const unsigned int &rotation)
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cubesolid.obj",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
 							     "./textures/stonebox.png",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
@@ -88,7 +88,7 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
 								const unsigned int &rotation)
 {
   Entity		*destructibleBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cubedest.obj",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
 							     "./textures/woodbox.jpg",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
@@ -142,8 +142,8 @@ Entity			*EntityFactory::createPowerUp(const unsigned int &x,
 						      PowerUpComponent::Type type)
 {
   Entity		*powerUp = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cubesolid.obj",
-							     "./textures/bomberman_black.png",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
+							     "./textures/powerup/bombup.png",
 							     300);
   PositionComponent	*positionComponent = new PositionComponent(x, y, 0);
   PowerUpComponent	*powerUpComponent = new PowerUpComponent(type);
