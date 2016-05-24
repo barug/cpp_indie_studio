@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Tue May 24 15:03:16 2016 Thomas Bogard
+// Last update Tue May 24 15:29:00 2016 Thomas Bogard
 //
 
 # include <fstream>
@@ -41,54 +41,56 @@ const std::string& Serialization::getFile()
 
 int		Serialization::writeSerialization(const std::vector<Entity*> entities)
 {
-  std::vector <std::string> result;
-  dirent	*entry;
-  DIR		*directory;
-  unsigned int	size = 14;
+  // std::vector<std::string> result;
+  // dirent	*entry;
+  // DIR		*directory;
+  // unsigned int	size = 14;
 
-  if (!(directory = opendir("./saves")))
-    return (RETURN_FAILURE);
-  while (entry = readdir(directory))
-    result.push_back(std::string(entry->d_name));
-  closedir(directory);
-  std::sort(result.begin(), result.end());
-  for (const auto &e_result : result)
-    {
-      const std::string& current = e_result;
-      if (!strncmp(current.c_str(), "bomberman.save", 14))
-	if (isdigit(current[size]))
-	  this->_id = atoi(current.c_str() + size);
-	else if (isdigit(current[size + 1]))
-	  size++;
-    }
-  ++(this->_id);
-  this->_file += std::to_string(this->_id);
-  std::ofstream	ofs(this->_file.c_str(), std::ios::binary);
-  this->_entities = entities;
-  for (const auto &e_entities : entities)
-    ofs.write((char *)&e_entities, sizeof(e_entities));
+  // if (!(directory = opendir("./saves")))
+  //   return (RETURN_FAILURE);
+  // while (entry = readdir(directory))
+  //   result.push_back(std::string(entry->d_name));
+  // closedir(directory);
+  // std::sort(result.begin(), result.end());
+  // for (const auto &e_result : result)
+  //   {
+  //     const std::string& current = e_result;
+  //     if (!strncmp(current.c_str(), "bomberman.save", 14))
+  // 	if (isdigit(current[size]))
+  // 	  this->_id = atoi(current.c_str() + size);
+  // 	else if (isdigit(current[size + 1]))
+  // 	  size++;
+  //   }
+  // ++(this->_id);
+  // this->_file += std::to_string(this->_id);
+  // std::ofstream	ofs("test.save", std::ios::binary);
+  // // std::ofstream	ofs(this->_file.c_str(), std::ios::binary);
+  // for (const auto &e_entities : entities)
+  //   ofs.write((char *)&e_entities, sizeof(e_entities));
   return (RETURN_SUCCESS);
 }
 
 int		Serialization::readSerialization()
 {
-  std::ifstream	ifs(this->_file.c_str(), std::ios::binary);
-  std::cout << "=====read serialization of " << this->_file.c_str() << "====" << std::endl;
-  for (const auto &e_entities : this->_entities)
+  // std::ifstream	ifs(this->_file.c_str(), std::ios::binary);
+  std::ifstream	ifs("test.save", std::ios::binary);
+  // std::cout << "=====read serialization of " << this->_file.c_str() << "====" << std::endl;
+  // std::vector<Entity*> test1;
+  // Entity * test1;
     {
-      ifs.read((char *)&e_entities, sizeof(e_entities));
+      // ifs.read((char *)&e_entities, sizeof(e_entities));
 
       // std::vector<Component*> compo;
       // for (const auto &e_compo : compo)
       // 	{
 
       // 	}
-      ModelComponent	*model = (ModelComponent*)e_entities->getComponent("ModelComponent");
-      PositionComponent *pos = (PositionComponent*)e_entities->getComponent("PositionComponent");
-      std::cout << "id = " << e_entities->getId();
-      std::cout << " model = " << model->getModel();
-      std::cout << " posx = " << pos->getX();
-      std::cout << " posy = " << pos->getY() << std::endl;
+      // ModelComponent	*model = (ModelComponent*)e_entities->getComponent("ModelComponent");
+      // PositionComponent *pos = (PositionComponent*)e_entities->getComponent("PositionComponent");
+      // std::cout << "id = " << e_entities->getId();
+      // std::cout << " model = " << model->getModel();
+      // std::cout << " posx = " << pos->getX();
+      // std::cout << " posy = " << pos->getY() << std::endl;
     }
   return (RETURN_SUCCESS);
 }
