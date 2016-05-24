@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Tue May 24 16:55:47 2016 Barthelemy Gouby
+// Last update Tue May 24 16:59:20 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -24,7 +24,6 @@ void				Engine::_addNewExplosion(const unsigned int &x,
   	{
   	  if (this->_display.tileIsOccupied(x, y, solid))
   	    {
-  	      isBlocked = true;
   	      if (solid->getComponent("DestructibleComponent"))
   	      	{
   	      	  this->_display.removeModel(solid);

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 24 16:38:28 2016 Barthelemy Gouby
+// Last update Tue May 24 17:00:34 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -88,10 +88,12 @@ void		Display::initSkybox()
 
 void		Display::initCamera()
 {
-  this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100, 1);
+  this->_camera =
+    this->_smgr->addCameraSceneNode(0,
+				    irr::core::vector3df(4050, 6080, 2560), // position
+				    irr::core::vector3df(4050, -1570, 3730), // target
+				    -1, true);
   this->_camera->setFarValue(42000.0f);
-  this->_camera->setPosition(irr::core::vector3df(3350, 5700, 1000));
-  this->_camera->setTarget(irr::core::vector3df(3350, -650, 3000));
 }
 
 int		Display::init()
