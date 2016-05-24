@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May 23 18:53:02 2016 Barthelemy Gouby
+// Last update Tue May 24 14:15:56 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -49,7 +49,10 @@ public:
 				     const unsigned int &posY, const unsigned int &oldY);
   int		updateModelPosition(const unsigned int &id, const unsigned int &rotation,
 				    const unsigned int &x, const unsigned int &y);
-const bool	tileIsOccupied(const unsigned int &x,
+  const bool	tileIsOccupied(const unsigned int &x,
+			       const unsigned int &y,
+			       Entity *entity);
+  const bool	tileIsOccupiedBomb(const unsigned int &x,
 			       const unsigned int &y,
 			       Entity *entity);
   const bool	collision(const unsigned int &firstId,

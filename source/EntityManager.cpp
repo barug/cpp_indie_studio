@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Tue May 24 02:35:54 2016 Thomas Bogard
+// Last update Tue May 24 11:27:33 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"

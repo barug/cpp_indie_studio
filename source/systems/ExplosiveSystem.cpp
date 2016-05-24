@@ -5,44 +5,45 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Mon May 23 19:27:36 2016 Barthelemy Gouby
+// Last update Tue May 24 12:16:21 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
 
 void				Engine::_addNewExplosion(const unsigned int &x,
 							 const unsigned &y,
-							 std::vector<Entity*> *solids,
 							 bool &isBlocked)
 {
   Entity			*newExplosion;
   bool				canAddExplosion = true;
-  std::vector<Entity*>		*solidss = this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
+  std::vector<Entity*>		*solids = this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
 
   if (!isBlocked)
     {
-      for (Entity *solid: *solidss)
-	{
-	  if (this->_display.tileIsOccupied(x, y, solid))
-	    {
-	      if (solid->getComponent("DestructibleComponent"))
-		{
-		  this->_display.removeModel(solid);
-		  this->_entityManager.destroyEntity(solid->getId());
-		}
-	      else
-		{
+      for (Entity *solid: *solids)
+  	{
+  	  if (this->_display.tileIsOccupied(x, y, solid))
+  	    {
+  	      isBlocked = true;
+  	      if (solid->getComponent("DestructibleComponent"))
+  	      	{
+  	      	  this->_display.removeModel(solid);
+  	      	  this->_entityManager.destroyEntity(solid->getId());
+  	      	}
+  	      else
+  	      	{
 		  canAddExplosion = false;
 		}
-	      isBlocked = true;
-	    }
-	}
+  	      isBlocked = true;
+	      break;
+  	    }
+  	}
       if (canAddExplosion)
-	{
-	  newExplosion = this->_entityFactory.createExplosion(x, y, 0);
-	  this->_entityManager.addEntity(newExplosion);
-	  this->_display.createModel(newExplosion);      
-	}
+  	{
+  	  newExplosion = this->_entityFactory.createExplosion(x, y, 0);
+  	  this->_entityManager.addEntity(newExplosion);
+  	  this->_display.createModel(newExplosion);      
+  	}
     }
 }
 
@@ -79,19 +80,15 @@ void				Engine::ExplosiveSystem()
 	    {
 	      this->_addNewExplosion(bombPosition->getX() - i * TILE_SIZE,
 				     bombPosition->getY(),
-				     solids,
 				     leftIsBlocked);
 	      this->_addNewExplosion(bombPosition->getX() + i * TILE_SIZE,
 				     bombPosition->getY(),
-				     solids,
 				     rightIsBlocked);
 	      this->_addNewExplosion(bombPosition->getX(),
 				     bombPosition->getY() - i * TILE_SIZE,
-				     solids,
 				     downIsBlocked);
 	      this->_addNewExplosion(bombPosition->getX(),
 				     bombPosition->getY() + i * TILE_SIZE,
-				     solids,
 				     upIsBlocked);
 	    }
 	  this->_display.removeModel(explosive);
