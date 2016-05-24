@@ -1,6 +1,6 @@
 # Blender v2.69 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib cube.mtl
+mtllib cubesolid.mtl
 o Cube
 v 0.698546 -0.698546 -0.698546
 v 0.698546 -0.698546 0.698546

@@ -1,11 +1,11 @@
 //
 // EntityFactory.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 14:40:15 2016 Barthelemy Gouby
+// Last update Tue May 24 16:30:09 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -32,8 +32,8 @@ Entity			*EntityFactory::createNormalBomb(const unsigned int &x,
 					  const unsigned int &rotation)
 {
   Entity		*normalBomb = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/BomB.obj",
-							     "./textures/BomB.png",
+  ModelComponent	*modelComponent = new ModelComponent("./models/bomb.obj",
+							     "./textures/bomb.png",
 							     30);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3);
@@ -50,8 +50,8 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
 					 const unsigned int &rotation)
 {
   Entity		*explosion = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/BomB.obj",
-							     "./textures/BomB.png",
+  ModelComponent	*modelComponent = new ModelComponent("./models/bomb.obj",
+							     "./textures/bomb.png",
 							     25);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
@@ -68,8 +68,8 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 							 const unsigned int &rotation)
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
-							     "./textures/box.png",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cubesolid.obj",
+							     "./textures/stonebox.png",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
@@ -86,8 +86,8 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
 								const unsigned int &rotation)
 {
   Entity		*destructibleBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
-							     "./textures/BomB.png",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cubedest.obj",
+							     "./textures/woodbox.jpg",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;

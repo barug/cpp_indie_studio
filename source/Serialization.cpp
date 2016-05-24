@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Tue May 24 15:29:00 2016 Thomas Bogard
+// Last update Tue May 24 16:06:13 2016 Thomas Bogard
 //
 
 # include <fstream>
@@ -73,11 +73,8 @@ int		Serialization::writeSerialization(const std::vector<Entity*> entities)
 int		Serialization::readSerialization()
 {
   // std::ifstream	ifs(this->_file.c_str(), std::ios::binary);
-  std::ifstream	ifs("test.save", std::ios::binary);
   // std::cout << "=====read serialization of " << this->_file.c_str() << "====" << std::endl;
-  // std::vector<Entity*> test1;
-  // Entity * test1;
-    {
+    // {
       // ifs.read((char *)&e_entities, sizeof(e_entities));
 
       // std::vector<Component*> compo;
@@ -91,6 +88,6 @@ int		Serialization::readSerialization()
       // std::cout << " model = " << model->getModel();
       // std::cout << " posx = " << pos->getX();
       // std::cout << " posy = " << pos->getY() << std::endl;
-    }
+    // }
   return (RETURN_SUCCESS);
 }
