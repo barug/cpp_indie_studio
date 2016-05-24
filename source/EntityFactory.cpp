@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 18:49:18 2016 Barthelemy Gouby
+// Last update Tue May 24 19:25:47 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -27,18 +27,19 @@ PositionComponent	*getClosestTileCenter(const unsigned int &x,
   return (positionComponent);
 }
 
-Entity			*EntityFactory::createNormalBomb(const unsigned int &x,
-							 const unsigned int &y,
-							 const unsigned int &rotation,
-							 const unsigned int &ownerId,
-							 const ExplosiveComponent::Owner &ownerType)
+Entity			*EntityFactory::createBomb(const unsigned int &x,
+						   const unsigned int &y,
+						   const unsigned int &rotation,
+						   const unsigned int &ownerId,
+						   const ExplosiveComponent::Owner &ownerType,
+						   const unsigned int &explosionSize)
 {
   Entity		*normalBomb = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/bomb.obj",
 							     "./textures/bomb.png",
 							     30);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
-  ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3, ownerId, ownerType);
+  ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, explosionSize, ownerId, ownerType);
 
   normalBomb->addComponent(modelComponent);
   normalBomb->addComponent(positionComponent);
@@ -113,12 +114,13 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 						     const irr::EKEY_CODE &keyLeft,
 						     const irr::EKEY_CODE &keyBomb,
 						     const unsigned int &maxBombs,
+						     const unsigned int &explosionSize,
 						     Display *display)
 {
   Entity		*player = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d",
 							     "./textures/bomberman_black.png",
-							     200);
+							     250);
   PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
   SpeedComponent	*speedComponent = new SpeedComponent(0, 0, 0);
   PlayerInputComponent	*playerInputComponent = new PlayerInputComponent(keyUp,
@@ -126,7 +128,8 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 									 keyLeft,
 									 keyRight,
 									 keyBomb,
-									 maxBombs);
+									 maxBombs,
+									 explosionSize);
 
   player->addComponent(modelComponent);
   player->addComponent(positionComponent);
@@ -143,11 +146,14 @@ Entity			*EntityFactory::createPowerUp(const unsigned int &x,
 {
   Entity		*powerUp = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
-							     "./textures/powerup/bombup.png",
 							     300);
   PositionComponent	*positionComponent = new PositionComponent(x, y, 0);
   PowerUpComponent	*powerUpComponent = new PowerUpComponent(type);
 
+  if (type == PowerUpComponent::BOMB_UP)
+    modelComponent->setTexture("./textures/powerup/bombup.png");
+  if (type == PowerUpComponent::FIRE_UP)
+    modelComponent->setTexture("./textures/powerup/fireup.png");
   powerUp->addComponent(modelComponent);
   powerUp->addComponent(positionComponent);
   powerUp->addComponent(powerUpComponent);

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Tue May 24 18:31:54 2016 Barthelemy Gouby
+// Last update Tue May 24 19:26:15 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -26,7 +26,8 @@ enum
     SOLID_BLOCK				= 1,
     DESTRUCTIBLE_BLOCK			= 2,
     BOMB_UP_POWER_UP			= 3,
-    BOT					= 4
+    FIRE_UP_POWER_UP			= 4,
+    BOT					= 5
   };
 
 class					Engine

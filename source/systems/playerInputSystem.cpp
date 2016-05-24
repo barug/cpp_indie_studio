@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Tue May 24 16:53:49 2016 Barthelemy Gouby
+// Last update Tue May 24 19:13:32 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -71,13 +71,14 @@ void				Engine::playerInputSystem()
 		}
 	      if (canPlaceBomb)
 		{
-		  bomb = this->_entityFactory.createNormalBomb((positionComponent->getX() / TILE_SIZE) * TILE_SIZE
-							       + TILE_SIZE / 2,
-							       (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
-							       + TILE_SIZE / 2,
-							       0,
-							       player->getId(),
-							       ExplosiveComponent::PLAYER);
+		  bomb = this->_entityFactory.createBomb((positionComponent->getX() / TILE_SIZE) * TILE_SIZE
+							 + TILE_SIZE / 2,
+							 (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
+							 + TILE_SIZE / 2,
+							 0,
+							 player->getId(),
+							 ExplosiveComponent::PLAYER,
+							 playerInputComponent->getExplosionSize());
 		  this->_entityManager.addEntity(bomb);
 		  this->_display.createModel(bomb);
 		  playerInputComponent->incrementActiveBombs();

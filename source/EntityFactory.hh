@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Tue May 24 18:15:28 2016 Barthelemy Gouby
+// Last update Tue May 24 19:12:48 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -37,11 +37,12 @@ public:
   Entity			*createDestructibleBlock(const unsigned int &x,
 							 const unsigned int &y,
 							 const unsigned int &rotation);
-  Entity			*createNormalBomb(const unsigned int &x,
-						  const unsigned int &y,
-						  const unsigned int &rotation,
-						  const unsigned int &ownerId,
-						  const ExplosiveComponent::Owner &ownerType);
+  Entity			*createBomb(const unsigned int &x,
+					    const unsigned int &y,
+					    const unsigned int &rotation,
+					    const unsigned int &ownerId,
+					    const ExplosiveComponent::Owner &ownerType,
+					    const unsigned int &explosionSize);
   Entity			*createExplosion(const unsigned int &x,
 						 const unsigned int &y,
 						 const unsigned int &rotation);
@@ -54,6 +55,7 @@ public:
 					      const irr::EKEY_CODE &keyLeft,
 					      const irr::EKEY_CODE &keyBomb,
 					      const unsigned int &maxBombs,
+					      const unsigned int &explosionSize,
 					      Display *display);
   Entity			*createPowerUp(const unsigned int &x,
 					       const unsigned int &y,

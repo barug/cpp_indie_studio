@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Tue May 24 18:32:26 2016 Barthelemy Gouby
+// Last update Tue May 24 19:27:23 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -30,13 +30,13 @@ void					Engine::initMap()
     {
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1,
       1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 1,
       1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 4, 1,
       1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
       1, 0, 1, 1, 1, 1, 2, 2, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
@@ -69,6 +69,14 @@ void					Engine::initMap()
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }
+      if (map.at(i) == FIRE_UP_POWER_UP)
+        {
+          entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+						      (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+						      PowerUpComponent::FIRE_UP);
+          this->_display.createModel(entity);
+	  this->_entityManager.addEntity(entity);
+        }
       else if (map.at(i) == BOT)
         {
           entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
@@ -87,10 +95,10 @@ void					Engine::initGame()
   this->_display.init();
   player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
 					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
-					      irr::KEY_SPACE, 2, &(this->_display));
+					      irr::KEY_SPACE, 1, 1, &(this->_display));
   player2 = this->_entityFactory.createPlayer(4000, 4000, 0, irr::KEY_UP,
-					     irr::KEY_DOWN, irr::KEY_RIGHT, irr::KEY_LEFT,
-					      irr::KEY_RETURN, 2, &(this->_display));
+					     irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
+					      irr::KEY_RETURN, 1, 1, &(this->_display));
 
   this->_entityManager.addEntity(player1);
   this->_entityManager.addEntity(player2);

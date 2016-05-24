@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Tue May 17 19:31:35 2016 Barthelemy Gouby
-// Last update Tue May 24 16:51:52 2016 Barthelemy Gouby
+// Last update Tue May 24 19:03:02 2016 Barthelemy Gouby
 //
 
 #include "Component.hh"
@@ -23,7 +23,8 @@ public:
 		       const irr::EKEY_CODE &keyLeft,
 		       const irr::EKEY_CODE &keyRight,
 		       const irr::EKEY_CODE &keyBomb,
-		       const unsigned int &maxBombs);
+		       const unsigned int &maxBombs,
+		       const unsigned int &explosionSize);
   const irr::EKEY_CODE		&getKeyUp() const;
   const irr::EKEY_CODE		&getKeyDown() const;
   const irr::EKEY_CODE		&getKeyLeft() const;
@@ -31,8 +32,10 @@ public:
   const irr::EKEY_CODE		&getKeyBomb() const;
   const unsigned int		&getMaxBombs() const;
   const unsigned int		&getActiveBombs() const;
-  void				setMaxBombs(const unsigned int &newMaxBombs);
+  const unsigned int		&getExplosionSize() const;
+  void				setMaxBombs(const unsigned int &maxBombs);
   void				setActiveBombs(const unsigned int &activeBombs);
+  void				setExplosionSize(const unsigned int &explosionSize);
   void				incrementActiveBombs();
   void			        decrementActiveBombs();
 private:
@@ -43,6 +46,7 @@ private:
   irr::EKEY_CODE	_keyBomb;
   unsigned int		_maxBombs;
   unsigned int		_activeBombs;
+  unsigned int		_explosionSize;
 };
 
 #endif /* !_PLAYER_INPUT_COMPONENT_HH_ */
