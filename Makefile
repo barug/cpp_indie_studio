@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Tue May 24 18:33:55 2016 Barthelemy Gouby
+## Last update Tue May 24 20:17:38 2016 Thomas Bogard
 ##
 
 CC		= g++
@@ -43,6 +43,7 @@ SRCS		= source/Main.cpp				\
 		  source/systems/ExplosiveSystem.cpp		\
 		  source/systems/ExplosionSystem.cpp		\
 		  source/systems/powerUpSystem.cpp		\
+		  source/systems/guiSystem.cpp			\
 		  source/Display.cpp				\
 		  source/EventReceiver.cpp			\
 		  source/EventListener.cpp			\
