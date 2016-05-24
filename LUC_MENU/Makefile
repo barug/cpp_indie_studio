@@ -12,7 +12,7 @@ CC		= g++
 
 RM		= rm -f
 
-CXXFLAGS	+= -I./include -I/usr/X11R6/include -I./source
+CXXFLAGS	+= -I./include -I/usr/X11R6/include -I./source -I.
 
 CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -std=c++11 -g3 -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm 
 
@@ -23,7 +23,7 @@ NAMEDISPLAY	= displaytest
 OBJSDISPLAY	= $(SRCSDISPLAY:.cpp=.o)
 
 
-SRCS		= main.cpp
+SRCS		= menu.cpp
 
 OBJS		= $(SRCS:.cpp=.o)
 
