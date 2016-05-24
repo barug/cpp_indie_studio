@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Tue May 24 12:16:21 2016 Barthelemy Gouby
+// Last update Tue May 24 16:55:47 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -54,6 +54,7 @@ void				Engine::ExplosiveSystem()
   PositionComponent		*bombPosition;
   ExplosiveComponent		*explosiveComponent;
   Entity			*newExplosionCenter;
+  Entity			*owner;
   bool				leftIsBlocked;
   bool				rightIsBlocked;
   bool				downIsBlocked;
@@ -91,6 +92,9 @@ void				Engine::ExplosiveSystem()
 				     bombPosition->getY() + i * TILE_SIZE,
 				     upIsBlocked);
 	    }
+	  owner = this->_entityManager.getEntity(explosiveComponent->getOwnerId());
+	  if (explosiveComponent->getOwnerType() == ExplosiveComponent::PLAYER)
+	    ((PlayerInputComponent*)(owner->getComponent("PlayerInputComponent")))->decrementActiveBombs();
 	  this->_display.removeModel(explosive);
 	  this->_entityManager.destroyEntity(explosive->getId());
 	}

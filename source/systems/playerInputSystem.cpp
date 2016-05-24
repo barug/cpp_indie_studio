@@ -5,13 +5,14 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Tue May 24 14:42:44 2016 Barthelemy Gouby
+// Last update Tue May 24 16:53:49 2016 Barthelemy Gouby
 //
 
 #include <iostream>
 #include "Engine.hh"
 #include "../components/SpeedComponent.hh"
 #include "../components/PlayerInputComponent.hh"
+#include "../components/ExplosiveComponent.hh"
 
 // bool				Engine::_canPlaceBomb(PositionComponent *positionComponent,
 // 						      Entity *bomb)
@@ -50,7 +51,8 @@ void				Engine::playerInputSystem()
 	    speedComponent->setSpeedX(-PLAYER_MOVEMENT_SPEED);
 	  else
 	    speedComponent->setSpeedX(0);
-	  if (key == playerInputComponent->getKeyBomb())
+	  if (key == playerInputComponent->getKeyBomb()
+	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
 	      bombs = this->_entityManager.getEntitiesWithComponents({"ExplosiveComponent"});
 	      positionComponent = (PositionComponent*) player->getComponent("PositionComponent");	  
@@ -73,9 +75,12 @@ void				Engine::playerInputSystem()
 							       + TILE_SIZE / 2,
 							       (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
 							       + TILE_SIZE / 2,
-							       0);
+							       0,
+							       player->getId(),
+							       ExplosiveComponent::PLAYER);
 		  this->_entityManager.addEntity(bomb);
 		  this->_display.createModel(bomb);
+		  playerInputComponent->incrementActiveBombs();
 		}
 	    }
 	}

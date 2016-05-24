@@ -5,29 +5,43 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 11:26:56 2016 Barthelemy Gouby
-// Last update Mon May 23 12:21:47 2016 Barthelemy Gouby
+// Last update Tue May 24 16:34:57 2016 Barthelemy Gouby
 //
 
 #include "ExplosiveComponent.hh"
 
 ExplosiveComponent::ExplosiveComponent(const unsigned int &timerLength,
-				       const unsigned int &explosionSize)
-  : Component("ExplosiveComponent"),
+				       const unsigned int &explosionSize,
+				       const unsigned int &ownerId,
+				       ExplosiveComponent::Owner ownerType)
+: Component("ExplosiveComponent"),
     _timerLength(timerLength),
-    _explosionSize(explosionSize)
+    _explosionSize(explosionSize),
+    _ownerId(ownerId),
+    _ownerType(ownerType)
 {}
 
-const unsigned int	&ExplosiveComponent::getTimerLength()
+const unsigned int		&ExplosiveComponent::getTimerLength() const
 {
   return (this->_timerLength);
 }
 
-const unsigned int	&ExplosiveComponent::getExplosionSize()
+const unsigned int		&ExplosiveComponent::getExplosionSize() const
 {
   return (this->_explosionSize);
 }
 
-void			ExplosiveComponent::setTimerLength(const unsigned int &newLength)
+const unsigned int		&ExplosiveComponent::getOwnerId() const
+{
+  return (this->_ownerId);
+}
+
+const ExplosiveComponent::Owner	&ExplosiveComponent::getOwnerType() const
+{
+  return (this->_ownerType);
+}
+
+void				ExplosiveComponent::setTimerLength(const unsigned int &newLength)
 {
   this->_timerLength = newLength;
 }

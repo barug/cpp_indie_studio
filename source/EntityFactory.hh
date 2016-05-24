@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Mon May 23 17:56:45 2016 Barthelemy Gouby
+// Last update Tue May 24 16:36:21 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -38,18 +38,21 @@ public:
 							 const unsigned int &rotation);
   Entity			*createNormalBomb(const unsigned int &x,
 						  const unsigned int &y,
-						  const unsigned int &rotation);
+						  const unsigned int &rotation,
+						  const unsigned int &ownerId,
+						  const ExplosiveComponent::Owner &ownerType);
   Entity			*createExplosion(const unsigned int &x,
 						 const unsigned int &y,
 						 const unsigned int &rotation);
   Entity			*createPlayer(const unsigned int &x,
 					      const unsigned int &y,
 					      const unsigned int &rotation,
-					      irr::EKEY_CODE keyUp,
-					      irr::EKEY_CODE keyDown,
-					      irr::EKEY_CODE keyRight,
-					      irr::EKEY_CODE keyLeft,
-					      irr::EKEY_CODE keyBomb,
+					      const irr::EKEY_CODE &keyUp,
+					      const irr::EKEY_CODE &keyDown,
+					      const irr::EKEY_CODE &keyRight,
+					      const irr::EKEY_CODE &keyLeft,
+					      const irr::EKEY_CODE &keyBomb,
+					      const unsigned int &maxBombs,
 					      Display *display);
 private:
   unsigned int			_nextFreeId;

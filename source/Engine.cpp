@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 19:03:05 2016 Barthelemy Gouby
+// Last update Tue May 24 16:40:39 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -78,10 +78,10 @@ void					Engine::initGame()
   this->_display.init();
   player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
 					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
-					     irr::KEY_SPACE, &(this->_display));
+					      irr::KEY_SPACE, 2, &(this->_display));
   player2 = this->_entityFactory.createPlayer(4000, 4000, 0, irr::KEY_UP,
 					     irr::KEY_DOWN, irr::KEY_RIGHT, irr::KEY_LEFT,
-					     irr::KEY_RETURN, &(this->_display));
+					      irr::KEY_RETURN, 2, &(this->_display));
 
   this->_entityManager.addEntity(player1);
   this->_entityManager.addEntity(player2);
