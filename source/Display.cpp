@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 24 17:04:11 2016 Thomas Bogard
+// Last update Tue May 24 17:13:42 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -65,7 +65,7 @@ void		Display::initGround()
 	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
 							0,
 							TILE_SIZE * column + TILE_SIZE / 2));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/grass.jpg"));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/blockstone.jpg"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
@@ -159,7 +159,7 @@ int		Display::createModel(Entity *entity)
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-  node->setDebugDataVisible(irr::scene::EDS_BBOX);
+  // node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
   this->_animation.emplace(id, NONE);
   return (0);

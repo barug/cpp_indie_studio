@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 17:01:38 2016 Barthelemy Gouby
+// Last update Tue May 24 18:27:44 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -70,7 +70,7 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 							 const unsigned int &rotation)
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cubesolid.obj",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
 							     "./textures/stonebox.png",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
@@ -88,7 +88,7 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
 								const unsigned int &rotation)
 {
   Entity		*destructibleBlock = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/cubedest.obj",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
 							     "./textures/woodbox.jpg",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
