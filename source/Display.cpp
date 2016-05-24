@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 24 17:01:13 2016 Thomas Bogard
+// Last update Tue May 24 17:04:11 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -145,7 +145,6 @@ int		Display::createModel(Entity *entity)
 {
   unsigned int				id = entity->getId();
   ModelComponent			*model = (ModelComponent*)entity->getComponent("ModelComponent");
-  AnimationComponent			*animation = (AnimationComponent*)entity->getComponent("AnimationComponent");
   PositionComponent			*pos = (PositionComponent*)entity->getComponent("PositionComponent");
   irr::scene::IAnimatedMeshSceneNode	*node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
 

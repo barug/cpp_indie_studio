@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Tue May 24 02:42:25 2016 Thomas Bogard
+## Last update Tue May 24 16:38:53 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -44,7 +44,6 @@ SRCS		= source/Main.cpp				\
 		  source/Display.cpp				\
 		  source/EventReceiver.cpp			\
 		  source/EventListener.cpp			\
-		  source/Serialization.cpp			\
 
 OBJS		= $(SRCS:.cpp=.o)
 

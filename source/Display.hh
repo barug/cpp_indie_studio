@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 24 14:15:56 2016 Barthelemy Gouby
+// Last update Tue May 24 16:29:31 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -20,7 +20,6 @@
 # include	"EventListener.hh"
 # include	"Resources.hh"
 
-# include	"./components/AnimationComponent.hh"
 # include	"./components/ModelComponent.hh"
 # include	"./components/PositionComponent.hh"
 # include	"./components/SpeedComponent.hh"

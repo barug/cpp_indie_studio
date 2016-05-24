@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 16:30:09 2016 Thomas Bogard
+// Last update Tue May 24 17:01:38 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -28,15 +28,17 @@ PositionComponent	*getClosestTileCenter(const unsigned int &x,
 }
 
 Entity			*EntityFactory::createNormalBomb(const unsigned int &x,
-					  const unsigned int &y,
-					  const unsigned int &rotation)
+							 const unsigned int &y,
+							 const unsigned int &rotation,
+							 const unsigned int &ownerId,
+							 const ExplosiveComponent::Owner &ownerType)
 {
   Entity		*normalBomb = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/bomb.obj",
 							     "./textures/bomb.png",
 							     30);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
-  ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3);
+  ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, 3, ownerId, ownerType);
 
   normalBomb->addComponent(modelComponent);
   normalBomb->addComponent(positionComponent);
@@ -105,11 +107,12 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
 Entity			*EntityFactory::createPlayer(const unsigned int &x,
 						     const unsigned int &y,
 						     const unsigned int &rotation,
-						     irr::EKEY_CODE keyUp,
-						     irr::EKEY_CODE keyDown,
-						     irr::EKEY_CODE keyRight,
-						     irr::EKEY_CODE keyLeft,
-						     irr::EKEY_CODE keyBomb,
+						     const irr::EKEY_CODE &keyUp,
+						     const irr::EKEY_CODE &keyDown,
+						     const irr::EKEY_CODE &keyRight,
+						     const irr::EKEY_CODE &keyLeft,
+						     const irr::EKEY_CODE &keyBomb,
+						     const unsigned int &maxBombs,
 						     Display *display)
 {
   Entity		*player = new Entity(this->_nextFreeId);
@@ -122,7 +125,8 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 									 keyDown,
 									 keyLeft,
 									 keyRight,
-									 keyBomb);
+									 keyBomb,
+									 maxBombs);
 
   player->addComponent(modelComponent);
   player->addComponent(positionComponent);

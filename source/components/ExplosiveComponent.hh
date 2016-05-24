@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 11:18:50 2016 Barthelemy Gouby
-// Last update Mon May 23 12:32:53 2016 Barthelemy Gouby
+// Last update Tue May 24 16:34:52 2016 Barthelemy Gouby
 //
 
 #ifndef _EXPLOSIVE_COMPONENT_HH_
@@ -13,18 +13,29 @@
 
 # include "Component.hh"
 
-class			ExplosiveComponent : public Component
+class					ExplosiveComponent : public Component
 {
 public:
-  ExplosiveComponent(const unsigned int &timerLength,
-		     const unsigned int &explosionSize);
+  enum Owner
+    {
+      PLAYER
+    };
 
-  const unsigned int	&getTimerLength();
-  const unsigned int	&getExplosionSize();
-  void			setTimerLength(const unsigned int &newLength);
+  ExplosiveComponent(const unsigned int &timerLength,
+		     const unsigned int &explosionSize,
+		     const unsigned int &ownerId,
+		     ExplosiveComponent::Owner ownerType);
+
+  const unsigned int			&getTimerLength() const;
+  const unsigned int			&getExplosionSize() const;
+  const unsigned int			&getOwnerId() const;
+  const ExplosiveComponent::Owner	&getOwnerType() const;
+  void					setTimerLength(const unsigned int &newLength);
 private:
-  unsigned int		_timerLength;
-  unsigned int		_explosionSize;
+  unsigned int				_timerLength;
+  unsigned int				_explosionSize;
+  unsigned int				_ownerId;
+  Owner					_ownerType;
 };
 
 #endif /* !_EXPLOSIVE_COMPONENT_HH_ */
