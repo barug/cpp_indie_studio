@@ -9,4 +9,4 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd /home/bogard_t/rendu/cpp_indie_studio/textures/bomb.png
+map_Kd ./textures/bomb.png

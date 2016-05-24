@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 24 16:40:43 2016 Thomas Bogard
+// Last update Tue May 24 17:01:13 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -65,7 +65,7 @@ void		Display::initGround()
 	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
 							0,
 							TILE_SIZE * column + TILE_SIZE / 2));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/box.png"));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/grass.jpg"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
@@ -90,9 +90,9 @@ void		Display::initCamera()
 {
   this->_camera =
     this->_smgr->addCameraSceneNode(0,
-				    irr::core::vector3df(4050, 6080, 2560), // position
-				    irr::core::vector3df(4050, -1570, 3730), // target
-				    -1, true);
+  				    irr::core::vector3df(4050, 6080, 2560), // position
+  				    irr::core::vector3df(4050, -1570, 3730), // target
+  				    -1, true);
   this->_camera->setFarValue(42000.0f);
 }
 
