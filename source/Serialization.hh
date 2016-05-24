@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:24:18 2016 Thomas Bogard
-// Last update Tue May 24 02:45:19 2016 Thomas Bogard
+// Last update Tue May 24 11:20:00 2016 Thomas Bogard
 //
 
 #ifndef		__SERIALIZATION_HH__
@@ -13,6 +13,7 @@
 
 # include	"EntityManager.hh"
 # include	"Resources.hh"
+# include	<vector>
 # include	<unistd.h>
 
 class		Serialization
@@ -21,11 +22,14 @@ public:
   Serialization();
   Serialization(const std::string &file);
   ~Serialization();
-  int		serialization();
-  int		writeSerialization();
+  void		setFile(const std::string &file);
+  const std::string& getFile();
+  int		writeSerialization(const std::vector<Entity*> entities);
   int		readSerialization();
 protected:
+  unsigned int		_id;
   std::string		_file;
+  std::vector<Entity*>	_entities;
 };
 
 #endif		// __SERIALIZATION_HH__
