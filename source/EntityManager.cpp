@@ -1,11 +1,11 @@
 //
 // EntityManager.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Mon May  2 16:42:05 2016 Barthelemy Gouby
+// Last update Tue May 24 02:35:54 2016 Thomas Bogard
 //
 
 #include "EntityManager.hh"
@@ -26,7 +26,10 @@ void			EntityManager::destroyEntity(const unsigned int &id)
   for (std::vector<Entity*>::iterator it = this->_entities.begin(); it != this->_entities.end(); it++)
     {
       if ((*it)->getId() == id)
-	this->_entities.erase(it);
+	{
+	  it = this->_entities.erase(it);
+	  break;
+	}
     }
 }
 
@@ -38,6 +41,11 @@ Entity			*EntityManager::getEntity(const unsigned int id)
 	return (*it);
     }
   return (NULL);
+}
+
+std::vector<Entity*>	EntityManager::getEntities()
+{
+  return (this->_entities);
 }
 
 std::vector<Entity*>	*EntityManager::getEntitiesWithComponents(std::initializer_list<std::string> typeList)

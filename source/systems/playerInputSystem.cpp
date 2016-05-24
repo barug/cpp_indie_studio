@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Thu May 19 13:37:25 2016 Barthelemy Gouby
+// Last update Mon May 23 18:29:33 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -19,7 +19,9 @@ void				Engine::playerInputSystem()
     this->_entityManager.getEntitiesWithComponents({"PlayerInputComponent", "SpeedComponent"});
   std::vector<irr::EKEY_CODE>	*keysDown;
   SpeedComponent		*speedComponent;
+  PositionComponent		*positionComponent;
   PlayerInputComponent		*playerInputComponent;
+  Entity			*bomb;
 
   for (Entity *player: *playerEntities)
     {
@@ -40,6 +42,15 @@ void				Engine::playerInputSystem()
 	    speedComponent->setSpeedX(-PLAYER_MOVEMENT_SPEED);
 	  else
 	    speedComponent->setSpeedX(0);
+	  if (key == playerInputComponent->getKeyBomb())
+	    {
+	      positionComponent = (PositionComponent*) player->getComponent("PositionComponent");
+	      bomb = this->_entityFactory.createNormalBomb(positionComponent->getX(),
+							   positionComponent->getY(),
+							   0);
+	      this->_entityManager.addEntity(bomb);
+	      this->_display.createModel(bomb);
+	    }
 	}
       if (keysDown->size() == 0)
 	{
@@ -48,4 +59,3 @@ void				Engine::playerInputSystem()
 	}
     }
 }
-

@@ -1,34 +1,66 @@
 //
 // DeplacementSystem.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source/systems
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Thu May 19 12:25:16 2016 Barthelemy Gouby
+// Last update Sun May 22 04:02:01 2016 Thomas Bogard
 //
 
 #include "../Engine.hh"
 
 void			Engine::movementSystem()
 {
-  std::vector<Entity*>  *movableEntities = this->_entityManager.getEntitiesWithComponents({"PositionComponent"
-											, "SpeedComponent"});
-  PositionComponent	*position;
-  SpeedComponent	*speed;
+  std::vector<Entity*>  *movableEntities = this->_entityManager.getEntitiesWithComponents({"PositionComponent",
+											   "SpeedComponent"});
+  std::vector<Entity*>  *solidEntities = this->_entityManager.getEntitiesWithComponents({"PositionComponent",
+											 "SolidityComponent"});
+  SpeedComponent	*speedComponent;
+  PositionComponent	*positionComponent;
+  unsigned int		newX;
+  unsigned int		newY;
+  bool			blocked = false;
 
   for (Entity *movable: *movableEntities)
     {
-      if (!this->_display.getIfBlocked(movable))
+      speedComponent = (SpeedComponent*) movable->getComponent("SpeedComponent");
+      positionComponent = (PositionComponent*) movable->getComponent("PositionComponent");
+      newX = positionComponent->getX() + speedComponent->getSpeedX();
+      newY = positionComponent->getY() + speedComponent->getSpeedY();
+      this->_display.updateModelPosition(movable->getId(), positionComponent->getRotation(), newX, newY);
+      for (Entity *solid: *solidEntities)
 	{
-	  position = (PositionComponent*) movable->getComponent("PositionComponent");
-	  speed = (SpeedComponent*) movable->getComponent("SpeedComponent");
-	  position->setX(position->getX() + speed->getSpeedX());
-	  position->setY(position->getY() + speed->getSpeedY());
-	  this->_display.updateModel(movable->getId(),
-				     (ModelComponent*)movable->getComponent("ModelComponent"),
-				     (AnimationComponent*)movable->getComponent("AnimationComponent"),
-				     (PositionComponent*)movable->getComponent("PositionComponent"));
+	  if (solid != movable && this->_display.collision(movable->getId(), solid->getId()))
+	    {
+	      blocked = true;
+	      break;
+	    }
+	}
+
+      // rotation
+      if (newX < positionComponent->getX())
+        positionComponent->setRotation(90);
+      else if (newX > positionComponent->getX())
+        positionComponent->setRotation(270);
+      else if (newY < positionComponent->getY())
+        positionComponent->setRotation(360);
+      else if (newY > positionComponent->getY())
+        positionComponent->setRotation(180);
+      // update animation
+      this->_display.updateModelAnimation(movable->getId(), positionComponent->getRotation(),
+                                          positionComponent->getX(), positionComponent->getOldX(),
+                                          positionComponent->getY(), positionComponent->getOldY());
+      positionComponent->setOldX(positionComponent->getX());
+      positionComponent->setOldY(positionComponent->getY());
+
+      if (blocked)
+	this->_display.updateModelPosition(movable->getId(), positionComponent->getRotation(),
+					   positionComponent->getX(), positionComponent->getY());
+      else
+	{
+	  positionComponent->setX(newX);
+	  positionComponent->setY(newY);
 	}
     }
 }

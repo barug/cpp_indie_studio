@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 18 17:53:33 2016 Barthelemy Gouby
+// Last update Mon May 23 17:56:45 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -19,6 +19,10 @@
 # include "components/ModelComponent.hh"
 # include "components/SpeedComponent.hh"
 # include "components/PlayerInputComponent.hh"
+# include "components/SolidityComponent.hh"
+# include "components/ExplosiveComponent.hh"
+# include "components/ExplosionComponent.hh"
+# include "components/DestructibleComponent.hh"
 
 class				EntityFactory
 {
@@ -29,6 +33,15 @@ public:
   Entity			*createSolidBlock(const unsigned int &x,
 						  const unsigned int &y,
 						  const unsigned int &rotation);
+  Entity			*createDestructibleBlock(const unsigned int &x,
+							 const unsigned int &y,
+							 const unsigned int &rotation);
+  Entity			*createNormalBomb(const unsigned int &x,
+						  const unsigned int &y,
+						  const unsigned int &rotation);
+  Entity			*createExplosion(const unsigned int &x,
+						 const unsigned int &y,
+						 const unsigned int &rotation);
   Entity			*createPlayer(const unsigned int &x,
 					      const unsigned int &y,
 					      const unsigned int &rotation,

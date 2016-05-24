@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Wed May 18 17:14:47 2016 Barthelemy Gouby
+## Last update Tue May 24 02:42:25 2016 Thomas Bogard
 ##
 
 CC		= g++
@@ -14,7 +14,7 @@ RM		= rm -f
 
 CXXFLAGS	+= -I./include -I/usr/X11R6/include -I./source
 
-CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm -std=c++11 -g3
+CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -lGL -lGLU -lXext -lX11 -lXxf86vm -std=c++11 -g3
 
 NAME		= cpp_indie_studio
 
@@ -32,13 +32,19 @@ SRCS		= source/Main.cpp				\
 		  source/components/PositionComponent.cpp	\
 		  source/components/SpeedComponent.cpp		\
 		  source/components/ModelComponent.cpp		\
-		  source/components/AnimationComponent.cpp	\
 		  source/components/PlayerInputComponent.cpp	\
+		  source/components/SolidityComponent.cpp	\
+		  source/components/ExplosiveComponent.cpp	\
+		  source/components/ExplosionComponent.cpp	\
+		  source/components/DestructibleComponent.cpp	\
 		  source/systems/movementSystem.cpp		\
 		  source/systems/playerInputSystem.cpp		\
+		  source/systems/ExplosiveSystem.cpp		\
+		  source/systems/ExplosionSystem.cpp		\
 		  source/Display.cpp				\
 		  source/EventReceiver.cpp			\
 		  source/EventListener.cpp			\
+		  source/Serialization.cpp			\
 
 OBJS		= $(SRCS:.cpp=.o)
 

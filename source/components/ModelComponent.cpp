@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 11:19:20 2016 Barthelemy Gouby
-// Last update Tue May 17 16:24:55 2016 Barthelemy Gouby
+// Last update Thu May 19 14:48:18 2016 Barthelemy Gouby
 //
 
 #include "ModelComponent.hh"
@@ -46,7 +46,7 @@ const std::string			&ModelComponent::getTexture() const
   return (this->_texture);
 }
 
-void					ModelComponent::setScale(const unsigned int &&scale)
+void					ModelComponent::setScale(const unsigned int &scale)
 {
   this->_scale = scale;
 }
