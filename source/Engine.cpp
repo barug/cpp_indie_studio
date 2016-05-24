@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Tue May 24 16:40:39 2016 Barthelemy Gouby
+// Last update Tue May 24 18:32:26 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -16,7 +16,8 @@ Engine::Engine()
   : _systems({&Engine::playerInputSystem,
 	&Engine::movementSystem,
 	&Engine::ExplosiveSystem,
-	&Engine::ExplosionSystem})
+	&Engine::ExplosionSystem, 
+	&Engine::powerUpSystem})
 {}
 
 Engine::~Engine()
@@ -30,13 +31,13 @@ void					Engine::initMap()
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 1,
       1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+      1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
       1, 0, 1, 1, 1, 1, 2, 2, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -57,6 +58,14 @@ void					Engine::initMap()
         {
           entity = this->_entityFactory.createDestructibleBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 								(i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
+          this->_display.createModel(entity);
+	  this->_entityManager.addEntity(entity);
+        }
+      if (map.at(i) == BOMB_UP_POWER_UP)
+        {
+          entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+						      (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+						      PowerUpComponent::BOMB_UP);
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }

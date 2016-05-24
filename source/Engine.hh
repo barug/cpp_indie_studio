@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Tue May 24 12:07:41 2016 Barthelemy Gouby
+// Last update Tue May 24 18:31:54 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -22,10 +22,11 @@
 
 enum
   {
-    EMPTY = 0,
-    SOLID_BLOCK,
-    DESTRUCTIBLE_BLOCK,
-    BOT
+    EMPTY				= 0,
+    SOLID_BLOCK				= 1,
+    DESTRUCTIBLE_BLOCK			= 2,
+    BOMB_UP_POWER_UP			= 3,
+    BOT					= 4
   };
 
 class					Engine
@@ -42,6 +43,7 @@ public:
   void					playerInputSystem();
   void					ExplosiveSystem();
   void					ExplosionSystem();
+  void					powerUpSystem();
 private:
   EntityManager				_entityManager;
   EntityFactory				_entityFactory;

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Tue May 24 17:01:38 2016 Barthelemy Gouby
+// Last update Tue May 24 18:43:32 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -135,4 +135,22 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
   display->createEventListener(player->getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
   this->_nextFreeId++;
   return (player);
+}
+
+Entity			*EntityFactory::createPowerUp(const unsigned int &x,
+						      const unsigned int &y,
+						      PowerUpComponent::Type type)
+{
+  Entity		*powerUp = new Entity(this->_nextFreeId);
+  ModelComponent	*modelComponent = new ModelComponent("./models/cubesolid.obj",
+							     "./textures/bomberman_black.png",
+							     300);
+  PositionComponent	*positionComponent = new PositionComponent(x, y, 0);
+  PowerUpComponent	*powerUpComponent = new PowerUpComponent(type);
+
+  powerUp->addComponent(modelComponent);
+  powerUp->addComponent(positionComponent);
+  powerUp->addComponent(powerUpComponent);
+  this->_nextFreeId++;
+  return (powerUp);
 }

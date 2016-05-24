@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Tue May 24 16:36:21 2016 Barthelemy Gouby
+// Last update Tue May 24 18:15:28 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -23,6 +23,7 @@
 # include "components/ExplosiveComponent.hh"
 # include "components/ExplosionComponent.hh"
 # include "components/DestructibleComponent.hh"
+# include "components/PowerUpComponent.hh"
 
 class				EntityFactory
 {
@@ -54,6 +55,9 @@ public:
 					      const irr::EKEY_CODE &keyBomb,
 					      const unsigned int &maxBombs,
 					      Display *display);
+  Entity			*createPowerUp(const unsigned int &x,
+					       const unsigned int &y,
+					       PowerUpComponent::Type type);
 private:
   unsigned int			_nextFreeId;
 };
