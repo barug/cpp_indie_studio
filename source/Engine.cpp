@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Mon May 23 18:48:20 2016 Barthelemy Gouby
+// Last update Mon May 23 19:03:05 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -31,14 +31,14 @@ void					Engine::initMap()
       1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+      1, 0, 1, 1, 1, 1, 2, 2, 0, 0, 2, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
@@ -46,10 +46,17 @@ void					Engine::initMap()
 
   for (unsigned int i = 0; i < map.size(); i++)
     {
-      if (map.at(i) == SOLIDBLOCK)
+      if (map.at(i) == SOLID_BLOCK)
         {
           entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
+          this->_display.createModel(entity);
+	  this->_entityManager.addEntity(entity);
+        }
+      if (map.at(i) == DESTRUCTIBLE_BLOCK)
+        {
+          entity = this->_entityFactory.createDestructibleBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								(i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }

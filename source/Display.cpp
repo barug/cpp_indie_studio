@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Mon May 23 18:45:12 2016 Barthelemy Gouby
+// Last update Mon May 23 18:54:12 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -220,17 +220,10 @@ int		Display::updateModelPosition(const unsigned int &id, const unsigned int &ro
 
 const bool	Display::tileIsOccupied(const unsigned int &x,
 					const unsigned int &y,
-					std::vector<Entity*> *entities)
+					Entity* entity)
 {
-
-  irr::scene::IAnimatedMeshSceneNode *node;
-  for (Entity *entity: *entities)
-    {
-      node = this->_models.find(entity->getId())->second;
-      if (node->getTransformedBoundingBox().isPointInside(irr::core::vector3df(x, 300, y)))
-	return (true);
-    }
-  return (false);
+  irr::scene::IAnimatedMeshSceneNode *node = this->_models.find(entity->getId())->second;
+  return (node->getTransformedBoundingBox().isPointInside(irr::core::vector3df(x, 300, y)));
 }
 
 const bool	Display::collision(const unsigned int &firstId, const unsigned int &secondId)

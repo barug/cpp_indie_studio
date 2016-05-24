@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Mon May 23 18:23:45 2016 Barthelemy Gouby
+// Last update Mon May 23 19:27:36 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -16,15 +16,34 @@ void				Engine::_addNewExplosion(const unsigned int &x,
 							 bool &isBlocked)
 {
   Entity			*newExplosion;
+  bool				canAddExplosion = true;
+  std::vector<Entity*>		*solidss = this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
 
-  if (!isBlocked && !this->_display.tileIsOccupied(x, y, solids))
+  if (!isBlocked)
     {
-      newExplosion = this->_entityFactory.createExplosion(x, y, 0);
-      this->_entityManager.addEntity(newExplosion);
-      this->_display.createModel(newExplosion);      
+      for (Entity *solid: *solidss)
+	{
+	  if (this->_display.tileIsOccupied(x, y, solid))
+	    {
+	      if (solid->getComponent("DestructibleComponent"))
+		{
+		  this->_display.removeModel(solid);
+		  this->_entityManager.destroyEntity(solid->getId());
+		}
+	      else
+		{
+		  canAddExplosion = false;
+		}
+	      isBlocked = true;
+	    }
+	}
+      if (canAddExplosion)
+	{
+	  newExplosion = this->_entityFactory.createExplosion(x, y, 0);
+	  this->_entityManager.addEntity(newExplosion);
+	  this->_display.createModel(newExplosion);      
+	}
     }
-  else
-    isBlocked = true;
 }
 
 void				Engine::ExplosiveSystem()
@@ -44,7 +63,7 @@ void				Engine::ExplosiveSystem()
       explosiveComponent = (ExplosiveComponent*) explosive->getComponent("ExplosiveComponent");
       if (explosiveComponent->getTimerLength() <= 0)
 	{
-	  solids =  this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
+	  // solids =  this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
 	  leftIsBlocked = false;
 	  rightIsBlocked = false;
 	  downIsBlocked = false;

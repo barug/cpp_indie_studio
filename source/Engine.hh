@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Mon May 23 18:01:33 2016 Barthelemy Gouby
+// Last update Mon May 23 19:01:50 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -23,7 +23,8 @@
 enum
   {
     EMPTY = 0,
-    SOLIDBLOCK,
+    SOLID_BLOCK,
+    DESTRUCTIBLE_BLOCK,
     BOT
   };
 

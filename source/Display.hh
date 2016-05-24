@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Mon May 23 18:00:46 2016 Barthelemy Gouby
+// Last update Mon May 23 18:53:02 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -51,7 +51,7 @@ public:
 				    const unsigned int &x, const unsigned int &y);
 const bool	tileIsOccupied(const unsigned int &x,
 			       const unsigned int &y,
-			       std::vector<Entity*> *entities);
+			       Entity *entity);
   const bool	collision(const unsigned int &firstId,
 			  const unsigned int &secondId);
   // event listener
