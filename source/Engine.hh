@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Tue May 24 20:14:41 2016 Thomas Bogard
+// Last update Wed May 25 10:34:09 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -18,7 +18,6 @@
 # include "EntityFactory.hh"
 
 # define TICK_DURATION			(10)
-# define PLAYER_MOVEMENT_SPEED		(50)
 
 enum
   {
@@ -27,7 +26,8 @@ enum
     DESTRUCTIBLE_BLOCK			= 2,
     BOMB_UP_POWER_UP			= 3,
     FIRE_UP_POWER_UP			= 4,
-    BOT					= 5
+    SPEED_UP_POWER_UP			= 5,
+    BOT					= 6
   };
 
 class					Engine

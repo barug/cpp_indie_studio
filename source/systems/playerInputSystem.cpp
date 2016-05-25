@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Tue May 24 19:13:32 2016 Barthelemy Gouby
+// Last update Wed May 25 10:31:12 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -40,15 +40,15 @@ void				Engine::playerInputSystem()
       for (irr::EKEY_CODE key: *keysDown)
 	{
 	  if (key == playerInputComponent->getKeyUp())
-	    speedComponent->setSpeedY(PLAYER_MOVEMENT_SPEED);
+	    speedComponent->setSpeedY(playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyDown())
-	    speedComponent->setSpeedY(-PLAYER_MOVEMENT_SPEED);
+	    speedComponent->setSpeedY(-playerInputComponent->getSpeed());
 	  else
 	    speedComponent->setSpeedY(0);
 	  if (key == playerInputComponent->getKeyLeft())
-	    speedComponent->setSpeedX(PLAYER_MOVEMENT_SPEED);
+	    speedComponent->setSpeedX(playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyRight())
-	    speedComponent->setSpeedX(-PLAYER_MOVEMENT_SPEED);
+	    speedComponent->setSpeedX(-playerInputComponent->getSpeed());
 	  else
 	    speedComponent->setSpeedX(0);
 	  if (key == playerInputComponent->getKeyBomb()

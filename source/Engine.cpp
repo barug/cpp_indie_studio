@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 10:27:29 2016 Barthelemy Gouby
+// Last update Wed May 25 10:36:35 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -32,14 +32,14 @@ void					Engine::initMap()
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1,
-      1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 5, 1,
       1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 2, 0, 5, 0, 0, 0, 0, 0, 0, 1,
+      1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 5, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 4, 1,
       1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-      1, 0, 1, 1, 1, 1, 2, 2, 0, 0, 2, 0, 0, 0, 1,
+      1, 0, 1, 1, 1, 1, 2, 2, 0, 0, 2, 5, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -79,6 +79,14 @@ void					Engine::initMap()
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }
+      if (map.at(i) == SPEED_UP_POWER_UP)
+	 {
+	   entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+						       (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+						       PowerUpComponent::SPEED_UP);
+	   this->_display.createModel(entity);
+	   this->_entityManager.addEntity(entity);
+	 }
       else if (map.at(i) == BOT)
         {
           entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Wed May 25 10:28:57 2016 Barthelemy Gouby
+// Last update Wed May 25 10:35:11 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -156,6 +156,8 @@ Entity			*EntityFactory::createPowerUp(const unsigned int &x,
     modelComponent->setTexture("./textures/powerup/bombup.png");
   if (type == PowerUpComponent::FIRE_UP)
     modelComponent->setTexture("./textures/powerup/fireup.png");
+  if (type == PowerUpComponent::SPEED_UP)
+    modelComponent->setTexture("./textures/powerup/speedup.png");
   powerUp->addComponent(modelComponent);
   powerUp->addComponent(positionComponent);
   powerUp->addComponent(powerUpComponent);

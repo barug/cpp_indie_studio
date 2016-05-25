@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Tue May 24 18:16:05 2016 Barthelemy Gouby
-// Last update Tue May 24 19:22:37 2016 Barthelemy Gouby
+// Last update Wed May 25 10:32:17 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -29,6 +29,8 @@ void			Engine::powerUpSystem()
 		playerInputComponent->setMaxBombs(playerInputComponent->getMaxBombs() + 1);
 	      if (powerUpComponent->getType() == PowerUpComponent::FIRE_UP)
 		playerInputComponent->setExplosionSize(playerInputComponent->getExplosionSize() + 1);
+	      if (powerUpComponent->getType() == PowerUpComponent::SPEED_UP)
+		playerInputComponent->setSpeed(playerInputComponent->getSpeed() + 10);
 	      this->_display.removeModel(powerUp);
 	      this->_entityManager.destroyEntity(powerUp->getId());
 	      break;
