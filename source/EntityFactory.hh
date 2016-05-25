@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 25 10:26:29 2016 Barthelemy Gouby
+// Last update Wed May 25 11:47:08 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -28,8 +28,22 @@
 class				EntityFactory
 {
 public:
+
+  enum EntityType
+    {
+      EMPTY			= 0,
+      SOLID_BLOCK		= 1,
+      DESTRUCTIBLE_BLOCK	= 2,
+      BOMB_UP_POWER_UP		= 3,
+      FIRE_UP_POWER_UP		= 4,
+      SPEED_UP_POWER_UP		= 5,
+      BOT			= 6
+    };
+  
   EntityFactory();
   ~EntityFactory();
+
+  Entity			*createEntity(EntityFactory::EntityType);
 
   Entity			*createSolidBlock(const unsigned int &x,
 						  const unsigned int &y,

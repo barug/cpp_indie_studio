@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Wed May 25 11:01:50 2016 Barthelemy Gouby
+// Last update Wed May 25 11:47:02 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -37,7 +37,6 @@ void				Engine::playerInputSystem()
       speedComponent = (SpeedComponent*) player->getComponent("SpeedComponent");
       playerInputComponent = (PlayerInputComponent*) player->getComponent("PlayerInputComponent");
       keysDown = this->_display.getKeysDownForId(player->getId());
-      std::cout << keysDown->size() << std::endl;
       speedComponent->setSpeedX(0);
       speedComponent->setSpeedY(0);
       for (irr::EKEY_CODE key: *keysDown)
@@ -46,48 +45,43 @@ void				Engine::playerInputSystem()
 	    speedComponent->setSpeedY(playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyDown())
 	    speedComponent->setSpeedY(-playerInputComponent->getSpeed());
-	  if (key == playerInputComponent->getKeyLeft())
+	  else if (key == playerInputComponent->getKeyLeft())
 	    speedComponent->setSpeedX(playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyRight())
 	    speedComponent->setSpeedX(-playerInputComponent->getSpeed());
-	  if (key == playerInputComponent->getKeyBomb()
+	  else if (key == playerInputComponent->getKeyBomb()
 	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
 	      bombs = this->_entityManager.getEntitiesWithComponents({"ExplosiveComponent"});
 	      positionComponent = (PositionComponent*) player->getComponent("PositionComponent");	  
 	      canPlaceBomb = true;
 	      for (Entity *bomb: *bombs)
-		{
-		  if (this->_display.tileIsOccupied((positionComponent->getX() / TILE_SIZE) * TILE_SIZE
-						    + TILE_SIZE / 2,
-						    (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
-						    + TILE_SIZE / 2,
-						    bomb))
-		    {
-		      canPlaceBomb = false;
-		      break;
-		    }
-		}
+	  	{
+	  	  if (this->_display.tileIsOccupied((positionComponent->getX() / TILE_SIZE) * TILE_SIZE
+	  					    + TILE_SIZE / 2,
+	  					    (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
+	  					    + TILE_SIZE / 2,
+	  					    bomb))
+	  	    {
+	  	      canPlaceBomb = false;
+	  	      break;
+	  	    }
+	  	}
 	      if (canPlaceBomb)
-		{
-		  bomb = this->_entityFactory.createBomb((positionComponent->getX() / TILE_SIZE) * TILE_SIZE
-							 + TILE_SIZE / 2,
-							 (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
-							 + TILE_SIZE / 2,
-							 0,
-							 player->getId(),
-							 ExplosiveComponent::PLAYER,
-							 playerInputComponent->getExplosionSize());
-		  this->_entityManager.addEntity(bomb);
-		  this->_display.createModel(bomb);
-		  playerInputComponent->incrementActiveBombs();
-		}
+	  	{
+	  	  bomb = this->_entityFactory.createBomb((positionComponent->getX() / TILE_SIZE) * TILE_SIZE
+	  						 + TILE_SIZE / 2,
+	  						 (positionComponent->getY() / TILE_SIZE) * TILE_SIZE
+	  						 + TILE_SIZE / 2,
+	  						 0,
+	  						 player->getId(),
+	  						 ExplosiveComponent::PLAYER,
+	  						 playerInputComponent->getExplosionSize());
+	  	  this->_entityManager.addEntity(bomb);
+	  	  this->_display.createModel(bomb);
+	  	  playerInputComponent->incrementActiveBombs();
+	  	}
 	    }
-	}
-      if (keysDown->size() == 0)
-	{
-	  speedComponent->setSpeedX(0);
-	  speedComponent->setSpeedY(0);
 	}
     }
 }
