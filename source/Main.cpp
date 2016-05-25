@@ -5,7 +5,7 @@
 // Login   <dupard_e@epitech.net>
 //
 // Started on  Tue May 10 16:01:52 2016 Erwan Dupard
-// Last update Tue May 17 18:00:56 2016 Barthelemy Gouby
+// Last update Wed May 25 14:27:59 2016 Erwan Dupard
 //
 
 #include "Engine.hh"
@@ -14,7 +14,7 @@
 int				main(int argc, char **argv)
 {
   Engine			engine;
-
+  
   engine.initGame();
   engine.gameLoop();
   return (RETURN_SUCCESS);
