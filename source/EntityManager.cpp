@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Wed May 25 16:56:33 2016 Erwan Dupard
+// Last update Wed May 25 18:23:45 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -79,7 +79,6 @@ void							EntityManager::_serializeEntityComponents(std::string &out, const Ent
     {
       out += '{';
       //out += this->_intToString(component->getType());
-      std::printf("component id : %d\n", component->getType());
       out += "}, ";
       ++it;
     }
