@@ -5,15 +5,15 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 20:12:10 2016 Thomas Bogard
-// Last update Wed May 25 12:35:20 2016 Barthelemy Gouby
+// Last update Wed May 25 15:00:08 2016 Thomas Bogard
 //
 
 # include "../Engine.hh"
 
 void		Engine::guiSystem()
 {
-  PlayerInputComponent  *playerInputComponent;
-  PositionComponent     *positionComponent;
+  // PlayerInputComponent  *playerInputComponent;
+  // PositionComponent     *positionComponent;
   // std::vector<Entity*>  *playerEntities =
   //   this->_entityManager.getEntitiesWithComponents({"PlayerInputComponent"});
   // // this->_display.guiCreateModel("./models/bomb.obj", "./textures/bomb.png", 400, 400, 400, 0, 100);
@@ -25,5 +25,5 @@ void		Engine::guiSystem()
   //     // 	{
   //     // 	  std::cout << "je passe par la ma gueule" << std::endl;
   //     // 	}
-    // }
+  //   }
 }
