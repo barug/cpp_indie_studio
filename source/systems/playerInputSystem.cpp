@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Wed May 25 10:31:12 2016 Barthelemy Gouby
+// Last update Wed May 25 11:01:50 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -37,20 +37,19 @@ void				Engine::playerInputSystem()
       speedComponent = (SpeedComponent*) player->getComponent("SpeedComponent");
       playerInputComponent = (PlayerInputComponent*) player->getComponent("PlayerInputComponent");
       keysDown = this->_display.getKeysDownForId(player->getId());
+      std::cout << keysDown->size() << std::endl;
+      speedComponent->setSpeedX(0);
+      speedComponent->setSpeedY(0);
       for (irr::EKEY_CODE key: *keysDown)
 	{
 	  if (key == playerInputComponent->getKeyUp())
 	    speedComponent->setSpeedY(playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyDown())
 	    speedComponent->setSpeedY(-playerInputComponent->getSpeed());
-	  else
-	    speedComponent->setSpeedY(0);
 	  if (key == playerInputComponent->getKeyLeft())
 	    speedComponent->setSpeedX(playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyRight())
 	    speedComponent->setSpeedX(-playerInputComponent->getSpeed());
-	  else
-	    speedComponent->setSpeedX(0);
 	  if (key == playerInputComponent->getKeyBomb()
 	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
