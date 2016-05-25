@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Tue May 24 17:17:23 2016 Barthelemy Gouby
-// Last update Wed May 25 10:33:03 2016 Barthelemy Gouby
+// Last update Wed May 25 16:10:17 2016 Barthelemy Gouby
 //
 
 #ifndef _POWER_UP_COMPONENT_HH_
@@ -20,7 +20,8 @@ public:
     {
       FIRE_UP,
       BOMB_UP,
-      SPEED_UP
+      SPEED_UP,
+      LIVE_UP
     };
   
   PowerUpComponent(PowerUpComponent::Type type);

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 25 12:36:54 2016 Barthelemy Gouby
+// Last update Wed May 25 16:15:47 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -22,7 +22,7 @@
 # include "components/SolidityComponent.hh"
 # include "components/ExplosiveComponent.hh"
 # include "components/ExplosionComponent.hh"
-# include "components/DestructibleComponent.hh"
+# include "components/HealthComponent.hh"
 # include "components/PowerUpComponent.hh"
 
 class				EntityFactory
@@ -37,7 +37,8 @@ public:
       BOMB_UP_POWER_UP		= 3,
       FIRE_UP_POWER_UP		= 4,
       SPEED_UP_POWER_UP		= 5,
-      BOT			= 6
+      LIVE_UP_POWER_UP		= 6,
+      BOT			= 7
     };
   
   EntityFactory();

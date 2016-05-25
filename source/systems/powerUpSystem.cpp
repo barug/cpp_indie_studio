@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Tue May 24 18:16:05 2016 Barthelemy Gouby
-// Last update Wed May 25 12:29:57 2016 Barthelemy Gouby
+// Last update Wed May 25 16:15:01 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -18,6 +18,7 @@ void			Engine::powerUpSystem()
     this->_entityManager.getEntitiesWithComponents({Component::PLAYER_INPUT_COMPONENT});
   PlayerInputComponent	*playerInputComponent;
   PowerUpComponent	*powerUpComponent;
+  HealthComponent	*healthComponent;
 
   for (Entity *powerUp: *powerUps)
     {
@@ -40,6 +41,11 @@ void			Engine::powerUpSystem()
 		case PowerUpComponent::SPEED_UP:
 		  playerInputComponent->setSpeed(playerInputComponent->getSpeed() + 10);
 		  break;
+		case PowerUpComponent::LIVE_UP:
+		  healthComponent = (HealthComponent*) player->getComponent(Component::HEALTH_COMPONENT);
+		  healthComponent->setLives(healthComponent->getLives() + 1);
+		  break;
+		  
 		default:
 		  break;
 		}

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Wed May 25 15:02:27 2016 Barthelemy Gouby
+// Last update Wed May 25 15:51:55 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -34,6 +34,7 @@ public:
   void					ExplosiveSystem();
   void					ExplosionSystem();
   void					powerUpSystem();
+  void					healthSystem();
   void					guiSystem();
 
 private:

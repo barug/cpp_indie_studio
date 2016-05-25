@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 14:20:18 2016 Erwan Dupard
+// Last update Wed May 25 16:35:39 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -18,6 +18,7 @@ Engine::Engine()
 	&Engine::ExplosiveSystem,
 	&Engine::ExplosionSystem,
 	&Engine::powerUpSystem,
+	&Engine::healthSystem,
 	&Engine::guiSystem})
 {}
 
@@ -30,8 +31,8 @@ void					Engine::initMap()
   std::vector<int>			map =
     {
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-      1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1,
+      1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 6, 1,
+      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 6, 1,
       1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 5, 1,
       1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 2, 0, 5, 0, 0, 0, 0, 0, 0, 1,
@@ -74,6 +75,11 @@ void					Engine::initMap()
 	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  PowerUpComponent::SPEED_UP);
+	      break;
+	    case EntityFactory::LIVE_UP_POWER_UP:
+	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  PowerUpComponent::LIVE_UP);
 	      break;
 	    default:
 	      break;
