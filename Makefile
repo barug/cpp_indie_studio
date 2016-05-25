@@ -5,7 +5,7 @@
 ## Login   <dupard_e@epitech.net>
 ## 
 ## Started on  Wed Apr 27 12:35:04 2016 Erwan Dupard
-## Last update Wed May 25 15:19:50 2016 Barthelemy Gouby
+## Last update Wed May 25 15:55:59 2016 Barthelemy Gouby
 ##
 
 CC		= g++
@@ -36,13 +36,14 @@ SRCS		= source/Main.cpp				\
 		  source/components/SolidityComponent.cpp	\
 		  source/components/ExplosiveComponent.cpp	\
 		  source/components/ExplosionComponent.cpp	\
-		  source/components/DestructibleComponent.cpp	\
+		  source/components/HealthComponent.cpp	\
 		  source/components/PowerUpComponent.cpp	\
 		  source/systems/movementSystem.cpp		\
 		  source/systems/playerInputSystem.cpp		\
 		  source/systems/ExplosiveSystem.cpp		\
 		  source/systems/ExplosionSystem.cpp		\
 		  source/systems/powerUpSystem.cpp		\
+		  source/systems/healthSystem.cpp		\
 		  source/systems/guiSystem.cpp			\
 		  source/Display.cpp				\
 		  source/EventReceiver.cpp			\

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Wed May 25 10:35:11 2016 Barthelemy Gouby
+// Last update Wed May 25 15:53:48 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -94,12 +94,12 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
-  DestructibleComponent	*destructibleComponent = new DestructibleComponent(DestructibleComponent::BLOCK);
+  HealthComponent	*healthComponent = new HealthComponent(1);
 
   destructibleBlock->addComponent(modelComponent);
   destructibleBlock->addComponent(positionComponent);
   destructibleBlock->addComponent(solidityComponent);
-  destructibleBlock->addComponent(destructibleComponent);
+  destructibleBlock->addComponent(healthComponent);
   this->_nextFreeId++;
   return (destructibleBlock);
 }
@@ -124,6 +124,7 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 							     250);
   PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
   SpeedComponent	*speedComponent = new SpeedComponent(0, 0, 0);
+  HealthComponent	*healthComponent = new HealthComponent(1);
   PlayerInputComponent	*playerInputComponent = new PlayerInputComponent(keyUp,
 									 keyDown,
 									 keyLeft,
@@ -137,6 +138,7 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
   player->addComponent(positionComponent);
   player->addComponent(playerInputComponent);
   player->addComponent(speedComponent);
+  player->addComponent(healthComponent);
   display->createEventListener(player->getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
   this->_nextFreeId++;
   return (player);

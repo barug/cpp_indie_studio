@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 14:20:18 2016 Erwan Dupard
+// Last update Wed May 25 15:52:14 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -18,6 +18,7 @@ Engine::Engine()
 	&Engine::ExplosiveSystem,
 	&Engine::ExplosionSystem,
 	&Engine::powerUpSystem,
+	&Engine::healthSystem,
 	&Engine::guiSystem})
 {}
 

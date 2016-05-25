@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:58:19 2016 Barthelemy Gouby
-// Last update Wed May 25 12:34:39 2016 Barthelemy Gouby
+// Last update Wed May 25 15:44:49 2016 Barthelemy Gouby
 //
 
 #ifndef _COMPONENT_HH_
@@ -23,7 +23,7 @@ public:
       SPEED_COMPONENT,
       MODEL_COMPONENT,
       SOLIDITY_COMPONENT,
-      DESTRUCTIBLE_COMPONENT,
+      HEALTH_COMPONENT,
       EXPLOSIVE_COMPONENT,
       EXPLOSION_COMPONENT,
       POWER_UP_COMPONENT,

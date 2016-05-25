@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Wed May 25 12:27:30 2016 Barthelemy Gouby
+// Last update Wed May 25 15:55:07 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -18,22 +18,17 @@ void				Engine::_addNewExplosion(const unsigned int &x,
   bool				canAddExplosion = true;
   std::vector<Entity*>		*solids =
     this->_entityManager.getEntitiesWithComponents({Component::SOLIDITY_COMPONENT});
-
+  HealthComponent		*healthComponent;
   if (!isBlocked)
     {
       for (Entity *solid: *solids)
   	{
   	  if (this->_display.tileIsOccupied(x, y, solid))
   	    {
-  	      if (solid->getComponent(Component::DESTRUCTIBLE_COMPONENT))
-  	      	{
-  	      	  this->_display.removeModel(solid);
-  	      	  this->_entityManager.destroyEntity(solid->getId());
-  	      	}
+  	      if ((healthComponent = (HealthComponent*) solid->getComponent(Component::HEALTH_COMPONENT)))
+		healthComponent->setLives(healthComponent->getLives() - 1);
   	      else
-  	      	{
-		  canAddExplosion = false;
-		}
+		canAddExplosion = false;
   	      isBlocked = true;
 	      break;
   	    }
