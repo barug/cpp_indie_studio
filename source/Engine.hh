@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Tue May 24 19:26:15 2016 Barthelemy Gouby
+// Last update Tue May 24 20:14:41 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -45,6 +45,8 @@ public:
   void					ExplosiveSystem();
   void					ExplosionSystem();
   void					powerUpSystem();
+  void					guiSystem();
+
 private:
   EntityManager				_entityManager;
   EntityFactory				_entityFactory;

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 24 17:13:42 2016 Thomas Bogard
+// Last update Tue May 24 20:11:18 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -140,7 +140,28 @@ const bool	Display::windowIsActive() const
   return ((!this->_device || !this->_device->run()) ? false : true);
 }
 
-// models
+// models for gui
+int             Display::guiCreateModel(const std::string &mesh, const std::string &texture,
+                                        const int& x, const int& y, const int& z,
+                                        const int& rotation, const int& scale)
+{
+  irr::scene::IAnimatedMeshSceneNode *node =
+    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh((const irr::io::path &)mesh));
+  if (!node)
+    {
+      std::cerr << "model : " << mesh << " cannot be open." << std::endl;
+      return (1);
+    }
+  node->setMaterialTexture(0, this->_driver->getTexture((const irr::io::path &)texture));
+  node->setPosition(irr::core::vector3df(x, z, y));
+  node->setAnimationSpeed(40);
+  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  node->setScale(irr::core::vector3df(scale, scale, scale));
+  node->setRotation(irr::core::vector3df(0, rotation, 0));
+  // node->setDebugDataVisible(irr::scene::EDS_BBOX);
+}
+
+// models for entity
 int		Display::createModel(Entity *entity)
 {
   unsigned int				id = entity->getId();

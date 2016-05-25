@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Tue May 24 16:29:31 2016 Barthelemy Gouby
+// Last update Tue May 24 20:11:35 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -41,6 +41,9 @@ public:
   int		refreshScreen();
   int		closeDisplay();
   const bool	windowIsActive() const;
+  int             guiCreateModel(const std::string &mesh, const std::string &texture,
+				 const int& x, const int& y, const int& z,
+				 const int& rotation, const int& scale);
   int		createModel(Entity *entity);
   void		removeModel(Entity *Entity);
   int		updateModelAnimation(const unsigned int &id, const unsigned int &rotation,

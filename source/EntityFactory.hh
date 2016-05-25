@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Tue May 24 19:12:48 2016 Barthelemy Gouby
+// Last update Wed May 25 10:26:29 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -56,6 +56,7 @@ public:
 					      const irr::EKEY_CODE &keyBomb,
 					      const unsigned int &maxBombs,
 					      const unsigned int &explosionSize,
+					      const unsigned int &speed,
 					      Display *display);
   Entity			*createPowerUp(const unsigned int &x,
 					       const unsigned int &y,

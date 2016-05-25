@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:42:06 2016 Barthelemy Gouby
-// Last update Tue May 24 19:18:36 2016 Barthelemy Gouby
+// Last update Wed May 25 10:24:16 2016 Barthelemy Gouby
 //
 
 #include "PlayerInputComponent.hh"
@@ -16,7 +16,8 @@ PlayerInputComponent::PlayerInputComponent(const irr::EKEY_CODE &keyUp,
 					   const irr::EKEY_CODE &keyRight,
 					   const irr::EKEY_CODE &keyBomb,
 					   const unsigned int &maxBombs,
-					   const unsigned int &explosionSize)
+					   const unsigned int &explosionSize,
+					   const unsigned int &speed)
   : Component("PlayerInputComponent"),
     _keyUp(keyUp),
     _keyDown(keyDown),
@@ -25,7 +26,8 @@ PlayerInputComponent::PlayerInputComponent(const irr::EKEY_CODE &keyUp,
     _keyBomb(keyBomb),
     _maxBombs(maxBombs),
     _activeBombs(0),
-    _explosionSize(explosionSize)
+    _explosionSize(explosionSize),
+  _speed(speed)
 {}
 
 const irr::EKEY_CODE		&PlayerInputComponent::getKeyUp() const
@@ -68,6 +70,11 @@ const unsigned int		&PlayerInputComponent::getExplosionSize() const
   return (this->_explosionSize);
 }
 
+const unsigned int		&PlayerInputComponent::getSpeed() const
+{
+  return (this->_speed);
+}
+
 void				PlayerInputComponent::setMaxBombs(const unsigned int &maxBombs)
 {
   this->_maxBombs = maxBombs;
@@ -81,6 +88,11 @@ void				PlayerInputComponent::setActiveBombs(const unsigned int &activeBombs)
 void				PlayerInputComponent::setExplosionSize(const unsigned int &explosionSize)
 {
   this->_explosionSize = explosionSize;
+}
+
+void				PlayerInputComponent::setSpeed(const unsigned int &speed)
+{
+  this->_speed = speed;
 }
 
 void				PlayerInputComponent::incrementActiveBombs()
