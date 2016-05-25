@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Tue May 24 19:27:23 2016 Barthelemy Gouby
+// Last update Tue May 24 19:37:01 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -45,6 +45,7 @@ void					Engine::initMap()
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };
 
+  // this is discusting, we have to fix this later
   for (unsigned int i = 0; i < map.size(); i++)
     {
       if (map.at(i) == SOLID_BLOCK)
@@ -84,6 +85,7 @@ void					Engine::initMap()
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
         }
+      
     }
 }
 
