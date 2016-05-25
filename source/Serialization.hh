@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:24:18 2016 Thomas Bogard
-// Last update Wed May 25 12:20:19 2016 Erwan Dupard
+// Last update Wed May 25 12:23:58 2016 Erwan Dupard
 //
 
 #ifndef		SERIALIZATION_HH_
@@ -24,6 +24,7 @@ public:
   void				serialize();
   void				unserialize();
 private:
+  void				_serializeEntity(const Entity *entity, const std::stringstream &ss);
   std::fstream			_fs;
   std::vector<Entity *>		_entities;  
 };

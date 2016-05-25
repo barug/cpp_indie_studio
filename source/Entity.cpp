@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 13:46:52 2016 Barthelemy Gouby
-// Last update Mon May  2 16:38:18 2016 Barthelemy Gouby
+// Last update Wed May 25 12:31:09 2016 Erwan Dupard
 //
 
 #include "Entity.hh"
@@ -47,4 +47,9 @@ Component			*Entity::getComponent(const std::string &type)
 	return (*it);
     }
   return (NULL);
+}
+
+const std::vector<Component*>			&getComponents() const
+{
+  return (this->_components);
 }
