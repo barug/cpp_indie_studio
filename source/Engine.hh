@@ -5,7 +5,11 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
+<<<<<<< HEAD
 // Last update Wed May 25 14:48:58 2016 Thomas Bogard
+=======
+// Last update Wed May 25 15:00:21 2016 Barthelemy Gouby
+>>>>>>> 4f035ae569c211eedb6b36dd0c59886a784cc3cc
 //
 
 #ifndef _ENGINE_HH_

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Wed May 25 14:33:27 2016 Erwan Dupard
+// Last update Wed May 25 15:00:02 2016 Barthelemy Gouby
 //
 
 #include <iostream>
