@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Wed May 25 15:34:31 2016 Erwan Dupard
+// Last update Wed May 25 15:48:22 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -104,7 +104,10 @@ void							EntityManager::serialize(const std::string &fileName) const
 	  out += '|';
 	  ++it;
 	}
+      std::cout << "serialized : " << out << std::endl;
     }
+  else
+    std::cout << "[-] Can't serialize to file " << fileName << std::endl;
 }
 
 void							EntityManager::unserialize(const std::string &fileName) const

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Wed May 25 15:32:57 2016 Erwan Dupard
+// Last update Wed May 25 15:44:49 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -14,6 +14,7 @@
 # include <initializer_list>
 # include <vector>
 # include <fstream> 
+# include <iostream>
 # include "Entity.hh"
 
 class				EntityManager
