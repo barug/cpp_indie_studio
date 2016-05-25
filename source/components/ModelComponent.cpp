@@ -5,19 +5,19 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 11:19:20 2016 Barthelemy Gouby
-// Last update Tue May 24 19:24:01 2016 Barthelemy Gouby
+// Last update Wed May 25 12:02:48 2016 Barthelemy Gouby
 //
 
 #include "ModelComponent.hh"
 
 ModelComponent::ModelComponent()
-  : Component("ModelComponent")
+  : Component(Component::MODEL_COMPONENT)
 {}
 
 ModelComponent::ModelComponent(const std::string &model,
 			       const std::string &texture,
 			       unsigned int scale)
-  : Component("ModelComponent"),
+  : Component(Component::MODEL_COMPONENT),
     _model(model),
     _texture(texture),
     _scale(scale)
@@ -25,7 +25,7 @@ ModelComponent::ModelComponent(const std::string &model,
 
 ModelComponent::ModelComponent(const std::string &model,
 			       unsigned int scale)
-  : Component("ModelComponent"),
+  : Component(Component::MODEL_COMPONENT),
     _model(model),
     _scale(scale)
 {}

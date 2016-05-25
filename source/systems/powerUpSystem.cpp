@@ -5,15 +5,17 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Tue May 24 18:16:05 2016 Barthelemy Gouby
-// Last update Wed May 25 10:45:23 2016 Barthelemy Gouby
+// Last update Wed May 25 12:29:57 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
 
 void			Engine::powerUpSystem()
 {
-  std::vector<Entity*>	*powerUps = this->_entityManager.getEntitiesWithComponents({"PowerUpComponent"});
-  std::vector<Entity*>	*players = this->_entityManager.getEntitiesWithComponents({"PlayerInputComponent"});
+  std::vector<Entity*>	*powerUps =
+    this->_entityManager.getEntitiesWithComponents({Component::POWER_UP_COMPONENT});
+  std::vector<Entity*>	*players =
+    this->_entityManager.getEntitiesWithComponents({Component::PLAYER_INPUT_COMPONENT});
   PlayerInputComponent	*playerInputComponent;
   PowerUpComponent	*powerUpComponent;
 
@@ -23,8 +25,10 @@ void			Engine::powerUpSystem()
 	{
 	  if (this->_display.collision(powerUp->getId(), player->getId()))
 	    {
-	      playerInputComponent = (PlayerInputComponent*) player->getComponent("PlayerInputComponent");
-	      powerUpComponent = (PowerUpComponent*) powerUp->getComponent("PowerUpComponent");
+	      playerInputComponent =
+		(PlayerInputComponent*) player->getComponent(Component::PLAYER_INPUT_COMPONENT);
+	      powerUpComponent =
+		(PowerUpComponent*) powerUp->getComponent(Component::POWER_UP_COMPONENT);
 	      switch (powerUpComponent->getType())
 		{
 		case PowerUpComponent::BOMB_UP:

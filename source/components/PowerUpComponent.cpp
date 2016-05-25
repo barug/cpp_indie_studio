@@ -5,13 +5,13 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Tue May 24 17:27:27 2016 Barthelemy Gouby
-// Last update Tue May 24 17:28:48 2016 Barthelemy Gouby
+// Last update Wed May 25 12:34:59 2016 Barthelemy Gouby
 //
 
 #include "PowerUpComponent.hh"
 
 PowerUpComponent::PowerUpComponent(PowerUpComponent::Type type)
-  : Component("PowerUpComponent"),
+  : Component(Component::POWER_UP_COMPONENT),
     _type(type)
 {}
 

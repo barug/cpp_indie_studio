@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Tue May 24 11:27:33 2016 Barthelemy Gouby
+// Last update Wed May 25 12:13:25 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -48,25 +48,21 @@ std::vector<Entity*>	EntityManager::getEntities()
   return (this->_entities);
 }
 
-std::vector<Entity*>	*EntityManager::getEntitiesWithComponents(std::initializer_list<std::string> typeList)
+std::vector<Entity*>	*EntityManager::getEntitiesWithComponents(std::vector<Component::ComponentType> typeList)
 {
   std::vector<Entity*>	*validEntities = new std::vector<Entity*>;
   bool			isValid;
 
-  for (std::vector<Entity*>::iterator entitiesIt = this->_entities.begin();
-       entitiesIt != this->_entities.end();
-       entitiesIt++)
+  for (Entity *entity: this->_entities)
     {
       isValid = true;
-      for (std::initializer_list<std::string>::iterator typesIt = typeList.begin();
-	   typesIt != typeList.end();
-	   typesIt++)
+      for (Component::ComponentType type: typeList)
 	{
-	  if (!(*entitiesIt)->getComponent(*typesIt))
+	  if (!entity->getComponent(type))
 	    isValid = false;
 	}
       if (isValid)
-	validEntities->push_back(*entitiesIt);
+	validEntities->push_back(entity);
     }
   return (validEntities);
 }

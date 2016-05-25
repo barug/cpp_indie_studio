@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:58:19 2016 Barthelemy Gouby
-// Last update Mon May  2 16:19:39 2016 Barthelemy Gouby
+// Last update Wed May 25 12:34:39 2016 Barthelemy Gouby
 //
 
 #ifndef _COMPONENT_HH_
@@ -14,14 +14,27 @@
 # include <string>
 # include <vector>
 
-class				Component
+class						Component
 {
 public:
-  Component(const std::string &type);
+  enum ComponentType
+    {
+      POSITION_COMPONENT,
+      SPEED_COMPONENT,
+      MODEL_COMPONENT,
+      SOLIDITY_COMPONENT,
+      DESTRUCTIBLE_COMPONENT,
+      EXPLOSIVE_COMPONENT,
+      EXPLOSION_COMPONENT,
+      POWER_UP_COMPONENT,
+      PLAYER_INPUT_COMPONENT,
+    };
+
+  Component(Component::ComponentType type);
   ~Component();
-  const std::string		&getType() const;
+  const Component::ComponentType		&getType() const;
 private:
-  const std::string		_type;
+  const Component::ComponentType		_type;
 };
 
 #endif /* !_COMPONENT_HH_ */

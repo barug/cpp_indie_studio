@@ -5,19 +5,19 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 13:02:59 2016 Barthelemy Gouby
-// Last update Mon May  2 16:30:19 2016 Barthelemy Gouby
+// Last update Wed May 25 12:40:45 2016 Barthelemy Gouby
 //
 
 #include "Component.hh"
 
-Component::Component(const std::string &type)
+Component::Component(Component::ComponentType type)
   : _type(type)
 {}
 
 Component::~Component()
 {}
 
-const std::string		&Component::getType() const
+const Component::ComponentType		&Component::getType() const
 {
   return (this->_type);
 }

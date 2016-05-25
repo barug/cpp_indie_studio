@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:42:06 2016 Barthelemy Gouby
-// Last update Wed May 25 10:24:16 2016 Barthelemy Gouby
+// Last update Wed May 25 12:09:20 2016 Barthelemy Gouby
 //
 
 #include "PlayerInputComponent.hh"
@@ -18,7 +18,7 @@ PlayerInputComponent::PlayerInputComponent(const irr::EKEY_CODE &keyUp,
 					   const unsigned int &maxBombs,
 					   const unsigned int &explosionSize,
 					   const unsigned int &speed)
-  : Component("PlayerInputComponent"),
+  : Component(Component::PLAYER_INPUT_COMPONENT),
     _keyUp(keyUp),
     _keyDown(keyDown),
     _keyLeft(keyLeft),

@@ -5,19 +5,20 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 14:52:30 2016 Barthelemy Gouby
-// Last update Mon May 23 15:01:48 2016 Barthelemy Gouby
+// Last update Wed May 25 12:28:15 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
 
 void			Engine::ExplosionSystem()
 {
-  std::vector<Entity*>	*explosions = this->_entityManager.getEntitiesWithComponents({"ExplosionComponent"});
+  std::vector<Entity*>	*explosions =
+    this->_entityManager.getEntitiesWithComponents({Component::EXPLOSION_COMPONENT});
   ExplosionComponent	*explosionComponent;
 
   for (Entity *explosion: *explosions)
     {
-      explosionComponent = (ExplosionComponent*) explosion->getComponent("ExplosionComponent");
+      explosionComponent = (ExplosionComponent*) explosion->getComponent(Component::EXPLOSION_COMPONENT);
       if (explosionComponent->getExplosionDuration() <= 0)
 	{
 	  this->_display.removeModel(explosion);

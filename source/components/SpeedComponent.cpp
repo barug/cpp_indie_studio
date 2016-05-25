@@ -5,17 +5,17 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 14:22:56 2016 Barthelemy Gouby
-// Last update Tue May 17 16:24:07 2016 Barthelemy Gouby
+// Last update Wed May 25 12:01:45 2016 Barthelemy Gouby
 //
 
 #include "SpeedComponent.hh"
 
 SpeedComponent::SpeedComponent()
-  : Component("SpeedComponent")
+  : Component(Component::SPEED_COMPONENT)
 {}
 
 SpeedComponent::SpeedComponent(const int &speedX, const int &speedY, const double &rotation)
-  : Component("SpeedComponent"), _speedX(speedX), _speedY(speedY)
+  : Component(Component::SPEED_COMPONENT), _speedX(speedX), _speedY(speedY)
 {}
 
 SpeedComponent::~SpeedComponent()

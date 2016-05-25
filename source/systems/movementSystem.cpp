@@ -5,17 +5,19 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Sun May 22 04:02:01 2016 Thomas Bogard
+// Last update Wed May 25 12:22:10 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
 
 void			Engine::movementSystem()
 {
-  std::vector<Entity*>  *movableEntities = this->_entityManager.getEntitiesWithComponents({"PositionComponent",
-											   "SpeedComponent"});
-  std::vector<Entity*>  *solidEntities = this->_entityManager.getEntitiesWithComponents({"PositionComponent",
-											 "SolidityComponent"});
+  std::vector<Entity*>  *movableEntities =
+    this->_entityManager.getEntitiesWithComponents({Component::POSITION_COMPONENT,
+	  Component::SPEED_COMPONENT});
+  std::vector<Entity*>  *solidEntities =
+    this->_entityManager.getEntitiesWithComponents({Component::POSITION_COMPONENT,
+	  Component::SOLIDITY_COMPONENT});
   SpeedComponent	*speedComponent;
   PositionComponent	*positionComponent;
   unsigned int		newX;
@@ -24,8 +26,8 @@ void			Engine::movementSystem()
 
   for (Entity *movable: *movableEntities)
     {
-      speedComponent = (SpeedComponent*) movable->getComponent("SpeedComponent");
-      positionComponent = (PositionComponent*) movable->getComponent("PositionComponent");
+      speedComponent = (SpeedComponent*) movable->getComponent(Component::SPEED_COMPONENT);
+      positionComponent = (PositionComponent*) movable->getComponent(Component::POSITION_COMPONENT);
       newX = positionComponent->getX() + speedComponent->getSpeedX();
       newY = positionComponent->getY() + speedComponent->getSpeedY();
       this->_display.updateModelPosition(movable->getId(), positionComponent->getRotation(), newX, newY);

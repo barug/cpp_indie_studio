@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Tue May 24 16:59:20 2016 Barthelemy Gouby
+// Last update Wed May 25 12:27:30 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -16,7 +16,8 @@ void				Engine::_addNewExplosion(const unsigned int &x,
 {
   Entity			*newExplosion;
   bool				canAddExplosion = true;
-  std::vector<Entity*>		*solids = this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
+  std::vector<Entity*>		*solids =
+    this->_entityManager.getEntitiesWithComponents({Component::SOLIDITY_COMPONENT});
 
   if (!isBlocked)
     {
@@ -24,7 +25,7 @@ void				Engine::_addNewExplosion(const unsigned int &x,
   	{
   	  if (this->_display.tileIsOccupied(x, y, solid))
   	    {
-  	      if (solid->getComponent("DestructibleComponent"))
+  	      if (solid->getComponent(Component::DESTRUCTIBLE_COMPONENT))
   	      	{
   	      	  this->_display.removeModel(solid);
   	      	  this->_entityManager.destroyEntity(solid->getId());
@@ -48,7 +49,8 @@ void				Engine::_addNewExplosion(const unsigned int &x,
 
 void				Engine::ExplosiveSystem()
 {
-  std::vector<Entity*>		*explosives = this->_entityManager.getEntitiesWithComponents({"ExplosiveComponent"});
+  std::vector<Entity*>		*explosives = 
+    this->_entityManager.getEntitiesWithComponents({Component::EXPLOSIVE_COMPONENT});
   std::vector<Entity*>		*solids;
   PositionComponent		*bombPosition;
   ExplosiveComponent		*explosiveComponent;
@@ -61,7 +63,7 @@ void				Engine::ExplosiveSystem()
 
   for (Entity *explosive: *explosives)
     {
-      explosiveComponent = (ExplosiveComponent*) explosive->getComponent("ExplosiveComponent");
+      explosiveComponent = (ExplosiveComponent*) explosive->getComponent(Component::EXPLOSIVE_COMPONENT);
       if (explosiveComponent->getTimerLength() <= 0)
 	{
 	  // solids =  this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
@@ -69,7 +71,7 @@ void				Engine::ExplosiveSystem()
 	  rightIsBlocked = false;
 	  downIsBlocked = false;
 	  upIsBlocked = false;
-	  bombPosition = (PositionComponent*) explosive->getComponent("PositionComponent");
+	  bombPosition = (PositionComponent*) explosive->getComponent(Component::POSITION_COMPONENT);
 	  newExplosionCenter = 
 	    this->_entityFactory.createExplosion(bombPosition->getX(),
 						 bombPosition->getY(),
@@ -93,7 +95,8 @@ void				Engine::ExplosiveSystem()
 	    }
 	  owner = this->_entityManager.getEntity(explosiveComponent->getOwnerId());
 	  if (explosiveComponent->getOwnerType() == ExplosiveComponent::PLAYER)
-	    ((PlayerInputComponent*)(owner->getComponent("PlayerInputComponent")))->decrementActiveBombs();
+	    ((PlayerInputComponent*)(owner->getComponent(Component::PLAYER_INPUT_COMPONENT)))
+	      ->decrementActiveBombs();
 	  this->_display.removeModel(explosive);
 	  this->_entityManager.destroyEntity(explosive->getId());
 	}

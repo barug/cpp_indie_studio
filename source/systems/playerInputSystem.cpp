@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Wed May 25 11:47:02 2016 Barthelemy Gouby
+// Last update Wed May 25 12:24:46 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -23,7 +23,7 @@
 void				Engine::playerInputSystem()
 {
   std::vector<Entity*>		*playerEntities =
-    this->_entityManager.getEntitiesWithComponents({"PlayerInputComponent", "SpeedComponent"});
+    this->_entityManager.getEntitiesWithComponents({Component::PLAYER_INPUT_COMPONENT, Component::SPEED_COMPONENT});
   std::vector<Entity*>		*bombs;
   std::vector<irr::EKEY_CODE>	*keysDown;
   SpeedComponent		*speedComponent;
@@ -34,8 +34,8 @@ void				Engine::playerInputSystem()
 
   for (Entity *player: *playerEntities)
     {
-      speedComponent = (SpeedComponent*) player->getComponent("SpeedComponent");
-      playerInputComponent = (PlayerInputComponent*) player->getComponent("PlayerInputComponent");
+      speedComponent = (SpeedComponent*) player->getComponent(Component::SPEED_COMPONENT);
+      playerInputComponent = (PlayerInputComponent*) player->getComponent(Component::PLAYER_INPUT_COMPONENT);
       keysDown = this->_display.getKeysDownForId(player->getId());
       speedComponent->setSpeedX(0);
       speedComponent->setSpeedY(0);
@@ -52,8 +52,8 @@ void				Engine::playerInputSystem()
 	  else if (key == playerInputComponent->getKeyBomb()
 	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
-	      bombs = this->_entityManager.getEntitiesWithComponents({"ExplosiveComponent"});
-	      positionComponent = (PositionComponent*) player->getComponent("PositionComponent");	  
+	      bombs = this->_entityManager.getEntitiesWithComponents({Component::EXPLOSIVE_COMPONENT});
+	      positionComponent = (PositionComponent*) player->getComponent(Component::POSITION_COMPONENT);	  
 	      canPlaceBomb = true;
 	      for (Entity *bomb: *bombs)
 	  	{

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 11:26:56 2016 Barthelemy Gouby
-// Last update Tue May 24 16:34:57 2016 Barthelemy Gouby
+// Last update Wed May 25 12:04:28 2016 Barthelemy Gouby
 //
 
 #include "ExplosiveComponent.hh"
@@ -14,7 +14,7 @@ ExplosiveComponent::ExplosiveComponent(const unsigned int &timerLength,
 				       const unsigned int &explosionSize,
 				       const unsigned int &ownerId,
 				       ExplosiveComponent::Owner ownerType)
-: Component("ExplosiveComponent"),
+  : Component(Component::EXPLOSIVE_COMPONENT),
     _timerLength(timerLength),
     _explosionSize(explosionSize),
     _ownerId(ownerId),

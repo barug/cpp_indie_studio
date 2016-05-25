@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 10:52:34 2016 Barthelemy Gouby
+// Last update Wed May 25 12:37:16 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -48,29 +48,29 @@ void					Engine::initMap()
 
   for (unsigned int i = 0; i < map.size(); i++)
     {
-      if (map[i] != EMPTY)
+      if (map[i] != EntityFactory::EMPTY)
 	{
 	  switch (map[i])
 	    {
-	    case SOLID_BLOCK:
+	    case EntityFactory::SOLID_BLOCK:
 	      entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							     (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
 	      break;
-	    case DESTRUCTIBLE_BLOCK:
+	    case EntityFactory::DESTRUCTIBLE_BLOCK:
 	      entity = this->_entityFactory.createDestructibleBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 								    (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
 	      break;
-	    case BOMB_UP_POWER_UP:
+	    case EntityFactory::BOMB_UP_POWER_UP:
 	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  PowerUpComponent::BOMB_UP);
 	      break;
-	    case FIRE_UP_POWER_UP:
+	    case EntityFactory::FIRE_UP_POWER_UP:
 	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  PowerUpComponent::FIRE_UP);
 	      break;
-	    case SPEED_UP_POWER_UP:
+	    case EntityFactory::SPEED_UP_POWER_UP:
 	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							  PowerUpComponent::SPEED_UP);

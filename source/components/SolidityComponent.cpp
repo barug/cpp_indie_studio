@@ -5,11 +5,11 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Fri May 20 13:53:17 2016 Barthelemy Gouby
-// Last update Fri May 20 13:54:00 2016 Barthelemy Gouby
+// Last update Wed May 25 12:03:06 2016 Barthelemy Gouby
 //
 
 #include "SolidityComponent.hh"
 
 SolidityComponent::SolidityComponent()
-  : Component("SolidityComponent")
+  : Component(Component::SOLIDITY_COMPONENT)
 {}

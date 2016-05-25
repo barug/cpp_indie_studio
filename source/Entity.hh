@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:51:51 2016 Barthelemy Gouby
-// Last update Wed May 11 13:27:06 2016 Barthelemy Gouby
+// Last update Wed May 25 12:14:58 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_HH_
@@ -22,8 +22,8 @@ public:
   ~Entity();
   const unsigned int		&getId() const;
   void				addComponent(Component *component);
-  void				removeComponent(const std::string &type);
-  Component			*getComponent(const std::string &type);
+  void				removeComponent(Component::ComponentType type);
+  Component			*getComponent(Component::ComponentType type);
 
 private:
   const unsigned int		_id;

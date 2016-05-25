@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue May 24 20:11:18 2016 Thomas Bogard
+// Last update Wed May 25 13:39:33 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -165,9 +165,12 @@ int             Display::guiCreateModel(const std::string &mesh, const std::stri
 int		Display::createModel(Entity *entity)
 {
   unsigned int				id = entity->getId();
-  ModelComponent			*model = (ModelComponent*)entity->getComponent("ModelComponent");
-  PositionComponent			*pos = (PositionComponent*)entity->getComponent("PositionComponent");
-  irr::scene::IAnimatedMeshSceneNode	*node = this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
+  ModelComponent			*model =
+    (ModelComponent*)entity->getComponent(Component::MODEL_COMPONENT);
+  PositionComponent			*pos =
+    (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
+  irr::scene::IAnimatedMeshSceneNode	*node =
+    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
 
   if (!node)
     {

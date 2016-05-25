@@ -5,13 +5,13 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:27:41 2016 Barthelemy Gouby
-// Last update Mon May 23 12:30:31 2016 Barthelemy Gouby
+// Last update Wed May 25 12:04:43 2016 Barthelemy Gouby
 //
 
 #include "ExplosionComponent.hh"
 
 ExplosionComponent::ExplosionComponent(const unsigned int &explosionDuration)
-  : Component("ExplosionComponent"),
+  : Component(Component::EXPLOSION_COMPONENT),
     _explosionDuration(explosionDuration)
 {}
 
