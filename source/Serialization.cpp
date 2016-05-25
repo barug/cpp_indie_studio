@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Tue May 24 17:00:13 2016 Barthelemy Gouby
+// Last update Wed May 25 13:39:35 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -17,77 +17,65 @@
 # include "./components/ModelComponent.hh"
 # include "./components/PositionComponent.hh"
 
-Serialization::Serialization() : _file("./saves/bomberman.save"), _id(0)
+Serialization::Serialization(const std::string &fileName, const std::vector<Entity *> &entities)
 {
-}
-
-Serialization::Serialization(const std::string &file) : _file(file), _id(0)
-{
+  this->_fs.open(fileName, std::fstream::in | std::fstream::out);
+  if (!this->_fs.is_open())
+    std::cout << "[-] Can't Serialize .. " << fileName << " is busy " << std::endl;
+  this->_entities = entities;
 }
 
 Serialization::~Serialization()
 {
+  if (this->_fs.is_open())
+    this->_fs.close();
 }
 
-void		Serialization::setFile(const std::string &file)
+void						_serializeEntity(const Entity *entity, const std::stringstream &ss)
 {
-  this->_file = file;
+  std::vector<Component *>::const_iterator	it;
+  std::vector<Component *>			entityComponents;
+  Component					*component;
+
+  ss << entity->getId();
+  ss << ":";
+  //SerializeComponent
+  entityComponents = entity->getComponents();
+  it = entityComponents.begin();
+  while (it != entityComponents.end())
+    {
+      component = *it;
+      ss << "{";
+      ss << component->getType();
+      ss << ":"
+      ss << "}, ";
+      ++it;
+    }
+  ss << "|";
+  std::cout <<  "save stream : " << ss.str() << std::endl;
 }
 
-const std::string& Serialization::getFile()
+void						_serializeComponent(const Component *component, const std::stringsteam &ss)
 {
-  return (this->_file);
+  
 }
 
-int		Serialization::writeSerialization(const std::vector<Entity*> entities)
+void						Serialization::serialize()
 {
-  // std::vector<std::string> result;
-  // dirent	*entry;
-  // DIR		*directory;
-  // unsigned int	size = 14;
+  std::vector<Entity *>::const_iterator		it;
+  Entity					*entity;
+  std::stringstream				ss;
 
-  // if (!(directory = opendir("./saves")))
-  //   return (RETURN_FAILURE);
-  // while (entry = readdir(directory))
-  //   result.push_back(std::string(entry->d_name));
-  // closedir(directory);
-  // std::sort(result.begin(), result.end());
-  // for (const auto &e_result : result)
-  //   {
-  //     const std::string& current = e_result;
-  //     if (!strncmp(current.c_str(), "bomberman.save", 14))
-  // 	if (isdigit(current[size]))
-  // 	  this->_id = atoi(current.c_str() + size);
-  // 	else if (isdigit(current[size + 1]))
-  // 	  size++;
-  //   }
-  // ++(this->_id);
-  // this->_file += std::to_string(this->_id);
-  // std::ofstream	ofs("test.save", std::ios::binary);
-  // // std::ofstream	ofs(this->_file.c_str(), std::ios::binary);
-  // for (const auto &e_entities : entities)
-  //   ofs.write((char *)&e_entities, sizeof(e_entities));
-  return (RETURN_SUCCESS);
+  it = this->_entities.begin();
+  while (it != this->_entities.end())
+    {
+      entity = *it;
+      this->_serializeEntity(entity, ss);
+      ++it;
+    }
 }
 
-int		Serialization::readSerialization()
+void						Serialization::unserialize()
 {
-  // std::ifstream	ifs(this->_file.c_str(), std::ios::binary);
-  // std::cout << "=====read serialization of " << this->_file.c_str() << "====" << std::endl;
-    // {
-      // ifs.read((char *)&e_entities, sizeof(e_entities));
-
-      // std::vector<Component*> compo;
-      // for (const auto &e_compo : compo)
-      // 	{
-
-      // 	}
-      // ModelComponent	*model = (ModelComponent*)e_entities->getComponent("ModelComponent");
-      // PositionComponent *pos = (PositionComponent*)e_entities->getComponent("PositionComponent");
-      // std::cout << "id = " << e_entities->getId();
-      // std::cout << " model = " << model->getModel();
-      // std::cout << " posx = " << pos->getX();
-      // std::cout << " posy = " << pos->getY() << std::endl;
-    // }
-  return (RETURN_SUCCESS);
+  
 }

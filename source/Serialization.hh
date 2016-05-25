@@ -5,31 +5,28 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:24:18 2016 Thomas Bogard
-// Last update Tue May 24 11:20:00 2016 Thomas Bogard
+// Last update Wed May 25 12:31:50 2016 Erwan Dupard
 //
 
-#ifndef		__SERIALIZATION_HH__
-# define	__SERIALIZATION_HH__
+#ifndef		SERIALIZATION_HH_
+# define        SERIALIZATION_HH_
 
-# include	"EntityManager.hh"
-# include	"Resources.hh"
 # include	<vector>
 # include	<unistd.h>
+# include	"EntityManager.hh"
+# include	"Resources.hh"
 
-class		Serialization
+class				Serialization
 {
 public:
-  Serialization();
-  Serialization(const std::string &file);
+  Serialization(const std::string &fileName, const std::vector<Entity *> &entities);
   ~Serialization();
-  void		setFile(const std::string &file);
-  const std::string& getFile();
-  int		writeSerialization(const std::vector<Entity*> entities);
-  int		readSerialization();
-protected:
-  unsigned int		_id;
-  std::string		_file;
-  std::vector<Entity*>	_entities;
+  void				serialize();
+  void				unserialize();
+private:
+  void				_serializeEntity(const Entity *entity, const std::stringstream &ss);
+  std::fstream			_fs;
+  std::vector<Entity *>		_entities;  
 };
 
-#endif		// __SERIALIZATION_HH__
+#endif		// ! SERIALIZATION_HH_

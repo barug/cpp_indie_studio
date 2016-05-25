@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Wed May 25 12:13:25 2016 Barthelemy Gouby
+// Last update Wed May 25 13:41:56 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -43,7 +43,7 @@ Entity			*EntityManager::getEntity(const unsigned int id)
   return (NULL);
 }
 
-std::vector<Entity*>	EntityManager::getEntities()
+const std::vector<Entity*>	&EntityManager::getEntities()
 {
   return (this->_entities);
 }

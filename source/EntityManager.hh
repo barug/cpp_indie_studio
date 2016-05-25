@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Wed May 25 12:10:47 2016 Barthelemy Gouby
+// Last update Wed May 25 13:44:40 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -23,8 +23,9 @@ public:
   void				addEntity(Entity *entity);
   void				destroyEntity(const unsigned int &id);
   Entity			*getEntity(const unsigned int id);
-  std::vector<Entity*>		getEntities();
+  const std::vector<Entity*>	&getEntities();
   std::vector<Entity*>		*getEntitiesWithComponents(std::vector<Component::ComponentType> typeList);
+
 private:
   std::vector<Entity*>		_entities;
 };
