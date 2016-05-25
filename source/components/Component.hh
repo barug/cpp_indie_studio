@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:58:19 2016 Barthelemy Gouby
-// Last update Wed May 25 16:48:31 2016 Barthelemy Gouby
+// Last update Wed May 25 16:55:39 2016 Erwan Dupard
 //
 
 #ifndef _COMPONENT_HH_
@@ -17,17 +17,17 @@
 class						Component
 {
 public:
-  enum ComponentType
+  enum ComponentType : unsigned int
     {
-      POSITION_COMPONENT			= 1,
-      SPEED_COMPONENT				= 2,
-      MODEL_COMPONENT				= 3,
-      SOLIDITY_COMPONENT			= 4,
-      HEALTH_COMPONENT				= 5,
-      EXPLOSIVE_COMPONENT			= 6,
-      EXPLOSION_COMPONENT			= 7,
-      POWER_UP_COMPONENT			= 8,
-      PLAYER_INPUT_COMPONENT			= 9,
+      POSITION_COMPONENT			= 0,
+      SPEED_COMPONENT				= 1,
+      MODEL_COMPONENT				= 2,
+      SOLIDITY_COMPONENT			= 3,
+      HEALTH_COMPONENT				= 4,
+      EXPLOSIVE_COMPONENT			= 5,
+      EXPLOSION_COMPONENT			= 6,
+      POWER_UP_COMPONENT			= 7,
+      PLAYER_INPUT_COMPONENT			= 8,
     };
 
   Component(Component::ComponentType type);
