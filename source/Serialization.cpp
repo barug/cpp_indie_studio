@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Wed May 25 12:28:25 2016 Erwan Dupard
+// Last update Wed May 25 12:36:35 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -31,12 +31,22 @@ Serialization::~Serialization()
     this->_fs.close();
 }
 
-void				_serializeEntity(const Entity *entity, const std::stringstream &ss)
+void						_serializeEntity(const Entity *entity, const std::stringstream &ss)
 {
+  std::vector<Component *>::const_iterator	it;
+  std::vector<Component *>			entityComponents;
+  Component					*component;
+
   ss << entity->getId();
   ss << ":";
   //SerializeComponent
-
+  entityComponents = entity->getComponents();
+  it = entityComponents.begin();
+  while (it != entityComponents.end())
+    {
+      component = *it;
+      ++it;
+    }
   ss << "|";
 }
 
