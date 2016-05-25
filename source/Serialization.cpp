@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Wed May 25 13:45:02 2016 Erwan Dupard
+// Last update Wed May 25 13:55:02 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -31,49 +31,49 @@ Serialization::~Serialization()
     this->_fs.close();
 }
 
-void						_serializeEntity(const Entity *entity, const std::stringstream &ss)
+void						Serialization::_serializeEntity(const Entity *entity, std::string &s)
 {
   std::vector<Component *>::const_iterator	it;
   std::vector<Component *>			entityComponents;
   Component					*component;
 
-  ss << entity->getId();
-  ss << ":";
+  s += entity->getId();
+  s += ':';
   //SerializeComponent
   entityComponents = entity->getComponents();
   it = entityComponents.begin();
   while (it != entityComponents.end())
     {
       component = *it;
-      ss << "{";
-      ss << component->getType();
-      ss << ":";
-      this->_serializeComponent(component, ss);
-      ss << "}, ";
+      s += '{';
+      s += component->getType();
+      s += ':';
+      this->_serializeComponent(component, s);
+      s += "}, ";
       ++it;
     }
-  ss << "|";
-  std::cout <<  "save stream : " << ss.str() << std::endl;
+  s += '|';
 }
 
-void						_serializeComponent(const Component *component, const std::stringsteam &ss)
+void						Serialization::_serializeComponent(const Component *component, std::string &s)
 {
-  
+  (void)s;
 }
 
 void						Serialization::serialize()
 {
   std::vector<Entity *>::const_iterator		it;
   Entity					*entity;
-  std::stringstream				ss;
+  std::string					s;
 
   it = this->_entities.begin();
   while (it != this->_entities.end())
     {
       entity = *it;
-      this->_serializeEntity(entity, ss);
+      this->_serializeEntity(entity, s);
       ++it;
     }
+  std::cout << "Serialized : " << s << std::endl;
 }
 
 void						Serialization::unserialize()
