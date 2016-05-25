@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:24:18 2016 Thomas Bogard
-// Last update Wed May 25 13:56:58 2016 Erwan Dupard
+// Last update Wed May 25 14:48:41 2016 Erwan Dupard
 //
 
 #ifndef		SERIALIZATION_HH_
@@ -19,15 +19,18 @@
 class				Serialization
 {
 public:
-  Serialization(const std::string &fileName, const std::vector<Entity *> &entities);
+  Serialization();
   ~Serialization();
+  void				setFileName(const std::string &fileName);
   void				serialize();
   void				unserialize();
+  void				setEntities(const std::vector<Entity *> &entities);
 private:
   void				_serializeEntity(const Entity *entity, std::string &s);
   void				_serializeComponent(const Component *component, std::string &sx);
   std::fstream			_fs;
-  std::vector<Entity *>		_entities;  
+  std::vector<Entity *>		_entities;
+  std::string			_fileName;
 };
 
 #endif		// ! SERIALIZATION_HH_

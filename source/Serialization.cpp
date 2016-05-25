@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Wed May 25 13:55:02 2016 Erwan Dupard
+// Last update Wed May 25 14:48:13 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -17,18 +17,28 @@
 # include "./components/ModelComponent.hh"
 # include "./components/PositionComponent.hh"
 
-Serialization::Serialization(const std::string &fileName, const std::vector<Entity *> &entities)
-{
-  this->_fs.open(fileName, std::fstream::in | std::fstream::out);
-  if (!this->_fs.is_open())
-    std::cout << "[-] Can't Serialize .. " << fileName << " is busy " << std::endl;
-  this->_entities = entities;
-}
+Serialization::Serialization()
+{}
 
 Serialization::~Serialization()
 {
   if (this->_fs.is_open())
     this->_fs.close();
+}
+
+void						Serialization::setFileName(const std::string &fileName)
+{
+  this->_fileName = fileName;
+  if (this->_fs.is_open())
+    this->_fs.close();
+  this->_fs.open(fileName, std::fstream::in | std::fstream::out);
+  if (!this->_fs.is_open())
+    std::cout << "[-] Failed to open file " << fileName << std::endl;
+}
+
+void						Serialization::setEntities(const std::vector<Entity *> &entities)
+{
+  this->_entities = entities;
 }
 
 void						Serialization::_serializeEntity(const Entity *entity, std::string &s)
