@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Wed May 25 15:44:49 2016 Erwan Dupard
+// Last update Wed May 25 16:43:59 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -30,6 +30,7 @@ public:
   void				serialize(const std::string &fileName) const;
   void				unserialize(const std::string &fileName) const;
 private:
+  std::string			_intToString(const unsigned int &value) const;
   void				_serializeEntityComponents(std::string &out, const Entity *entity) const;
   std::vector<Entity*>		_entities;
 };

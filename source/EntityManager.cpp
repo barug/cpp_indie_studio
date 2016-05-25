@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Wed May 25 15:48:22 2016 Erwan Dupard
+// Last update Wed May 25 16:47:54 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -78,7 +78,7 @@ void							EntityManager::_serializeEntityComponents(std::string &out, const Ent
   while (it != components.end())
     {
       out += '{';
-      component->getType();
+      //out += this->_intToString(component->getType());
       out += "}, ";
       ++it;
     }
@@ -98,7 +98,7 @@ void							EntityManager::serialize(const std::string &fileName) const
       while (it != this->_entities.end())
 	{
 	  entity = *it;
-	  out += entity->getId();
+	  out += this->_intToString(entity->getId());
 	  out += ':';
 	  this->_serializeEntityComponents(out, entity);
 	  out += '|';
@@ -113,4 +113,9 @@ void							EntityManager::serialize(const std::string &fileName) const
 void							EntityManager::unserialize(const std::string &fileName) const
 {
   (void)fileName;
+}
+
+std::string						EntityManager::_intToString(const unsigned int &value) const
+{
+  return (std::to_string(value));
 }
