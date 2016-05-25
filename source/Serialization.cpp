@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Wed May 25 12:13:15 2016 Erwan Dupard
+// Last update Wed May 25 12:20:39 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -40,6 +40,7 @@ void						Serialization::serialize()
   while (it != this->_entities.end())
     {
       entity = *it;
+      
       ++it;
     }
 }
