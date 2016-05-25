@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Wed May 25 13:39:35 2016 Erwan Dupard
+// Last update Wed May 25 13:45:02 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -47,7 +47,8 @@ void						_serializeEntity(const Entity *entity, const std::stringstream &ss)
       component = *it;
       ss << "{";
       ss << component->getType();
-      ss << ":"
+      ss << ":";
+      this->_serializeComponent(component, ss);
       ss << "}, ";
       ++it;
     }
