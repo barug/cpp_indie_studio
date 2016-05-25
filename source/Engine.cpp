@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 12:37:16 2016 Barthelemy Gouby
+// Last update Wed May 25 14:20:18 2016 Erwan Dupard
 //
 
 #include <unistd.h>
@@ -101,7 +101,6 @@ void					Engine::initGame()
   this->_entityManager.addEntity(player2);
   this->_display.createModel(player1);
   this->_display.createModel(player2);
-
   this->initMap();
 }
 
