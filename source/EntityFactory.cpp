@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Wed May 25 00:00:53 2016 Thomas Bogard
+// Last update Wed May 25 00:22:15 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -72,7 +72,7 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
-							     "./textures/stonebox.png",
+							     "./textures/metalbox.jpg",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
