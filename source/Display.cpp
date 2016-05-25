@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed May 25 13:39:33 2016 Barthelemy Gouby
+// Last update Wed May 25 14:46:47 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -143,22 +143,21 @@ const bool	Display::windowIsActive() const
 // models for gui
 int             Display::guiCreateModel(const std::string &mesh, const std::string &texture,
                                         const int& x, const int& y, const int& z,
-                                        const int& rotation, const int& scale)
+                                        const int& rotation, const int& scale, const int&index)
 {
   irr::scene::IAnimatedMeshSceneNode *node =
-    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh((const irr::io::path &)mesh));
+    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh("./models/MegaBomb/MegaBomb.obj"));
   if (!node)
     {
       std::cerr << "model : " << mesh << " cannot be open." << std::endl;
       return (1);
     }
-  node->setMaterialTexture(0, this->_driver->getTexture((const irr::io::path &)texture));
-  node->setPosition(irr::core::vector3df(x, z, y));
+  node->setMaterialTexture(0, this->_driver->getTexture("./models/MegaBomb/textureA.png"));
+  node->setPosition(irr::core::vector3df((index+1)*500, 1500, 300));
   node->setAnimationSpeed(40);
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  node->setScale(irr::core::vector3df(scale, scale, scale));
-  node->setRotation(irr::core::vector3df(0, rotation, 0));
-  // node->setDebugDataVisible(irr::scene::EDS_BBOX);
+  node->setScale(irr::core::vector3df(30, 30, 30));
+  node->setRotation(irr::core::vector3df(90, 0, 330));
 }
 
 // models for entity
