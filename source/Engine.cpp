@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 10:36:35 2016 Barthelemy Gouby
+// Last update Wed May 25 10:52:34 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -46,55 +46,41 @@ void					Engine::initMap()
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };
 
-  // this is discusting, we have to fix this later
   for (unsigned int i = 0; i < map.size(); i++)
     {
-      if (map.at(i) == SOLID_BLOCK)
-        {
-          entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
+      if (map[i] != EMPTY)
+	{
+	  switch (map[i])
+	    {
+	    case SOLID_BLOCK:
+	      entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							     (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
+	      break;
+	    case DESTRUCTIBLE_BLOCK:
+	      entity = this->_entityFactory.createDestructibleBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								    (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
+	      break;
+	    case BOMB_UP_POWER_UP:
+	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  PowerUpComponent::BOMB_UP);
+	      break;
+	    case FIRE_UP_POWER_UP:
+	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  PowerUpComponent::FIRE_UP);
+	      break;
+	    case SPEED_UP_POWER_UP:
+	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							  PowerUpComponent::SPEED_UP);
+	      break;
+	    default:
+	      break;
+	    }
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
-        }
-      if (map.at(i) == DESTRUCTIBLE_BLOCK)
-        {
-          entity = this->_entityFactory.createDestructibleBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-								(i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
-          this->_display.createModel(entity);
-	  this->_entityManager.addEntity(entity);
-        }
-      if (map.at(i) == BOMB_UP_POWER_UP)
-        {
-          entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-						      (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-						      PowerUpComponent::BOMB_UP);
-          this->_display.createModel(entity);
-	  this->_entityManager.addEntity(entity);
-        }
-      if (map.at(i) == FIRE_UP_POWER_UP)
-        {
-          entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-						      (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-						      PowerUpComponent::FIRE_UP);
-          this->_display.createModel(entity);
-	  this->_entityManager.addEntity(entity);
-        }
-      if (map.at(i) == SPEED_UP_POWER_UP)
-	 {
-	   entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-						       (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-						       PowerUpComponent::SPEED_UP);
-	   this->_display.createModel(entity);
-	   this->_entityManager.addEntity(entity);
-	 }
-      else if (map.at(i) == BOT)
-        {
-          entity = this->_entityFactory.createSolidBlock((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
-          this->_display.createModel(entity);
-	  this->_entityManager.addEntity(entity);
-        }
-      
+	}
     }
 }
 
