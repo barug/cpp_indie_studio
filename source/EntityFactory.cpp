@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Wed May 25 10:25:37 2016 Barthelemy Gouby
+// Last update Wed May 25 10:28:57 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -54,7 +54,7 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
 {
   Entity		*explosion = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/explosion.b3d",
-							     "./textures/bomb.jpg",
+							     "./textures/fire.jpg",
 							     100);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
@@ -72,7 +72,7 @@ Entity			*EntityFactory::createSolidBlock(const unsigned int &x,
 {
   Entity		*solidBlock = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
-							     "./textures/stonebox.png",
+							     "./textures/metalbox.jpg",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
