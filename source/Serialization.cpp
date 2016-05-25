@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 02:23:21 2016 Thomas Bogard
-// Last update Wed May 25 13:32:56 2016 Erwan Dupard
+// Last update Wed May 25 13:39:35 2016 Erwan Dupard
 //
 
 # include <fstream>
@@ -47,11 +47,17 @@ void						_serializeEntity(const Entity *entity, const std::stringstream &ss)
       component = *it;
       ss << "{";
       ss << component->getType();
-      ss << "},";
+      ss << ":"
+      ss << "}, ";
       ++it;
     }
   ss << "|";
   std::cout <<  "save stream : " << ss.str() << std::endl;
+}
+
+void						_serializeComponent(const Component *component, const std::stringsteam &ss)
+{
+  
 }
 
 void						Serialization::serialize()
