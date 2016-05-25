@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 14:52:30 2016 Barthelemy Gouby
-// Last update Wed May 25 16:05:18 2016 Barthelemy Gouby
+// Last update Wed May 25 16:27:59 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -27,7 +27,11 @@ void			Engine::ExplosionSystem()
 	  if (this->_display.collision(destructible->getId(), explosion->getId()))
 	    {
 	      healthComponent = (HealthComponent*) destructible->getComponent(Component::HEALTH_COMPONENT);
-	      healthComponent->setLives(healthComponent->getLives() - 1);
+	      if (healthComponent->getInvincibleTimer() <= 0)
+		{
+		  healthComponent->setLives(healthComponent->getLives() - 1);
+		  healthComponent->setInviciblesTimer(110);
+		}
 	    }
 	}
       if (explosionComponent->getExplosionDuration() <= 0)

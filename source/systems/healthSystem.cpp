@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 25 15:47:43 2016 Barthelemy Gouby
-// Last update Wed May 25 15:56:49 2016 Barthelemy Gouby
+// Last update Wed May 25 16:28:44 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -19,6 +19,8 @@ void			Engine::healthSystem()
   for (Entity *destructible: *destructibles)
     {
       healthComponent = (HealthComponent*) destructible->getComponent(Component::HEALTH_COMPONENT);
+      if (healthComponent->getInvincibleTimer() > 0)
+	healthComponent->setInviciblesTimer(healthComponent->getInvincibleTimer() - 1);
       if (healthComponent->getLives() <= 0)
 	{
 	  this->_display.removeModel(destructible);
