@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Wed May 25 16:36:16 2016 Barthelemy Gouby
+// Last update Thu May 26 14:25:21 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -90,7 +90,7 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
 {
   Entity		*destructibleBlock = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
-							     "./textures/woodbox.jpg",
+							     "./textures/woodbox.png",
 							     375);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   SolidityComponent	*solidityComponent = new SolidityComponent;
