@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Wed May 25 14:59:30 2016 Thomas Bogard
+// Last update Thu May 26 15:55:07 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -51,12 +51,8 @@ public:
 									       const int& index);
   int								createModel(Entity *entity);
   void								removeModel(Entity *Entity);
-  int								updateModelAnimation(const unsigned int &id,
-										     const unsigned int &rotation,
-										     const unsigned int &posX,
-										     const unsigned int &oldX,
-										     const unsigned int &posY,
-										     const unsigned int &oldY);
+  int								updateModel(Entity *entity,
+									    ModelComponent::ModelType type);
   int								updateModelPosition(const unsigned int &id,
 										    const unsigned int &rotation,
 										    const unsigned int &x,
@@ -81,14 +77,6 @@ public:
     exit(EXIT_FAILURE);
   }
 
-  enum Animation
-    {
-      NONE = 0,
-      STAND,
-      RUN,
-      DROP
-    };
-
 protected:
   // video and device
   irr::IrrlichtDevice						*_device;
@@ -103,7 +91,6 @@ protected:
   irr::scene::IAnimatedMeshSceneNode				*_model;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_powerup;
-  std::map<unsigned int, Animation>				_animation;
 
   // positions
   irr::core::vector3df						_model_position;

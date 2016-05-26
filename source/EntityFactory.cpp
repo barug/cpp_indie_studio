@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Wed May 25 16:36:16 2016 Barthelemy Gouby
+// Last update Thu May 26 14:26:11 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -134,6 +134,7 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 									 explosionSize,
 									 speed);
 
+  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);
   player->addComponent(modelComponent);
   player->addComponent(positionComponent);
   player->addComponent(playerInputComponent);
