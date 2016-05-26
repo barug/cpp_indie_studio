@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:58:19 2016 Barthelemy Gouby
-// Last update Thu May 26 15:09:25 2016 Barthelemy Gouby
+// Last update Thu May 26 15:56:47 2016 Barthelemy Gouby
 //
 
 #ifndef _COMPONENT_HH_
@@ -26,7 +26,7 @@ public:
       EXPLOSIVE_COMPONENT			= 5,
       EXPLOSION_COMPONENT			= 6,
       POWER_UP_COMPONENT			= 7,
-      PLAYER_INPUT_COMPONENT			= 8,
+      PLAYER_INPUT_COMPONENT			= 8
     };
 
   Component(Component::ComponentType type);

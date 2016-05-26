@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu May 26 15:55:36 2016 Barthelemy Gouby
+// Last update Thu May 26 15:59:46 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -18,7 +18,6 @@ Display::~Display()
 {
 }
 
-// irrlicht device
 int		Display::driverChoice()
 {
   this->_driverType = irr::driverChoiceConsole();
@@ -65,7 +64,7 @@ void		Display::initGround()
 	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
 							0,
 							TILE_SIZE * column + TILE_SIZE / 2));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/blockstone.jpg"));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/sand.jpg"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
@@ -125,7 +124,7 @@ int		Display::refreshScreen()
       this->_env->drawAll();
       this->_driver->endScene();
       // showPosCam();
-      showFpsDriver(last_tick);
+      this->showFpsDriver(last_tick);
     }
 }
 
@@ -141,23 +140,30 @@ const bool	Display::windowIsActive() const
 }
 
 // models for gui
-int             Display::guiCreateModel(const std::string &mesh, const std::string &texture,
-                                        const int& x, const int& y, const int& z,
-                                        const int& rotation, const int& scale, const int&index)
+int             Display::guiCreateModel(const std::string mesh,
+					const std::string texture,
+					const int &x, const int &y,
+					irr::core::vector3df rotation,
+					const int &scale)
 {
-  irr::scene::IAnimatedMeshSceneNode *node =
-    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh("./models/MegaBomb/MegaBomb.obj"));
-  if (!node)
+  std::string	pos;
+  pos = std::to_string(x);
+  pos += std::to_string(y);
+  unsigned int position = atoi(pos.c_str());
+  if (!this->_guimodel.count(position))
     {
-      std::cerr << "model : " << mesh << " cannot be open." << std::endl;
-      return (1);
+      irr::scene::IAnimatedMeshSceneNode *node =
+	this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(mesh.c_str()));
+      if (!node)
+	puterr("guiCreatemodel failure");
+      node->setMaterialTexture(0, this->_driver->getTexture(texture.c_str()));
+      node->setPosition(irr::core::vector3df(x, 1500, y));
+      node->setAnimationSpeed(40);
+      node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+      node->setScale(irr::core::vector3df(scale, scale, scale));
+      node->setRotation(rotation);
+      this->_guimodel.emplace(position, node);
     }
-  node->setMaterialTexture(0, this->_driver->getTexture("./models/MegaBomb/textureA.png"));
-  node->setPosition(irr::core::vector3df((index+1)*500, 1500, 300));
-  node->setAnimationSpeed(40);
-  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  node->setScale(irr::core::vector3df(30, 30, 30));
-  node->setRotation(irr::core::vector3df(90, 0, 330));
 }
 
 // models for entity

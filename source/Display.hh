@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Thu May 26 15:55:07 2016 Barthelemy Gouby
+// Last update Thu May 26 15:58:26 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -41,14 +41,11 @@ public:
   int								refreshScreen();
   int								closeDisplay();
   const bool							windowIsActive() const;
-  int								guiCreateModel(const std::string &mesh,
-									       const std::string &texture,
-									       const int& x,
-									       const int& y,
-									       const int& z,
-									       const int& rotation,
-									       const int& scale,
-									       const int& index);
+  int								guiCreateModel(const std::string mesh,
+									       const std::string texture,
+									       const int &x, const int &y,
+									       irr::core::vector3df rotation,
+									       const int &scale);
   int								createModel(Entity *entity);
   void								removeModel(Entity *Entity);
   int								updateModel(Entity *entity,
@@ -90,7 +87,7 @@ protected:
   irr::scene::ISceneNode					*_skybox;
   irr::scene::IAnimatedMeshSceneNode				*_model;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
-  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_powerup;
+  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_guimodel;
 
   // positions
   irr::core::vector3df						_model_position;

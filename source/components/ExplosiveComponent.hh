@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 11:18:50 2016 Barthelemy Gouby
-// Last update Tue May 24 16:34:52 2016 Barthelemy Gouby
+// Last update Thu May 26 13:12:17 2016 Erwan Dupard
 //
 
 #ifndef _EXPLOSIVE_COMPONENT_HH_
@@ -16,9 +16,9 @@
 class					ExplosiveComponent : public Component
 {
 public:
-  enum Owner
+  enum Owner : unsigned int
     {
-      PLAYER
+      PLAYER = 0
     };
 
   ExplosiveComponent(const unsigned int &timerLength,
