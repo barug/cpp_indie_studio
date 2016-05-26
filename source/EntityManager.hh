@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Wed May 25 16:43:59 2016 Erwan Dupard
+// Last update Thu May 26 13:03:40 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -15,7 +15,14 @@
 # include <vector>
 # include <fstream> 
 # include <iostream>
+# include <sstream>
+# include <string>
+
 # include "Entity.hh"
+# include "components/Component.hh"
+# include "components/PositionComponent.hh"
+# include "components/SpeedComponent.hh"
+# include "components/ModelComponent.hh"
 
 class				EntityManager
 {
@@ -30,8 +37,12 @@ public:
   void				serialize(const std::string &fileName) const;
   void				unserialize(const std::string &fileName) const;
 private:
-  std::string			_intToString(const unsigned int &value) const;
-  void				_serializeEntityComponents(std::string &out, const Entity *entity) const;
+  std::string			_intToString(unsigned int value) const;
+  void				_serializeEntityComponents(std::string &out, Entity *entity) const;
+  void				_serializeEntityComponent(std::string &out, Component *entity) const;
+  void				_serializePositionComponent(std::string &out, PositionComponent *component) const;
+  void				_serializeSpeedComponent(std::string &out, SpeedComponent *component) const;
+  void				_serializeModelComponent(std::string &out, ModelComponent *component) const;
   std::vector<Entity*>		_entities;
 };
 

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 16:11:32 2016 Barthelemy Gouby
-// Last update Sun May 22 04:01:03 2016 Thomas Bogard
+// Last update Thu May 26 12:50:25 2016 Erwan Dupard
 //
 
 #ifndef _POSITION_COMPONENT_HH_
@@ -30,7 +30,6 @@ public:
   const unsigned int			&getOldX() const;
   const unsigned int			&getOldY() const;
   const unsigned int			&getRotation() const;
-
 private:
   unsigned int				_x;
   unsigned int				_y;

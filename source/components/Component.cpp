@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 13:02:59 2016 Barthelemy Gouby
-// Last update Wed May 25 12:40:45 2016 Barthelemy Gouby
+// Last update Thu May 26 12:37:10 2016 Erwan Dupard
 //
 
 #include "Component.hh"
