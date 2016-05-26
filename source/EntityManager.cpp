@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Thu May 26 14:32:22 2016 Erwan Dupard
+// Last update Thu May 26 16:53:36 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -201,7 +201,7 @@ void							EntityManager::serialize(const std::string &fileName) const
 	{
 	  entity = *it;
 	  out += this->_intToString(entity->getId());
-	  out += ':';
+	  out += '|';
 	  this->_serializeEntityComponents(out, entity);
 	  out += '\n';
 	  ++it;
@@ -215,7 +215,31 @@ void							EntityManager::serialize(const std::string &fileName) const
 
 void							EntityManager::unserialize(const std::string &fileName) const
 {
-  (void)fileName;
+  std::ifstream						fs;
+  std::string						entityString;
+  std::string						componentString;
+  unsigned int						entityId;
+  unsigned						first;
+  unsigned					        last;
+
+  fs.open(fileName, std::fstream::in);
+  if (fs.is_open())
+    {
+      while (std::getline(fs, entityString))
+	{
+	  entityId = this->_stringToInt(entityString.substr(0, entityString.find("|")));
+	  while (entityString != "")
+	    {
+	      first = entityString.find("{") + 1;
+	      last = entityString.find("}");
+	      componentString = entityString.substr(first, last - first);
+	      //componentString is the serialized component definition
+	      entityString = entityString.substr(entityString.find("}") + 1);
+	    }
+	}
+    }
+  else
+    std::cout << "[-] Can't unserialize file " << fileName << std::endl;
 }
 
 std::string						EntityManager::_intToString(const unsigned int value) const
@@ -224,4 +248,9 @@ std::string						EntityManager::_intToString(const unsigned int value) const
 
   str << value;
   return (str.str());
+}
+
+unsigned int						EntityManager::_stringToInt(const std::string &str) const
+{
+  return (std::stoi(str, nullptr, 10));
 }
