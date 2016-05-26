@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu May 26 12:17:41 2016 Thomas Bogard
+// Last update Thu May 26 14:26:15 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -64,7 +64,7 @@ void		Display::initGround()
 	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
 							0,
 							TILE_SIZE * column + TILE_SIZE / 2));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/blockstone.jpg"));
+	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/sand.jpg"));
 	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
       }
