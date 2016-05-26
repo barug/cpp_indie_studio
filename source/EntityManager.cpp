@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Thu May 26 13:07:23 2016 Erwan Dupard
+// Last update Thu May 26 14:32:22 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -67,25 +67,6 @@ std::vector<Entity*>					*EntityManager::getEntitiesWithComponents(std::vector<C
   return (validEntities);
 }
 
-void							EntityManager::_serializeEntityComponents(std::string &out, Entity *entity) const
-{
-  std::vector<Component *>				components;
-  std::vector<Component *>::const_iterator		it;
-  Component						*component;
-
-  components = entity->getComponents();
-  it = components.begin();
-  while (it != components.end())
-    {
-      component = *it;
-      out += '{';
-      out += this->_intToString(component->getType());
-      this->_serializeEntityComponent(out, component);
-      out += "},";
-      ++it;
-    }
-}
-
 void							EntityManager::_serializePositionComponent(std::string &out, PositionComponent *component) const
 {
   out += ':';
@@ -99,16 +80,58 @@ void							EntityManager::_serializePositionComponent(std::string &out, Position
 void							EntityManager::_serializeSpeedComponent(std::string &out, SpeedComponent *component) const
 {
   out += ':';
-  out += this->_intToString(component->getSpeedX());
+  out += this->_intToString(component->getSpeedX()) + ",";
   out += this->_intToString(component->getSpeedY());
 }
 
 void							EntityManager::_serializeModelComponent(std::string &out, ModelComponent *component) const
 {
   out += ':';
-  out += component->getModel();
-  out += component->getTexture();
-  out += component->getScale();
+  out += component->getModel() + ",";
+  out += component->getTexture() + ",";
+  out += this->_intToString(component->getScale());
+}
+
+void							EntityManager::_serializeHealthComponent(std::string &out, HealthComponent *component) const
+{
+  out += ':';
+  out += this->_intToString(component->getLives()) + ",";
+  out += this->_intToString(component->getInvincibleTimer());
+}
+
+void							EntityManager::_serializeExplosiveComponent(std::string &out, ExplosiveComponent *component) const
+{
+  out += ':';
+  out += this->_intToString(component->getTimerLength()) + ",";
+  out += this->_intToString(component->getExplosionSize()) + ",";
+  out += this->_intToString(component->getOwnerId()) + ",";
+  out += this->_intToString(component->getOwnerType());
+}
+
+void							EntityManager::_serializeExplosionComponent(std::string &out, ExplosionComponent *component) const
+{
+  out += ':';
+  out += this->_intToString(component->getExplosionDuration());
+}
+
+void							EntityManager::_serializePowerUpComponent(std::string &out, PowerUpComponent *component) const
+{
+  out += ':';
+  out += this->_intToString(component->getType());
+}
+
+void							EntityManager::_serializePlayerInputComponent(std::string &out, PlayerInputComponent *component) const
+{
+  out += ':';
+  out += this->_intToString(component->getKeyUp()) + ',';
+  out += this->_intToString(component->getKeyDown()) + ',';
+  out += this->_intToString(component->getKeyLeft()) + ',';
+  out += this->_intToString(component->getKeyRight()) + ',';
+  out += this->_intToString(component->getKeyBomb()) + ',';
+  out += this->_intToString(component->getMaxBombs()) + ',';
+  out += this->_intToString(component->getActiveBombs()) + ',';
+  out += this->_intToString(component->getExplosionSize()) + ',';
+  out += this->_intToString(component->getSpeed());
 }
 
 void							EntityManager::_serializeEntityComponent(std::string &out, Component *component) const
@@ -125,26 +148,52 @@ void							EntityManager::_serializeEntityComponent(std::string &out, Component 
       this->_serializeModelComponent(out, (ModelComponent *)component);
       break;
     case Component::HEALTH_COMPONENT:
+      this->_serializeHealthComponent(out, (HealthComponent *)component);
       break;
     case Component::EXPLOSIVE_COMPONENT:
+      this->_serializeExplosiveComponent(out, (ExplosiveComponent *)component);
       break;
     case Component::EXPLOSION_COMPONENT:
+      this->_serializeExplosionComponent(out, (ExplosionComponent *)component);
       break;
     case Component::POWER_UP_COMPONENT:
+      this->_serializePowerUpComponent(out, (PowerUpComponent *)component);
       break;
     case Component::PLAYER_INPUT_COMPONENT:
+      this->_serializePlayerInputComponent(out, (PlayerInputComponent *)component);
       break;
+    }
+}
+
+void							EntityManager::_serializeEntityComponents(std::string &out, Entity *entity) const
+{
+  std::vector<Component *>				components;
+  std::vector<Component *>::const_iterator		it;
+  Component						*component;
+
+  components = entity->getComponents();
+  it = components.begin();
+  while (it != components.end())
+    {
+      component = *it;
+      out += '{';
+      out += this->_intToString(component->getType());
+      this->_serializeEntityComponent(out, component);
+      out += '}';
+      if ((it + 1) != components.end())
+	out += ',';
+      ++it;
     }
 }
 
 void							EntityManager::serialize(const std::string &fileName) const
 {
-  std::fstream						fs;
+  std::ofstream						fs;
   std::vector<Entity *>::const_iterator			it;			
   std::string						out;
   Entity						*entity;
 
-  fs.open(fileName, std::fstream::in | std::fstream::out);
+  fs.open(fileName, std::fstream::in | std::fstream::out | std::fstream::trunc);
   if (fs.is_open())
     {
       it = this->_entities.begin();
@@ -154,10 +203,11 @@ void							EntityManager::serialize(const std::string &fileName) const
 	  out += this->_intToString(entity->getId());
 	  out += ':';
 	  this->_serializeEntityComponents(out, entity);
-	  out += '|';
+	  out += '\n';
 	  ++it;
 	}
-      std::cout << "serialized : " << out << std::endl;
+      fs << out;
+      std::cout << "[+] Game Saved to file " << fileName << std::endl;
     }
   else
     std::cout << "[-] Can't serialize to file " << fileName << std::endl;
