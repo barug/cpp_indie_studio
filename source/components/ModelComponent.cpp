@@ -5,42 +5,52 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 11:19:20 2016 Barthelemy Gouby
-// Last update Wed May 25 12:02:48 2016 Barthelemy Gouby
+// Last update Thu May 26 15:45:53 2016 Barthelemy Gouby
 //
 
 #include "ModelComponent.hh"
 
 ModelComponent::ModelComponent()
-  : Component(Component::MODEL_COMPONENT)
+  : Component(Component::MODEL_COMPONENT),
+    _models(ModelComponent::NUMBER_OF_TYPES),
+    _selectedModel(ModelComponent::DEFAULT)
 {}
 
-ModelComponent::ModelComponent(const std::string &model,
+ModelComponent::ModelComponent(const std::string &defaultModel,
 			       const std::string &texture,
 			       unsigned int scale)
   : Component(Component::MODEL_COMPONENT),
-    _model(model),
+    _models(ModelComponent::NUMBER_OF_TYPES),
     _texture(texture),
-    _scale(scale)
-{}
+    _scale(scale),
+    _selectedModel(ModelComponent::DEFAULT)
 
-ModelComponent::ModelComponent(const std::string &model,
+{
+  this->_models[ModelComponent::DEFAULT] = defaultModel;
+}
+
+ModelComponent::ModelComponent(const std::string &defaultModel,
 			       unsigned int scale)
   : Component(Component::MODEL_COMPONENT),
-    _model(model),
-    _scale(scale)
-{}
+    _models(ModelComponent::NUMBER_OF_TYPES),
+    _scale(scale),
+    _selectedModel(ModelComponent::DEFAULT)
+{
+  this->_models[ModelComponent::DEFAULT] = defaultModel;
+}
 
 ModelComponent::~ModelComponent()
 {}
 
-void					ModelComponent::setModel(const std::string &model)
+void					ModelComponent::setModel(const std::string &model,
+								 ModelComponent::ModelType type)
 {
-  this->_model = model;
+  this->_models[type] = model;
 }
 
-const std::string			&ModelComponent::getModel() const
+const std::string			&ModelComponent::getModel(ModelComponent::ModelType type) const
 {
-  return (this->_model);
+  return (this->_models[type]);
 }
 
 void					ModelComponent::setTexture(const std::string &texture)
@@ -61,4 +71,14 @@ void					ModelComponent::setScale(const unsigned int &scale)
 const unsigned int			&ModelComponent::getScale() const
 {
   return (this->_scale);
+}
+
+const ModelComponent::ModelType		&ModelComponent::getSelectedModel() const
+{
+  return (this->_selectedModel);
+}
+
+void					ModelComponent::setSelectedModel(ModelComponent::ModelType type)
+{
+  this->_selectedModel = type;
 }

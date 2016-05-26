@@ -5,14 +5,13 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 12:58:19 2016 Barthelemy Gouby
-// Last update Thu May 26 12:37:34 2016 Erwan Dupard
+// Last update Thu May 26 15:56:47 2016 Barthelemy Gouby
 //
 
 #ifndef _COMPONENT_HH_
 # define _COMPONENT_HH_
 
 # include <string>
-# include <vector>
 
 class						Component
 {

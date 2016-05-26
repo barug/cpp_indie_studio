@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Wed May 25 15:55:07 2016 Barthelemy Gouby
+// Last update Thu May 26 16:22:40 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
@@ -89,7 +89,7 @@ void				Engine::ExplosiveSystem()
 				     upIsBlocked);
 	    }
 	  owner = this->_entityManager.getEntity(explosiveComponent->getOwnerId());
-	  if (explosiveComponent->getOwnerType() == ExplosiveComponent::PLAYER)
+	  if (owner && explosiveComponent->getOwnerType() == ExplosiveComponent::PLAYER)
 	    ((PlayerInputComponent*)(owner->getComponent(Component::PLAYER_INPUT_COMPONENT)))
 	      ->decrementActiveBombs();
 	  this->_display.removeModel(explosive);

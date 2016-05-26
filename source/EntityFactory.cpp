@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Thu May 26 14:25:21 2016 Thomas Bogard
+// Last update Thu May 26 16:05:17 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -53,9 +53,9 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
 					 const unsigned int &rotation)
 {
   Entity		*explosion = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/explosion.b3d",
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
 							     "./textures/fire.jpg",
-							     100);
+							     330);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
 
@@ -134,6 +134,7 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 									 explosionSize,
 									 speed);
 
+  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);
   player->addComponent(modelComponent);
   player->addComponent(positionComponent);
   player->addComponent(playerInputComponent);

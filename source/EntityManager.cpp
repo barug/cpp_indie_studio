@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Thu May 26 16:53:36 2016 Erwan Dupard
+// Last update Thu May 26 17:24:21 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -87,7 +87,7 @@ void							EntityManager::_serializeSpeedComponent(std::string &out, SpeedCompon
 void							EntityManager::_serializeModelComponent(std::string &out, ModelComponent *component) const
 {
   out += ':';
-  out += component->getModel() + ",";
+  // out += component->getModel() + ",";
   out += component->getTexture() + ",";
   out += this->_intToString(component->getScale());
 }
@@ -221,6 +221,7 @@ void							EntityManager::unserialize(const std::string &fileName) const
   unsigned int						entityId;
   unsigned						first;
   unsigned					        last;
+  std::vector<Entity*>					newEntities;
 
   fs.open(fileName, std::fstream::in);
   if (fs.is_open())

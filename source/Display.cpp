@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu May 26 14:26:15 2016 Thomas Bogard
+// Last update Thu May 26 15:59:46 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -175,11 +175,11 @@ int		Display::createModel(Entity *entity)
   PositionComponent			*pos =
     (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
   irr::scene::IAnimatedMeshSceneNode	*node =
-    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel().c_str()));
+    this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel(ModelComponent::DEFAULT).c_str()));
 
   if (!node)
     {
-      std::cerr << "model : " << model->getModel() << " cannot be open." << std::endl;
+      std::cerr << "model : " << model->getModel(ModelComponent::DEFAULT) << " cannot be open." << std::endl;
       return (1);
     }
   node->setMaterialTexture(0, this->_driver->getTexture(model->getTexture().c_str()));
@@ -190,48 +190,41 @@ int		Display::createModel(Entity *entity)
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   // node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
-  this->_animation.emplace(id, NONE);
   return (0);
 }
 
 void		Display::removeModel(Entity *entity)
 {
   unsigned int	id = entity->getId();
-  auto		model = this->_models.find(id);
+  auto		search = this->_models.find(id);
 
-  if (model != this->_models.end())
+  if (search != this->_models.end())
     {
-      model->second->remove();
+      search->second->remove();
       this->_models.erase(id);
     }
 }
 
-int		Display::updateModelAnimation(const unsigned int &id, const unsigned int &rotation,
-                                              const unsigned int &posX, const unsigned int &oldX,
-                                              const unsigned int &posY, const unsigned int &oldY)
+int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 {
-  auto		model = this->_models.find(id);
-  auto		anim = this->_animation.find(id);
+  auto			search = _models.find(entity->getId());
+  ModelComponent	*modelComponent =
+    (ModelComponent*) entity->getComponent(Component::MODEL_COMPONENT);
+  irr::scene::IAnimatedMeshSceneNode	*node;
 
-  if (model != this->_models.end())
+  if (search != _models.end())
     {
-      if (anim != this->_animation.end())
-        {
-          if ((oldX != posX || oldY != posY) && (oldX && oldY && anim->second != RUN))
-            {
-	      model->second->setMesh(this->_smgr->getMesh(M_RUN));
-              model->second->setMaterialTexture(0, this->_driver->getTexture(T_GREEN));
-              model->second->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-              anim->second = RUN;
-            }
-          if (oldX == posX && oldY == posY && anim->second != STAND)
-            {
-	      model->second->setMesh(this->_smgr->getMesh(M_STAND));
-              model->second->setMaterialTexture(0, this->_driver->getTexture(T_GREEN));
-              model->second->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-              anim->second = STAND;
-            }
-        }
+      if (modelComponent->getSelectedModel() != type && !modelComponent->getModel(type).empty())
+	{
+	  node = search->second;
+	  node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
+	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));
+	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	  node->setScale(irr::core::vector3df(modelComponent->getScale(),
+					      modelComponent->getScale(),
+					      modelComponent->getScale()));
+	  modelComponent->setSelectedModel(type);
+	}
     }
 }
 
