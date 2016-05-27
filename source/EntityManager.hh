@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Thu May 26 15:12:13 2016 Erwan Dupard
+// Last update Thu May 26 17:24:41 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
