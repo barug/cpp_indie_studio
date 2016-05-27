@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Thu May 26 17:24:21 2016 Erwan Dupard
+// Last update Fri May 27 13:44:42 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -213,6 +213,69 @@ void							EntityManager::serialize(const std::string &fileName) const
     std::cout << "[-] Can't serialize to file " << fileName << std::endl;
 }
 
+Entity							*EntityManager::_addUnserializedEntity(std::vector<Entity *> &entities, const unsigned int &entityId) const
+{
+  Entity						*newEntity = new Entity(entityId);
+
+  entities.push_back(newEntity);
+  return (newEntity);
+}
+
+void							EntityManager::_unserializePositionComponent(Entity &entity, const std::string &componentString) const 
+{
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  PositionComponent					*newComponent = new PositionComponent();
+
+  std::cout << "workingString : " << workingString << std::endl;
+  newComponent->setX(this->_stringToInt(workingString));
+  workingString = workingString.substr(workingString.find(",") + 1);
+  newComponent->setY(this->_stringToInt(workingString));
+  workingString = workingString.substr(workingString.find(",") + 1);
+  newComponent->setOldX(this->_stringToInt(workingString));
+  workingString = workingString.substr(workingString.find(",") + 1);
+  newComponent->setOldY(this->_stringToInt(workingString));
+  workingString = workingString.substr(workingString.find(",") + 1);
+  newComponent->setRotation(this->_stringToInt(workingString));
+  entity.addComponent(newComponent);
+}
+
+void							EntityManager::_unserializeSpeedComponent(Entity &entity, const std::string &componentString) const 
+{
+}
+
+void							EntityManager::_unserializeModelComponent(Entity &entity, const std::string &componentString) const 
+{
+}
+
+void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
+{
+  Component::ComponentType				componentId;
+
+  componentId = (Component::ComponentType)this->_stringToInt(componentString);
+  switch(componentId)
+    {
+    case Component::POSITION_COMPONENT:
+      this->_unserializePositionComponent(entity, componentString);
+      break;
+    case Component::SPEED_COMPONENT:
+      this->_unserializeSpeedComponent(entity, componentString);
+      break;
+    case Component::MODEL_COMPONENT:
+      this->_unserializeModelComponent(entity, componentString);
+      break;
+    case Component::HEALTH_COMPONENT:
+      break;
+    case Component::EXPLOSIVE_COMPONENT:
+      break;
+    case Component::EXPLOSION_COMPONENT:
+      break;
+    case Component::POWER_UP_COMPONENT:
+      break;
+    case Component::PLAYER_INPUT_COMPONENT:
+      break;
+    }
+}
+
 void							EntityManager::unserialize(const std::string &fileName) const
 {
   std::ifstream						fs;
@@ -222,6 +285,7 @@ void							EntityManager::unserialize(const std::string &fileName) const
   unsigned						first;
   unsigned					        last;
   std::vector<Entity*>					newEntities;
+  Entity						*lastEntity;
 
   fs.open(fileName, std::fstream::in);
   if (fs.is_open())
@@ -229,12 +293,14 @@ void							EntityManager::unserialize(const std::string &fileName) const
       while (std::getline(fs, entityString))
 	{
 	  entityId = this->_stringToInt(entityString.substr(0, entityString.find("|")));
+	  lastEntity = _addUnserializedEntity(newEntities, entityId);
 	  while (entityString != "")
 	    {
 	      first = entityString.find("{") + 1;
 	      last = entityString.find("}");
 	      componentString = entityString.substr(first, last - first);
 	      //componentString is the serialized component definition
+	      this->_addUnserializedComponent(*lastEntity, componentString);
 	      entityString = entityString.substr(entityString.find("}") + 1);
 	    }
 	}
