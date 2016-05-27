@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Fri May 27 14:00:04 2016 Erwan Dupard
+// Last update Fri May 27 14:25:29 2016 Erwan Dupard
 //
 
 #ifndef _MODEL_COMPONENT_HH_
@@ -41,6 +41,7 @@ public:
   const ModelComponent::ModelType	&getSelectedModel() const;
   void					setSelectedModel(ModelComponent::ModelType type);
   const std::vector<std::string>	&getModels() const;
+  void					setModels(const std::vector<std::string> &models);
 private:
   std::vector<std::string>		_models;
   std::string				_texture;

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri May 27 14:10:19 2016 Erwan Dupard
+// Last update Fri May 27 14:26:42 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -95,7 +95,8 @@ void							EntityManager::_serializeModelComponent(std::string &out, ModelCompon
       ++it;
     }
   out += component->getTexture() + ',';
-  out += this->_intToString(component->getScale());
+  out += this->_intToString(component->getScale()) + ',';
+  out += this->_intToString(component->getSelectedModel());
 }
 
 void							EntityManager::_serializeHealthComponent(std::string &out, HealthComponent *component) const
@@ -245,7 +246,6 @@ void							EntityManager::_unserializeSpeedComponent(Entity &entity, const std::
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   SpeedComponent					*newComponent = new SpeedComponent();
 
-  std::cout << "workingString : " << workingString << std::endl;
   newComponent->setSpeedX(this->_stringToInt(workingString));
   workingString = workingString.substr(workingString.find(',') + 1);
   newComponent->setSpeedY(this->_stringToInt(workingString));
@@ -257,8 +257,32 @@ void							EntityManager::_unserializeModelComponent(Entity &entity, const std::
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   ModelComponent					*newComponent = new ModelComponent();
   unsigned int						modelsSize = this->_stringToInt(componentString);
+  unsigned int						i = 0;
+  std::vector<std::string>				models;
+  std::string						texture;
+  unsigned int						scale;
+  ModelComponent::ModelType				selectedModel;
 
-  std::cout << "workingString : " << workingString << std::endl;    
+  workingString = workingString.substr(workingString.find(',') + 1);
+  while (i < modelsSize)
+    {
+      if (0 == workingString.find(','))
+	models.push_back("");
+      else
+	models.push_back(workingString.substr(0, workingString.find(',')));
+      workingString = workingString.substr(workingString.find(',') + 1);
+      ++i;
+    }
+  texture = workingString.substr(0, workingString.find(','));
+  workingString = workingString.substr(workingString.find(',') + 1);
+  scale = this->_stringToInt(workingString);
+  workingString = workingString.substr(workingString.find(',') + 1);
+  selectedModel = (ModelComponent::ModelType)this->_stringToInt(workingString);
+  newComponent->setModels(models);
+  newComponent->setTexture(texture);
+  newComponent->setScale(scale);
+  newComponent->setSelectedModel(selectedModel);
+  entity.addComponent(newComponent);
 }
 
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
