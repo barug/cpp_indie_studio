@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 27 11:33:18 2016 Barthelemy Gouby
+// Last update Fri May 27 16:22:59 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -46,6 +46,8 @@ public:
 									       const int &x, const int &y,
 									       irr::core::vector3df rotation,
 									       const int &scale);
+  int								guiRemoveModel(const int &x,
+									       const int &y);
   int								createModel(Entity *entity);
   void								removeModel(Entity *Entity);
   int								updateModel(Entity *entity,

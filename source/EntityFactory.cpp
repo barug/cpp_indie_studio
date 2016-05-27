@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Thu May 26 16:05:17 2016 Thomas Bogard
+// Last update Thu May 26 19:23:02 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -35,8 +35,8 @@ Entity			*EntityFactory::createBomb(const unsigned int &x,
 						   const unsigned int &explosionSize)
 {
   Entity		*normalBomb = new Entity(this->_nextFreeId);
-  ModelComponent	*modelComponent = new ModelComponent("./models/bomb.obj",
-							     "./textures/bomb.png",
+  ModelComponent	*modelComponent = new ModelComponent("./models/MegaBomb/MegaBomb.obj",
+							     "./models/MegaBomb/textureA.png",
 							     30);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosiveComponent	*explosiveComponent = new ExplosiveComponent(100, explosionSize, ownerId, ownerType);

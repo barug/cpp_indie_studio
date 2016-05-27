@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 27 13:37:23 2016 Barthelemy Gouby
+// Last update Fri May 27 16:23:56 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -166,6 +166,22 @@ int             Display::guiCreateModel(const std::string mesh,
     }
 }
 
+int		Display::guiRemoveModel(const int &x,
+					const int &y)
+{
+  std::string	pos;
+  pos = std::to_string(x);
+  pos += std::to_string(y);
+  unsigned int position = atoi(pos.c_str());
+  auto search	= this->_guimodel.find(position);
+
+  if (search != this->_guimodel.end())
+    {
+      search->second->remove();
+      this->_guimodel.erase(position);
+    }
+}
+
 // models for entity
 int		Display::createModel(Entity *entity)
 {
@@ -255,7 +271,7 @@ void		Display::changeModelAlpha(Entity *entity,
     {
       node = search->second;
       // this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), alpha);
-    }  
+    }
 }
 
 const bool	Display::tileIsOccupiedBomb(const unsigned int &x,

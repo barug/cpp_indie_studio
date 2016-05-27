@@ -8,7 +8,7 @@ menu::~menu()
 {
 }
 
-irr::gui::IGUIButton* menu::createButon(int left, int leftmid, int right, int rightmid, const char *img)
+irr::gui::IGUIButton* menu::createButon(int left, int leftmid, int right, int rightmid, const char * const img)
 {
   irr::gui::IGUIButton *bouton;
 
@@ -21,28 +21,31 @@ irr::gui::IGUIButton* menu::createButon(int left, int leftmid, int right, int ri
 void			menu::resetWindow()
 {
   this->_gui->clear();
-  
   this->_ss = this->_device->getVideoDriver()->getScreenSize();
   this->_middleOfScreen = this->_ss.Width / 2;
   this->_left = this->_middleOfScreen-164;
   this->_leftmid = this->_middleOfScreen-32;
   this->_right = this->_middleOfScreen+164;
   this->_rightmid = this->_middleOfScreen+32;
-  this->_bouton_quit = createButon(this->_left,this->_leftmid,this->_right,this->_rightmid, "textures/exit.png");
+  this->_bquit = createButon(this->_left,this->_leftmid,this->_right,this->_rightmid, "textures/exit.png");
 }
 
 void			menu::resize()
 {
   if (this->_device->getVideoDriver()->getScreenSize() != this->_ss)
     resetWindow();
-} 
+}
 
-int			menu::checkButon()
+int			menu::checkButton()
 {
-  if (this->_bouton_quit->isPressed() == true)
+  if (this->_bquit->isPressed() == true)
     {
       this->_driver->endScene ();
       return (-1);
+    }
+  else if (this->_bsave->isPressed() == true)
+    {
+
     }
   return (0);
 }
@@ -51,23 +54,24 @@ void			menu::drawGui()
 {
   this->_gui->drawAll();
 }
-
+#include <iostream>
 void			menu::init()
 {
   this->_device = irr::createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<irr::u32>(1200,800), 32);
   this->_device->setResizable(true);
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
-  this->_image = this->_driver->getTexture ("textures/space.jpg");
+  this->_image = this->_driver->getTexture ("textures/menu.png");
   this->_gui = this->_device->getGUIEnvironment();
   this->_ss = this->_device->getVideoDriver()->getScreenSize();
- 
   this->_middleOfScreen = this->_ss.Width / 2;
   this->_left = this->_middleOfScreen-164;
   this->_leftmid = this->_middleOfScreen-32;
   this->_right = this->_middleOfScreen+164;
   this->_rightmid = this->_middleOfScreen+32;
-  this->_bouton_quit = createButon(this->_left,this->_leftmid,this->_right,this->_rightmid, "textures/exit.png");
+  std::cout << _left << " && " << _leftmid << " && " << _right << " && " << _rightmid << std::endl;
+  this->_bquit = createButon(this->_left,this->_leftmid,this->_right,this->_rightmid, "textures/exit.png");
+  this->_bsave = createButon(436,660,764,730, "textures/exit.png");
 }
 
 void                  menu::drawAll()
@@ -76,11 +80,11 @@ void                  menu::drawAll()
   while(this->_device->run())
     {
       resize();
-      if (checkButon() == -1)
+      if (checkButton() == -1)
        	break;
       this->_driver->beginScene(true, true,
   				irr::video::SColor (0,120,120,120));
-      this->_driver->draw2DImage(this->_image,                                    // dessin de l'image                              
+      this->_driver->draw2DImage(this->_image,                                    // dessin de l'image
   				 irr::core::position2d<irr::s32>(0,0),
   				 irr::core::rect<irr::s32>(0,0, this->_ss.Width, this->_ss.Height),
   				 0,
