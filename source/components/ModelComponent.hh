@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Fri May 27 14:25:29 2016 Erwan Dupard
+// Last update Fri May 27 16:01:44 2016 Erwan Dupard
 //
 
 #ifndef _MODEL_COMPONENT_HH_
