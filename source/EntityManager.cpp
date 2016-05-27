@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri May 27 14:26:42 2016 Erwan Dupard
+// Last update Fri May 27 14:34:30 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -285,6 +285,21 @@ void							EntityManager::_unserializeModelComponent(Entity &entity, const std::
   entity.addComponent(newComponent);
 }
 
+void							EntityManager::_unserializeHealthComponent(Entity &entity, const std::string &componentString) const 
+{
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  unsigned int						lives;
+  unsigned int					        invicibleTimer;
+  HealthComponent					*newComponent;
+
+  lives = this->_stringToInt(workingString);
+  workingString = workingString.substr(workingString.find(',') + 1);
+  invicibleTimer = this->_stringToInt(workingString);
+  newComponent = new HealthComponent(lives);
+  newComponent->setInviciblesTimer(invicibleTimer);
+  entity.addComponent(newComponent);
+}
+
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
 {
   Component::ComponentType				componentId;
@@ -302,6 +317,7 @@ void							EntityManager::_addUnserializedComponent(Entity &entity, const std::s
       this->_unserializeModelComponent(entity, componentString);
       break;
     case Component::HEALTH_COMPONENT:
+      this->_unserializeHealthComponent(entity, componentString);
       break;
     case Component::EXPLOSIVE_COMPONENT:
       break;
