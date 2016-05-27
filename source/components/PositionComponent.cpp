@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 16:13:50 2016 Barthelemy Gouby
-// Last update Wed May 25 12:00:57 2016 Barthelemy Gouby
+// Last update Fri May 27 13:46:53 2016 Barthelemy Gouby
 //
 
 #include "PositionComponent.hh"
@@ -34,16 +34,6 @@ void				PositionComponent::setY(const unsigned int &y)
   this->_y = y;
 }
 
-void				PositionComponent::setOldX(const unsigned int &oldx)
-{
-  this->_old_x = oldx;
-}
-
-void				PositionComponent::setOldY(const unsigned int &oldy)
-{
-  this->_old_y = oldy;
-}
-
 void				PositionComponent::setRotation(const unsigned int &rotation)
 {
   this->_rotation = rotation;
@@ -57,16 +47,6 @@ const unsigned int			&PositionComponent::getX() const
 const unsigned int			&PositionComponent::getY() const
 {
   return (this->_y);
-}
-
-const unsigned int			&PositionComponent::getOldX() const
-{
-  return (this->_old_x);
-}
-
-const unsigned int			&PositionComponent::getOldY() const
-{
-  return (this->_old_y);
 }
 
 const unsigned int			&PositionComponent::getRotation() const

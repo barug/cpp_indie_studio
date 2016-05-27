@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Thu May 26 15:58:26 2016 Barthelemy Gouby
+// Last update Fri May 27 11:33:18 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -54,6 +54,8 @@ public:
 										    const unsigned int &rotation,
 										    const unsigned int &x,
 										    const unsigned int &y);
+  void								changeModelAlpha(Entity *entity,
+										 const unsigned int &alpha);
   const bool							tileIsOccupied(const unsigned int &x,
 									       const unsigned int &y,
 									       Entity *entity);

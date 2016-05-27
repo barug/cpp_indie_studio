@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu May 26 15:59:46 2016 Barthelemy Gouby
+// Last update Fri May 27 13:37:23 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -186,6 +186,8 @@ int		Display::createModel(Entity *entity)
   node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
   node->setAnimationSpeed(40);
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+  this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), 0);
   node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   // node->setDebugDataVisible(irr::scene::EDS_BBOX);
@@ -220,6 +222,8 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 	  node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
 	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));
 	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+	  this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), 0);
 	  node->setScale(irr::core::vector3df(modelComponent->getScale(),
 					      modelComponent->getScale(),
 					      modelComponent->getScale()));
@@ -239,6 +243,19 @@ int		Display::updateModelPosition(const unsigned int &id, const unsigned int &ro
       node->setRotation(irr::core::vector3df(0, rotation, 0));
       node->updateAbsolutePosition();
     }
+}
+
+void		Display::changeModelAlpha(Entity *entity,
+					  const unsigned int &alpha)
+{
+  auto		search = _models.find(entity->getId());
+  irr::scene::IAnimatedMeshSceneNode  *node;
+
+  if (search != _models.end())
+    {
+      node = search->second;
+      // this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), alpha);
+    }  
 }
 
 const bool	Display::tileIsOccupiedBomb(const unsigned int &x,
