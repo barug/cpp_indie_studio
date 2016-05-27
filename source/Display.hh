@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 27 16:22:59 2016 Thomas Bogard
+// Last update Fri May 27 16:30:39 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
