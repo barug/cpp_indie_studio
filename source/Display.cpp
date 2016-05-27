@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 27 13:37:23 2016 Barthelemy Gouby
+// Last update Fri May 27 14:09:48 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -223,7 +223,8 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));
 	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-	  this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), 0);
+	  // this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), 0);
+	  node->getMaterial().MaterialTypeParam = 0;
 	  node->setScale(irr::core::vector3df(modelComponent->getScale(),
 					      modelComponent->getScale(),
 					      modelComponent->getScale()));
