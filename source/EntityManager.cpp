@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri May 27 14:34:30 2016 Erwan Dupard
+// Last update Fri May 27 15:22:02 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -300,6 +300,74 @@ void							EntityManager::_unserializeHealthComponent(Entity &entity, const std:
   entity.addComponent(newComponent);
 }
 
+void							EntityManager::_unserializeExplosiveComponent(Entity &entity, const std::string &componentString) const
+{
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  ExplosiveComponent					*newComponent;
+  unsigned int						timerLength;
+  unsigned int					        explosionSize;
+  unsigned int					        ownerId;
+  ExplosiveComponent::Owner				ownerType;
+
+  timerLength = this->_stringToInt(workingString);
+  workingString = workingString.substr(workingString.find(',') + 1);
+  explosionSize = this->_stringToInt(workingString);
+  workingString = workingString.substr(workingString.find(',') + 1);
+  ownerId = this->_stringToInt(workingString);
+  workingString = workingString.substr(workingString.find(',') + 1);
+  ownerType = (ExplosiveComponent::Owner)this->_stringToInt(workingString);
+  workingString = workingString.substr(workingString.find(',') + 1);
+  newComponent = new ExplosiveComponent(timerLength, explosionSize, ownerId, ownerType);
+  entity.addComponent(newComponent);
+}
+
+void							EntityManager::_unserializeExplosionComponent(Entity &entity, const std::string &componentString) const
+{
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  ExplosionComponent					*newComponent;
+  unsigned int						explosionDuration;
+
+  explosionDuration = this->_stringToInt(workingString);
+  newComponent = new ExplosionComponent(explosionDuration);
+  entity.addComponent(newComponent);
+}
+
+void							EntityManager::_unserializePowerUpComponent(Entity &entity, const std::string &componentString) const
+{
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  PowerUpComponent					*newComponent;
+  PowerUpComponent::Type				type;
+
+  type = (PowerUpComponent::Type)this->_stringToInt(workingString);
+  newComponent = new PowerUpComponent(type);
+  entity.addComponent(newComponent);
+}
+
+void							EntityManager::_unserializePlayerInputComponent(Entity &entity, const std::string &componentString) const
+{
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  PlayerInputComponent					*newComponent;
+  irr::EKEY_CODE					keyUp;
+  irr::EKEY_CODE					keyDown;
+  irr::EKEY_CODE					keyLeft;
+  irr::EKEY_CODE					keyRight;
+  irr::EKEY_CODE					keyBomb;
+  unsigned int						maxBombs;
+  unsigned int					        explosionSize;
+  unsigned int					        speed;
+
+  keyUp = (irr::EKEY_CODE)this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  keyDown = (irr::EKEY_CODE)this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  keyLeft = (irr::EKEY_CODE)this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  keyRight = (irr::EKEY_CODE)this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  keyBomb = (irr::EKEY_CODE)this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  maxBombs = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  explosionSize = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  speed = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
+  newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
+  entity.addComponent(newComponent);
+}
+
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
 {
   Component::ComponentType				componentId;
@@ -320,17 +388,21 @@ void							EntityManager::_addUnserializedComponent(Entity &entity, const std::s
       this->_unserializeHealthComponent(entity, componentString);
       break;
     case Component::EXPLOSIVE_COMPONENT:
+      this->_unserializeExplosiveComponent(entity, componentString);
       break;
     case Component::EXPLOSION_COMPONENT:
+      this->_unserializeExplosionComponent(entity, componentString);
       break;
     case Component::POWER_UP_COMPONENT:
+      this->_unserializePowerUpComponent(entity, componentString);
       break;
     case Component::PLAYER_INPUT_COMPONENT:
+      this->_unserializePlayerInputComponent(entity, componentString);
       break;
     }
 }
 
-void							EntityManager::unserialize(const std::string &fileName) const
+void							EntityManager::unserialize(const std::string &fileName)
 {
   std::ifstream						fs;
   std::string						entityString;
@@ -357,6 +429,7 @@ void							EntityManager::unserialize(const std::string &fileName) const
 	      entityString = entityString.substr(entityString.find("}") + 1);
 	    }
 	}
+      this->_entities = newEntities;
     }
   else
     std::cout << "[-] Can't unserialize file " << fileName << std::endl;
