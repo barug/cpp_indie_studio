@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Fri May 27 15:19:05 2016 Erwan Dupard
+// Last update Fri May 27 15:22:17 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -40,7 +40,7 @@ public:
   const std::vector<Entity*>	&getEntities();
   std::vector<Entity*>		*getEntitiesWithComponents(std::vector<Component::ComponentType> typeList);
   void				serialize(const std::string &fileName) const;
-  void				unserialize(const std::string &fileName) const;
+  void				unserialize(const std::string &fileName);
 private:
   std::string			_intToString(unsigned int value) const;
   unsigned int			_stringToInt(const std::string &str) const;
