@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Thu May 26 16:53:18 2016 Erwan Dupard
+// Last update Fri May 27 15:24:11 2016 Erwan Dupard
 //
 
 #include <iostream>
@@ -13,12 +13,6 @@
 #include "../components/SpeedComponent.hh"
 #include "../components/PlayerInputComponent.hh"
 #include "../components/ExplosiveComponent.hh"
-
-// bool				Engine::_canPlaceBomb(PositionComponent *positionComponent,
-// 						      Entity *bomb)
-// {
-  
-// }
 
 void				Engine::playerInputSystem()
 {
@@ -52,8 +46,6 @@ void				Engine::playerInputSystem()
 	  else if (key == playerInputComponent->getKeyBomb()
 	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
-	      this->_entityManager.serialize("/tmp/test");
-	      this->_entityManager.unserialize("/tmp/test");
 	      bombs = this->_entityManager.getEntitiesWithComponents({Component::EXPLOSIVE_COMPONENT});
 	      positionComponent = (PositionComponent*) player->getComponent(Component::POSITION_COMPONENT);	  
 	      canPlaceBomb = true;

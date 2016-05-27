@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Fri May 27 17:42:56 2016 Barthelemy Gouby
+// Last update Fri May 27 17:47:53 2016 Barthelemy Gouby
 //
 
 #ifndef _MODEL_COMPONENT_HH_
@@ -41,12 +41,12 @@ public:
   const unsigned int			&getScale() const;
   const ModelComponent::ModelType	&getSelectedModel() const;
   void					setSelectedModel(ModelComponent::ModelType type);
-
+  const std::vector<std::string>	&getModels() const;
+  void					setModels(const std::vector<std::string> &models);
 private:
   std::vector<std::string>		_models;
   std::string				_texture;
   unsigned int				_scale;
-  irr::video::E_MATERIAL_TYPE		_materialType;
   ModelComponent::ModelType		_selectedModel;
 };
 

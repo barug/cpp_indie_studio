@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 27 17:43:58 2016 Barthelemy Gouby
+// Last update Fri May 27 17:52:20 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -146,9 +146,7 @@ int             Display::guiCreateModel(const std::string mesh,
 					irr::core::vector3df rotation,
 					const int &scale)
 {
-  std::string	pos;
-  pos = std::to_string(x);
-  pos += std::to_string(y);
+  std::string	pos = std::to_string(x) + std::to_string(y);
   unsigned int position = atoi(pos.c_str());
   if (!this->_guimodel.count(position))
     {
@@ -163,6 +161,19 @@ int             Display::guiCreateModel(const std::string mesh,
       node->setScale(irr::core::vector3df(scale, scale, scale));
       node->setRotation(rotation);
       this->_guimodel.emplace(position, node);
+    }
+}
+
+int		Display::guiRemoveModel(const int &x,
+					const int &y)
+{
+  std::string	pos = std::to_string(x) + std::to_string(y);
+  unsigned int position = atoi(pos.c_str());
+  auto search	= this->_guimodel.find(position);
+  if (search != this->_guimodel.end())
+    {
+      search->second->remove();
+      this->_guimodel.erase(position);
     }
 }
 
