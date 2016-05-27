@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Fri May 27 13:37:26 2016 Erwan Dupard
+// Last update Fri May 27 13:54:54 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -17,7 +17,7 @@
 # include <iostream>
 # include <sstream>
 # include <string>
-
+# include <stdexcept>
 # include "Entity.hh"
 # include "components/Component.hh"
 # include "components/PositionComponent.hh"

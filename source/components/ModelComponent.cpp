@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 11:19:20 2016 Barthelemy Gouby
-// Last update Thu May 26 15:45:53 2016 Barthelemy Gouby
+// Last update Fri May 27 14:00:27 2016 Erwan Dupard
 //
 
 #include "ModelComponent.hh"
@@ -81,4 +81,9 @@ const ModelComponent::ModelType		&ModelComponent::getSelectedModel() const
 void					ModelComponent::setSelectedModel(ModelComponent::ModelType type)
 {
   this->_selectedModel = type;
+}
+
+const std::vector<std::string>		&ModelComponent::getModels() const
+{
+  return (this->_models);
 }

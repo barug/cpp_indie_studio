@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri May 27 13:48:33 2016 Erwan Dupard
+// Last update Fri May 27 14:10:19 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -84,25 +84,33 @@ void							EntityManager::_serializeSpeedComponent(std::string &out, SpeedCompon
 
 void							EntityManager::_serializeModelComponent(std::string &out, ModelComponent *component) const
 {
+  std::vector<std::string>				models = component->getModels();			
+  std::vector<std::string>::const_iterator		it = models.begin();
+
   out += ':';
-  // out += component->getModel() + ",";
-  out += component->getTexture() + ",";
+  out += this->_intToString(models.size()) + ',';  
+  while (it != models.end())
+    {
+      out += *it + ',';
+      ++it;
+    }
+  out += component->getTexture() + ',';
   out += this->_intToString(component->getScale());
 }
 
 void							EntityManager::_serializeHealthComponent(std::string &out, HealthComponent *component) const
 {
   out += ':';
-  out += this->_intToString(component->getLives()) + ",";
+  out += this->_intToString(component->getLives()) + ',';
   out += this->_intToString(component->getInvincibleTimer());
 }
 
 void							EntityManager::_serializeExplosiveComponent(std::string &out, ExplosiveComponent *component) const
 {
   out += ':';
-  out += this->_intToString(component->getTimerLength()) + ",";
-  out += this->_intToString(component->getExplosionSize()) + ",";
-  out += this->_intToString(component->getOwnerId()) + ",";
+  out += this->_intToString(component->getTimerLength()) + ',';
+  out += this->_intToString(component->getExplosionSize()) + ',';
+  out += this->_intToString(component->getOwnerId()) + ',';
   out += this->_intToString(component->getOwnerType());
 }
 
@@ -224,21 +232,33 @@ void							EntityManager::_unserializePositionComponent(Entity &entity, const st
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   PositionComponent					*newComponent = new PositionComponent();
 
-  std::cout << "workingString : " << workingString << std::endl;
   newComponent->setX(this->_stringToInt(workingString));
-  workingString = workingString.substr(workingString.find(",") + 1);
+  workingString = workingString.substr(workingString.find(',') + 1);
   newComponent->setY(this->_stringToInt(workingString));
-  workingString = workingString.substr(workingString.find(",") + 1);
+  workingString = workingString.substr(workingString.find(',') + 1);
   newComponent->setRotation(this->_stringToInt(workingString));
   entity.addComponent(newComponent);
 }
 
 void							EntityManager::_unserializeSpeedComponent(Entity &entity, const std::string &componentString) const 
 {
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  SpeedComponent					*newComponent = new SpeedComponent();
+
+  std::cout << "workingString : " << workingString << std::endl;
+  newComponent->setSpeedX(this->_stringToInt(workingString));
+  workingString = workingString.substr(workingString.find(',') + 1);
+  newComponent->setSpeedY(this->_stringToInt(workingString));
+  entity.addComponent(newComponent);
 }
 
 void							EntityManager::_unserializeModelComponent(Entity &entity, const std::string &componentString) const 
 {
+  std::string						workingString = componentString.substr(componentString.find(":") + 1);
+  ModelComponent					*newComponent = new ModelComponent();
+  unsigned int						modelsSize = this->_stringToInt(componentString);
+
+  std::cout << "workingString : " << workingString << std::endl;    
 }
 
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
@@ -293,7 +313,6 @@ void							EntityManager::unserialize(const std::string &fileName) const
 	      first = entityString.find("{") + 1;
 	      last = entityString.find("}");
 	      componentString = entityString.substr(first, last - first);
-	      //componentString is the serialized component definition
 	      this->_addUnserializedComponent(*lastEntity, componentString);
 	      entityString = entityString.substr(entityString.find("}") + 1);
 	    }
@@ -313,5 +332,15 @@ std::string						EntityManager::_intToString(const unsigned int value) const
 
 unsigned int						EntityManager::_stringToInt(const std::string &str) const
 {
-  return (std::stoi(str, nullptr, 10));
+  unsigned int						result;
+
+  try
+    {
+      result = std::stoi(str, nullptr, 10);
+    }
+  catch(std::out_of_range &e)
+    {
+      result = 0;
+    }
+  return (result);
 }
