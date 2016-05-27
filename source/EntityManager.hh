@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Thu May 26 14:17:25 2016 Erwan Dupard
+// Last update Fri May 27 13:37:26 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -43,6 +43,7 @@ public:
   void				unserialize(const std::string &fileName) const;
 private:
   std::string			_intToString(unsigned int value) const;
+  unsigned int			_stringToInt(const std::string &str) const;
   void				_serializeEntityComponents(std::string &out, Entity *entity) const;
   void				_serializeEntityComponent(std::string &out, Component *entity) const;
   void				_serializePositionComponent(std::string &out, PositionComponent *component) const;
@@ -53,6 +54,11 @@ private:
   void				_serializeExplosionComponent(std::string &out, ExplosionComponent *component) const;
   void				_serializePowerUpComponent(std::string &out, PowerUpComponent *component) const;
   void				_serializePlayerInputComponent(std::string &out, PlayerInputComponent *component) const;
+  Entity			*_addUnserializedEntity(std::vector<Entity *> &entities, const unsigned int &entityId) const;
+  void				_addUnserializedComponent(Entity &entity, const std::string &componentString) const;
+  void				_unserializePositionComponent(Entity &entity, const std::string &componentString) const;
+  void				_unserializeSpeedComponent(Entity &entity, const std::string &componentString) const;
+  void				_unserializeModelComponent(Entity &entity, const std::string &componentString) const;
   std::vector<Entity*>		_entities;
 };
 

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Wed May 25 15:37:59 2016 Erwan Dupard
+// Last update Thu May 26 16:53:18 2016 Erwan Dupard
 //
 
 #include <iostream>
@@ -53,6 +53,7 @@ void				Engine::playerInputSystem()
 	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
 	      this->_entityManager.serialize("/tmp/test");
+	      this->_entityManager.unserialize("/tmp/test");
 	      bombs = this->_entityManager.getEntitiesWithComponents({Component::EXPLOSIVE_COMPONENT});
 	      positionComponent = (PositionComponent*) player->getComponent(Component::POSITION_COMPONENT);	  
 	      canPlaceBomb = true;
