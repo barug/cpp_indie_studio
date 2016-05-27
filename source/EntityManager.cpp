@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri May 27 13:44:42 2016 Erwan Dupard
+// Last update Fri May 27 13:48:33 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -72,8 +72,6 @@ void							EntityManager::_serializePositionComponent(std::string &out, Position
   out += ':';
   out += this->_intToString(component->getX()) + ",";
   out += this->_intToString(component->getY()) + ",";
-  out += this->_intToString(component->getOldX()) + ",";
-  out += this->_intToString(component->getOldY()) + ",";
   out += this->_intToString(component->getRotation());
 }
 
@@ -230,10 +228,6 @@ void							EntityManager::_unserializePositionComponent(Entity &entity, const st
   newComponent->setX(this->_stringToInt(workingString));
   workingString = workingString.substr(workingString.find(",") + 1);
   newComponent->setY(this->_stringToInt(workingString));
-  workingString = workingString.substr(workingString.find(",") + 1);
-  newComponent->setOldX(this->_stringToInt(workingString));
-  workingString = workingString.substr(workingString.find(",") + 1);
-  newComponent->setOldY(this->_stringToInt(workingString));
   workingString = workingString.substr(workingString.find(",") + 1);
   newComponent->setRotation(this->_stringToInt(workingString));
   entity.addComponent(newComponent);
