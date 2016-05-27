@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 20:12:10 2016 Thomas Bogard
-// Last update Thu May 26 19:31:56 2016 Thomas Bogard
+// Last update Fri May 27 16:56:00 2016 Thomas Bogard
 //
 
 # include "../Engine.hh"
@@ -43,13 +43,12 @@ void		Engine::guiSystem()
 	    this->_display.guiRemoveModel(200 * (lifeIndex), 300);
 	  else if (playerIndex == 2)
 	    this->_display.guiRemoveModel(8000 - (200 * (lifeIndex)), 300);
-
 	}
 
       if (x == -1 && playerIndex == 1)
-      	this->_display.guiRemoveModel(0, 300);
-      else if (x == -1 && playerIndex == 2)
-      	this->_display.guiRemoveModel(8000, 300);
+	this->_display.guiRemoveModel(0, 300);
+      if (x == 200 && playerIndex == 2)
+	this->_display.guiRemoveModel(8000, 300);
 
       if (playerInputComponent->getMaxBombs() >= 1)
       	{
@@ -60,6 +59,7 @@ void		Engine::guiSystem()
       	  this->_display.guiCreateModel("./models/cube.obj", "./textures/powerup/bombup.png",
 					x, 500, irr::core::vector3df(90, 270, 90), 150);
       	}
+
       if (playerInputComponent->getSpeed() >= 60)
       	{
       	  if (playerIndex == 1)
@@ -69,6 +69,7 @@ void		Engine::guiSystem()
       	  this->_display.guiCreateModel("./models/cube.obj", "./textures/powerup/speedup.png",
 					x, 700, irr::core::vector3df(90, 270, 90), 150);
       	}
+
       if (playerInputComponent->getExplosionSize() > 1)
       	{
       	  if (playerIndex == 1)
@@ -78,6 +79,7 @@ void		Engine::guiSystem()
        	  this->_display.guiCreateModel("./models/cube.obj", "./textures/powerup/fireup.png",
 					x, 900, irr::core::vector3df(90, 270, 90), 150);
       	}
+
       ++playerIndex;
     }
 }
