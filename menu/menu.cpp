@@ -1,108 +1,118 @@
 #include "menu.hh"
 
-menu::menu()
+Menu::Menu()
 {
 }
 
-menu::~menu()
+Menu::~Menu()
 {
 }
 
-irr::gui::IGUIButton* menu::createButon(int left, int leftmid, int right, int rightmid, const char * const img)
-{
-  irr::gui::IGUIButton *bouton;
-
-  bouton = this->_gui->addButton(irr::core::rect<irr::s32>(left,leftmid,right,rightmid), 0, -1);
-  bouton->setImage(this->_driver->getTexture(img));
-  return (bouton);
-}
-
-
-void			menu::resetWindow()
-{
-  this->_gui->clear();
-  this->_ss = this->_device->getVideoDriver()->getScreenSize();
-  this->_middleOfScreen = this->_ss.Width / 2;
-  this->_left = this->_middleOfScreen-164;
-  this->_leftmid = this->_middleOfScreen-32;
-  this->_right = this->_middleOfScreen+164;
-  this->_rightmid = this->_middleOfScreen+32;
-  this->_bquit = createButon(this->_left,this->_leftmid,this->_right,this->_rightmid, "textures/exit.png");
-}
-
-void			menu::resize()
-{
-  if (this->_device->getVideoDriver()->getScreenSize() != this->_ss)
-    resetWindow();
-}
-
-int			menu::checkButton()
-{
-  if (this->_bquit->isPressed() == true)
-    {
-      this->_driver->endScene ();
-      return (-1);
-    }
-  else if (this->_bsave->isPressed() == true)
-    {
-
-    }
-  return (0);
-}
-
-void			menu::drawGui()
-{
-  this->_gui->drawAll();
-}
-#include <iostream>
-void			menu::init()
+void			Menu::init()
 {
   this->_device = irr::createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<irr::u32>(1200,800), 32);
   this->_device->setResizable(true);
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
-  this->_image = this->_driver->getTexture ("textures/menu.png");
+  this->_background = this->_driver->getTexture ("textures/background.png");
   this->_gui = this->_device->getGUIEnvironment();
-  this->_ss = this->_device->getVideoDriver()->getScreenSize();
-  this->_middleOfScreen = this->_ss.Width / 2;
-  this->_left = this->_middleOfScreen-164;
-  this->_leftmid = this->_middleOfScreen-32;
-  this->_right = this->_middleOfScreen+164;
-  this->_rightmid = this->_middleOfScreen+32;
-  std::cout << _left << " && " << _leftmid << " && " << _right << " && " << _rightmid << std::endl;
-  this->_bquit = createButon(this->_left,this->_leftmid,this->_right,this->_rightmid, "textures/exit.png");
-  this->_bsave = createButon(436,660,764,730, "textures/exit.png");
+  this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
 }
 
-void                  menu::drawAll()
+irr::gui::IGUIButton*	Menu::createButon(const int &x1, const int &y1,
+					  const int &x2, const int &y2,
+					  const std::string &image)
 {
-  init();
-  while(this->_device->run())
+  irr::gui::IGUIButton *bouton =
+    this->_gui->addButton(irr::core::rect<irr::s32>(x1, y1, x2, y2), 0, -1);
+  bouton->setImage(this->_driver->getTexture(image.c_str()));
+  return (bouton);
+}
+
+void			Menu::displayButtons()
+{
+  // quit button
+  this->_resizable = (this->_screenSize.Width / 2);
+  this->_bquit = createButon(this->_resizable - 164,
+			     this->_resizable - 116,
+			     this->_resizable + 164,
+			     this->_resizable - 52,
+			     "textures/exit.png");
+  // save button
+  this->_bsave = createButon(this->_resizable - 164,
+			     this->_resizable - 32,
+			     this->_resizable + 164,
+			     this->_resizable + 32,
+			     "menutext/save.png");
+  // play button
+  this->_bplay = createButon(this->_resizable - 164,
+			     this->_resizable + 52,
+			     this->_resizable + 164,
+			     this->_resizable + 116,
+			     "menutext/play.png");
+}
+
+void			Menu::resetWindow()
+{
+  if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
     {
-      resize();
+      this->_gui->clear();
+      this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
+      this->displayButtons();
+    }
+}
+
+int			Menu::checkButton()
+{
+  if (this->_bquit->isPressed())
+    {
+      this->_driver->endScene();
+      return (-1);
+    }
+  else if (this->_bsave->isPressed())
+    {
+      std::cout << "Save button activated" << std::endl;
+    }
+  return (0);
+}
+
+void			Menu::drawAll()
+{
+  this->init();
+  this->displayButtons();
+  while (this->_device->run())
+    {
+      this->resetWindow();
       if (checkButton() == -1)
        	break;
       this->_driver->beginScene(true, true,
   				irr::video::SColor (0,120,120,120));
-      this->_driver->draw2DImage(this->_image,                                    // dessin de l'image
-  				 irr::core::position2d<irr::s32>(0,0),
-  				 irr::core::rect<irr::s32>(0,0, this->_ss.Width, this->_ss.Height),
+      this->_driver->draw2DImage(this->_background,
+  				 irr::core::position2d<irr::s32>(0, 0),
+  				 irr::core::rect<irr::s32>(0, 0,
+							   this->_screenSize.Width,
+							   this->_screenSize.Height),
   				 0,
   				 irr::video::SColor (255,255,255,255),
   				 true);
-      drawGui();
+      this->_gui->drawAll();
       this->_driver->endScene();
     }
 }
 
-void		menu::clear()
+void			Menu::drawGui()
+{
+  this->_gui->drawAll();
+}
+
+void			Menu::clearGui()
 {
   this->_gui->clear();
 }
 
-int	main()
+int			main()
 {
-  menu	aff;
+  Menu			aff;
 
   aff.drawAll();
 }
