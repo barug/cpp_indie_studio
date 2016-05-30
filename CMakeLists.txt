@@ -2,6 +2,8 @@
 # IndieStudio CMake configuration file
 #
 # Erwan Dupard
+#
+# /^'--'^\
 
 cmake_minimum_required(VERSION 3.5)
 
