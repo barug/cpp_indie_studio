@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri May 27 13:37:23 2016 Barthelemy Gouby
+// Last update Fri May 27 17:52:20 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -146,9 +146,7 @@ int             Display::guiCreateModel(const std::string mesh,
 					irr::core::vector3df rotation,
 					const int &scale)
 {
-  std::string	pos;
-  pos = std::to_string(x);
-  pos += std::to_string(y);
+  std::string	pos = std::to_string(x) + std::to_string(y);
   unsigned int position = atoi(pos.c_str());
   if (!this->_guimodel.count(position))
     {
@@ -166,6 +164,19 @@ int             Display::guiCreateModel(const std::string mesh,
     }
 }
 
+int		Display::guiRemoveModel(const int &x,
+					const int &y)
+{
+  std::string	pos = std::to_string(x) + std::to_string(y);
+  unsigned int position = atoi(pos.c_str());
+  auto search	= this->_guimodel.find(position);
+  if (search != this->_guimodel.end())
+    {
+      search->second->remove();
+      this->_guimodel.erase(position);
+    }
+}
+
 // models for entity
 int		Display::createModel(Entity *entity)
 {
@@ -174,7 +185,7 @@ int		Display::createModel(Entity *entity)
     (ModelComponent*)entity->getComponent(Component::MODEL_COMPONENT);
   PositionComponent			*pos =
     (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
-  irr::scene::IAnimatedMeshSceneNode	*node =
+  irr::scene::IAnimatedMeshSceneNode	*node = 
     this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel(ModelComponent::DEFAULT).c_str()));
 
   if (!node)
@@ -186,8 +197,7 @@ int		Display::createModel(Entity *entity)
   node->setPosition(irr::core::vector3df(pos->getX(), 300, pos->getY()));
   node->setAnimationSpeed(40);
   node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-  this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), 0);
+  node->setMaterialType(irr::video::EMT_SOLID);
   node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
   // node->setDebugDataVisible(irr::scene::EDS_BBOX);
@@ -220,13 +230,12 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 	{
 	  node = search->second;
 	  node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
-	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));
 	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-	  this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), 0);
+	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));
 	  node->setScale(irr::core::vector3df(modelComponent->getScale(),
-					      modelComponent->getScale(),
-					      modelComponent->getScale()));
+	  				      modelComponent->getScale(),
+	  				      modelComponent->getScale()));
 	  modelComponent->setSelectedModel(type);
 	}
     }
@@ -245,16 +254,17 @@ int		Display::updateModelPosition(const unsigned int &id, const unsigned int &ro
     }
 }
 
-void		Display::changeModelAlpha(Entity *entity,
-					  const unsigned int &alpha)
+void		Display::changeMaterialType(Entity *entity,
+					    irr::video::E_MATERIAL_TYPE type)
 {
   auto		search = _models.find(entity->getId());
   irr::scene::IAnimatedMeshSceneNode  *node;
+  ModelComponent	*modelComponent;
 
   if (search != _models.end())
     {
       node = search->second;
-      // this->_smgr->getMeshManipulator()->setVertexColorAlpha(node->getMesh(), alpha);
+      node->setMaterialType(type);
     }  
 }
 

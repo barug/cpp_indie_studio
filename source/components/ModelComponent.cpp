@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 11 11:19:20 2016 Barthelemy Gouby
-// Last update Fri May 27 14:25:50 2016 Erwan Dupard
+// Last update Fri May 27 17:48:19 2016 Barthelemy Gouby
 //
 
 #include "ModelComponent.hh"
@@ -18,19 +18,18 @@ ModelComponent::ModelComponent()
 
 ModelComponent::ModelComponent(const std::string &defaultModel,
 			       const std::string &texture,
-			       unsigned int scale)
+			       const unsigned int &scale)
   : Component(Component::MODEL_COMPONENT),
     _models(ModelComponent::NUMBER_OF_TYPES),
     _texture(texture),
     _scale(scale),
     _selectedModel(ModelComponent::DEFAULT)
-
 {
   this->_models[ModelComponent::DEFAULT] = defaultModel;
 }
 
 ModelComponent::ModelComponent(const std::string &defaultModel,
-			       unsigned int scale)
+			       const unsigned int &scale)
   : Component(Component::MODEL_COMPONENT),
     _models(ModelComponent::NUMBER_OF_TYPES),
     _scale(scale),

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:51:48 2016 Barthelemy Gouby
-// Last update Fri May 27 16:01:44 2016 Erwan Dupard
+// Last update Fri May 27 17:47:53 2016 Barthelemy Gouby
 //
 
 #ifndef _MODEL_COMPONENT_HH_
@@ -14,6 +14,7 @@
 # include <string>
 # include <vector>
 # include "Component.hh"
+# include "irrlicht.h"
 
 class				ModelComponent : public Component
 {
@@ -28,9 +29,9 @@ public:
   ModelComponent();
   ModelComponent(const std::string &defaultModel,
 		 const std::string &texture,
-		 unsigned int scale);
-  ModelComponent(const std::string &model,
-		 unsigned int scale);
+		 const unsigned int &scale);
+  ModelComponent(const std::string &defaultModel,
+		 const unsigned int &scale);
   ~ModelComponent();
   void					setModel(const std::string &model, ModelComponent::ModelType);
   const std::string			&getModel(ModelComponent::ModelType type) const;
