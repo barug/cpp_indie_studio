@@ -3,42 +3,45 @@
 
 #include "irrlicht.h"
 #include "IGUIImage.h"
+#include <vector>
+#include <iostream>
 
-class menu
+class Menu
 {
+public:
+  Menu();
+  ~Menu();
+
+  void			clearGui();
+  void			drawGui();
+  void			drawAll();
+
+private:
+  irr::gui::IGUIButton*	createButon(const int &x1, const int &y1,
+				    const int &x2, const int &y2,
+				    const std::string &);
+  void		        resetWindow();
+  int			checkButton();
+  void			init();
+  void			displayButtons();
+
 private:
   //init de la fenetre
   irr::IrrlichtDevice*		_device;
   irr::video::IVideoDriver*	_driver;
   irr::scene::ISceneManager*	_sceneManager;
-  irr::video::ITexture *	_image;
+  irr::video::ITexture *	_background;
   irr::gui::IGUIEnvironment*	_gui;
 
   //init des coordonnées
-  irr::core::dimension2d<irr::u32> _ss;
-  int _middleOfScreen;
-  int _left;
-  int _leftmid;
-  int _right;
-  int _rightmid;
+  irr::core::dimension2d<irr::u32> _screenSize;
+  unsigned int			_resizable;
 
   //boutons
+  std::vector<irr::gui::IGUIButton *> _buttons;
   irr::gui::IGUIButton		*_bquit;
-  irr::gui::IGUIButton		*_bstart;
-  irr::gui::IGUIButton		*_breset;
+  irr::gui::IGUIButton		*_bplay;
   irr::gui::IGUIButton		*_bsave;
-
-public:
-  menu();
-  ~menu();
-  irr::gui::IGUIButton*	createButon(int, int, int, int, const char * const);
-  void			resetWindow();
-  void			drawAll();
-  void		        resize();
-  int			checkButton();
-  void			clear();
-  void			drawGui();
-  void			init();
 };
 
 
