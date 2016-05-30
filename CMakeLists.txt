@@ -54,7 +54,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 include_directories(./include)
 link_directories(./lib)
 
-set(IRRLICHT_LIBRARY
+set(IRRLICHT_LIBRARIES
   -L/usr/X11R6/lib
   -L./lib
   -lIrrlicht
@@ -70,5 +70,5 @@ target_link_libraries(
   ${X11_LIBRARIES}
   ${GLUT_LIBRARIES}
   ${ZLIB_LIBRARIES}
-  ${IRRLICHT_LIBRARY}
+  ${IRRLICHT_LIBRARIES}
 )
