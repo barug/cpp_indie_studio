@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Wed May 25 16:15:47 2016 Barthelemy Gouby
+// Last update Fri May 27 17:57:09 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
