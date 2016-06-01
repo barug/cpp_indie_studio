@@ -98,21 +98,49 @@ void			Menu::resetWindow()
 
 int			Menu::checkButton()
 {
-  if (this->_bsave->isPressed())
+  if (this->_state == MENU1)
     {
-      if (!_listb)
+      if (this->_bsave->isPressed())
 	{
-	  std::cout << "Save button activated" << std::endl;
-	  // irr::gui::IGUIListBox * listbox = _gui->addListBox(irr::core::rect<irr::s32>(800, 200, 1100, 600));
-	  _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
-	  // listbox->addItem();
+	  if (!_listb)
+	    {
+	      std::cout << "Save button activated" << std::endl;
+	      // irr::gui::IGUIListBox * listbox = _gui->addListBox(irr::core::rect<irr::s32>(800, 200, 1100, 600));
+	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
+	      // listbox->addItem();
 	  _listb = false;
+	    }
+	}
+      else if (this->_bnewgame->isPressed())
+	{
+	  this->_state = MENU2;
+	}
+      else if (this->_bquit->isPressed())
+	{
+	  _gui->clear();
+	  return (-1);
 	}
     }
-  else if (this->_bnewgame->isPressed())
+  else if (this->_state == MENU2)
     {
-      this->_state = MENU2;
+      if (this->_bsolo->isPressed())
+	{
+	  printf("JE SUIS LA\n");
+	  //to do pour le bouton solo
+	}
+      else if (this->_bmulti->isPressed())
+	{
+	  //to do pour le bouton multi
+	}
+      else if (this->_bquit->isPressed())
+	{
+	  printf("BOUTON QUIT\n");
+	  _gui->clear();
+	  return (-1);
+	}
+
     }
+
   return (0);
 }
 
@@ -124,13 +152,11 @@ void			Menu::drawAll()
   while (this->_device->run())
     {
       this->resetWindow();
-      if (this->_bquit->isPressed())
+      if (checkButton() == -1)
 	{
 	  this->_driver->endScene();
 	  break;
 	}
-      if (this->_state == MENU1)
-	checkButton();
       this->_driver->beginScene(true, true, 0);
       this->_driver->draw2DImage(this->_background,
   				 irr::core::position2d<irr::s32>(0, 0),

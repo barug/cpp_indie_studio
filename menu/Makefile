@@ -14,7 +14,7 @@ RM		= rm -f
 
 CXXFLAGS	+= -I./include -I/usr/X11R6/include -I./source -I.
 
-CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -std=c++11 -g3 -lGL -lGLU -lXrandr -lXext -lX11 -lXxf86vm 
+CPPFLAGS	+= -L/usr/X11R6/lib$(LIBSELECT) -L./lib -lIrrlicht -std=c++11 -g3 -lGL -lGLU -lXext -lX11 -lXxf86vm 
 
 NAME		= cpp_indie_studio
 
