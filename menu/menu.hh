@@ -12,63 +12,31 @@ irr::gui::IGUIEnvironment	*_gui;
 class MyEventReceiver : public irr::IEventReceiver
 {
 public:
-
   MyEventReceiver()
   {
-    for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
-      KeyIsDown[i] = false;
-  }
-
-  virtual bool IsKeyDown(irr::EKEY_CODE keyCode) const
-  {
-    return KeyIsDown[keyCode];
   }
 
   virtual bool OnEvent(const irr::SEvent& event)
   {
-    if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-      KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-    if (event.EventType == irr::EET_KEY_INPUT_EVENT && !event.KeyInput.PressedDown)
-      return true;
     if (event.EventType == irr::EET_GUI_EVENT)
       {
-	irr::s32 id = event.GUIEvent.Caller->getID();
 	switch (event.GUIEvent.EventType)
           {
-	  case irr::gui::EGET_MENU_ITEM_SELECTED:
-	    std::cout << "ITEM HAS BEEN CLICKED !! "
-		      << std::endl;
-
-	    // OnMenuItemSelected( (irr::gui::IGUIContextMenu*)event.GUIEvent.Caller );
-	    break;
-
           case irr::gui::EGET_FILE_SELECTED:
 	    {
-	      irr::gui::IGUIFileOpenDialog* dialog =
+	      irr::gui::IGUIFileOpenDialog* file =
 		(irr::gui::IGUIFileOpenDialog*)event.GUIEvent.Caller;
 	      std::cout << "ITEM HAS BEEN SELECTED !! "
-			<< irr::core::stringc(dialog->getFileName()).c_str()
+			<< irr::core::stringc(file->getFileName()).c_str()
 			<< std::endl;
-
 	    }
 	    break;
-          case irr::gui::EGET_BUTTON_CLICKED:
-            switch(id)
-              {
-	      // case irr::gui::GUI_ID_BUTTON_OPEN_MODEL:
-              //   _gui->addFileOpenDialog(L"Please select a model file to open");
-              //   break;
-	      }
-	    break;
-
 	  default:
 	    break;
 	  }
       }
     return false;
   }
-private:
-  bool KeyIsDown[irr::KEY_KEY_CODES_COUNT];
 };
 
 typedef enum	e_state
@@ -101,24 +69,29 @@ private:
   void			displayButtonsMenu2();
 
 private:
-  //init de la fenetre
-  t_state			_state;
+  //device
   irr::video::IVideoDriver	*_driver;
   irr::scene::ISceneManager	*_sceneManager;
   irr::video::ITexture		*_background;
   irr::gui::IGUIListBox		*_listbox;
-  //init des coordonnées
+  MyEventReceiver	       receiver;
+
+  //responsive
   irr::core::dimension2d<irr::u32> _screenSize;
   unsigned int			_resizable;
-  bool _listb;
+  bool				_listb;
+
   //boutons
   std::vector<irr::gui::IGUIButton *> _buttons;
   irr::gui::IGUIButton		*_bnewgame;
   irr::gui::IGUIButton		*_bquit;
   irr::gui::IGUIButton		*_bsave;
+  irr::gui::IGUIButton		*_bload;
   irr::gui::IGUIButton		*_bsolo;
   irr::gui::IGUIButton		*_bmulti;
-  MyEventReceiver	       receiver;
+
+
+  t_state			_state;
 
 };
 

@@ -40,11 +40,11 @@ void			Menu::displayButtonsMenu1()
 				 this->_resizable + 140,
 				 this->_resizable - 208,
 				 "menu_textures/newgame.png");
-  this->_bsave = createButton(this->_resizable - 140,
+  this->_bload = createButton(this->_resizable - 140,
 			      this->_resizable - 200,
 			      this->_resizable + 140,
 			      this->_resizable - 108,
-			      "menu_textures/save.png");
+			      "menu_textures/load.png");
   this->_bquit = createButton(this->_resizable - 140,
   			      this->_resizable - 100,
   			      this->_resizable + 140,
@@ -55,16 +55,16 @@ void			Menu::displayButtonsMenu1()
 void			Menu::displayButtonsMenu2()
 {
   this->_resizable = (this->_screenSize.Width / 2);
-  this->_bsolo = createButton(this->_resizable - 140,
-				 this->_resizable - 300,
-				 this->_resizable + 140,
-				 this->_resizable - 208,
-				 "menu_textures/solo.png");
-  this->_bmulti = createButton(this->_resizable - 140,
-			      this->_resizable - 200,
-			      this->_resizable + 140,
-			      this->_resizable - 108,
-			      "menu_textures/multi.png");
+  // this->_bsolo = createButton(this->_resizable - 140,
+  // 				 this->_resizable - 300,
+  // 				 this->_resizable + 140,
+  // 				 this->_resizable - 208,
+  // 				 "menu_textures/solo.png");
+  // this->_bmulti = createButton(this->_resizable - 140,
+  // 			      this->_resizable - 200,
+  // 			      this->_resizable + 140,
+  // 			      this->_resizable - 108,
+  // 			      "menu_textures/multi.png");
   this->_bquit = createButton(this->_resizable - 140,
   			      this->_resizable - 100,
   			      this->_resizable + 140,
@@ -100,7 +100,7 @@ int			Menu::checkButton()
 {
   if (this->_state == MENU1)
     {
-      if (this->_bsave->isPressed())
+      if (this->_bload->isPressed())
 	{
 	  if (!_listb)
 	    {
@@ -108,7 +108,7 @@ int			Menu::checkButton()
 	      // irr::gui::IGUIListBox * listbox = _gui->addListBox(irr::core::rect<irr::s32>(800, 200, 1100, 600));
 	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
 	      // listbox->addItem();
-	  _listb = false;
+	      _listb = false;
 	    }
 	}
       else if (this->_bnewgame->isPressed())
@@ -123,21 +123,21 @@ int			Menu::checkButton()
     }
   else if (this->_state == MENU2)
     {
-      if (this->_bsolo->isPressed())
-	{
-	  printf("JE SUIS LA\n");
-	  //to do pour le bouton solo
-	}
-      else if (this->_bmulti->isPressed())
-	{
-	  //to do pour le bouton multi
-	}
-      else if (this->_bquit->isPressed())
-	{
-	  printf("BOUTON QUIT\n");
-	  _gui->clear();
-	  return (-1);
-	}
+      // if (this->_bsolo->isPressed())
+      // 	{
+      // 	  printf("JE SUIS LA\n");
+      // 	  //to do pour le bouton solo
+      // 	}
+      // else if (this->_bmulti->isPressed())
+      // 	{
+      // 	  //to do pour le bouton multi
+      // 	}
+      if (this->_bquit->isPressed())
+      	{
+	  std::cout << "boutton quit is pressed " << std::endl;
+      	  _gui->clear();
+      	  return (-1);
+      	}
 
     }
 
