@@ -91,9 +91,9 @@ public:
   irr::IrrlichtDevice		*_device;
 
 private:
-  irr::gui::IGUIButton	*createButon(const int &x1, const int &y1,
-				    const int &x2, const int &y2,
-				    const std::string &image);
+  irr::gui::IGUIButton	*createButton(const int &x1, const int &y1,
+				      const int &x2, const int &y2,
+				      const std::string &image);
   void		        resetWindow();
   int			checkButton();
   void			init();
@@ -113,8 +113,8 @@ private:
   bool _listb;
   //boutons
   std::vector<irr::gui::IGUIButton *> _buttons;
+  irr::gui::IGUIButton		*_bnewgame;
   irr::gui::IGUIButton		*_bquit;
-  irr::gui::IGUIButton		*_bplay;
   irr::gui::IGUIButton		*_bsave;
   irr::gui::IGUIButton		*_bsolo;
   irr::gui::IGUIButton		*_bmulti;

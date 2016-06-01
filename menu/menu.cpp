@@ -17,12 +17,12 @@ void			Menu::init()
   this->_device->setResizable(true);
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
-  this->_background = this->_driver->getTexture ("textures/background.png");
+  this->_background = this->_driver->getTexture ("menu_textures/background.png");
   _gui = this->_device->getGUIEnvironment();
   this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
 }
 
-irr::gui::IGUIButton*	Menu::createButon(const int &x1, const int &y1,
+irr::gui::IGUIButton*	Menu::createButton(const int &x1, const int &y1,
 					  const int &x2, const int &y2,
 					  const std::string &image)
 {
@@ -35,36 +35,41 @@ irr::gui::IGUIButton*	Menu::createButon(const int &x1, const int &y1,
 void			Menu::displayButtonsMenu1()
 {
   this->_resizable = (this->_screenSize.Width / 2);
-  this->_bplay = createButon(this->_resizable - 164,
-			     this->_resizable - 116,
-			     this->_resizable + 164,
-			     this->_resizable - 52,
-			     "menutext/play.png");
-  this->_bsave = createButon(this->_resizable - 164,
-			     this->_resizable - 32,
-			     this->_resizable + 164,
-			     this->_resizable + 32,
-			     "menutext/save.png");
-  this->_bquit = createButon(this->_resizable - 164,
-			     this->_resizable + 52,
-			     this->_resizable + 164,
-			     this->_resizable + 116,
-			     "textures/exit.png");
+  this->_bnewgame = createButton(this->_resizable - 140,
+				 this->_resizable - 300,
+				 this->_resizable + 140,
+				 this->_resizable - 208,
+				 "menu_textures/newgame.png");
+  this->_bsave = createButton(this->_resizable - 140,
+			      this->_resizable - 200,
+			      this->_resizable + 140,
+			      this->_resizable - 108,
+			      "menu_textures/save.png");
+  this->_bquit = createButton(this->_resizable - 140,
+  			      this->_resizable - 100,
+  			      this->_resizable + 140,
+  			      this->_resizable - 8,
+  			      "menu_textures/quit.png");
 }
 
 void			Menu::displayButtonsMenu2()
 {
   this->_resizable = (this->_screenSize.Width / 2);
-  this->_bsolo = createButon(this->_resizable - 164,
-			     this->_resizable - 116,
-			     this->_resizable + 164,
-			     this->_resizable - 52,
-			     "menutext/solo.png");
-  this->_bmulti = createButon(this->_resizable - 164,
-			     this->_resizable - 32,
-			     this->_resizable + 164,
-			     this->_resizable + 32,
-			     "menutext/versus.png");
+  this->_bsolo = createButton(this->_resizable - 140,
+				 this->_resizable - 300,
+				 this->_resizable + 140,
+				 this->_resizable - 208,
+				 "menu_textures/solo.png");
+  this->_bmulti = createButton(this->_resizable - 140,
+			      this->_resizable - 200,
+			      this->_resizable + 140,
+			      this->_resizable - 108,
+			      "menu_textures/multi.png");
+  this->_bquit = createButton(this->_resizable - 140,
+  			      this->_resizable - 100,
+  			      this->_resizable + 140,
+  			      this->_resizable - 8,
+  			      "menu_textures/quit.png");
 }
 
 void			Menu::resetWindow()
@@ -83,7 +88,7 @@ void			Menu::resetWindow()
 	  this->displayButtonsMenu2();
 	}
     }
-  else if (this->_state != MENU1)
+  else if (this->_state == MENU2)
     {
       _gui->clear();
       this->displayButtonsMenu2();
@@ -93,12 +98,7 @@ void			Menu::resetWindow()
 
 int			Menu::checkButton()
 {
-  if (this->_bquit->isPressed())
-    {
-      this->_driver->endScene();
-      return (-1);
-    }
-  else if (this->_bsave->isPressed())
+  if (this->_bsave->isPressed())
     {
       if (!_listb)
 	{
@@ -109,7 +109,7 @@ int			Menu::checkButton()
 	  _listb = false;
 	}
     }
-  else if (this->_bplay->isPressed())
+  else if (this->_bnewgame->isPressed())
     {
       this->_state = MENU2;
     }
@@ -124,9 +124,13 @@ void			Menu::drawAll()
   while (this->_device->run())
     {
       this->resetWindow();
-      if (this->_state == MENU1)
-	if (checkButton() == -1)
+      if (this->_bquit->isPressed())
+	{
+	  this->_driver->endScene();
 	  break;
+	}
+      if (this->_state == MENU1)
+	checkButton();
       this->_driver->beginScene(true, true, 0);
       this->_driver->draw2DImage(this->_background,
   				 irr::core::position2d<irr::s32>(0, 0),
