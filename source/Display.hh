@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri May 27 17:50:10 2016 Barthelemy Gouby
+// Last update Wed Jun  1 09:48:59 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -13,6 +13,7 @@
 
 # include	<map>
 # include	<vector>
+# include	<thread>
 # include	"irrlicht.h"
 # include	"driverChoice.h"
 # include	"Entity.hh"
@@ -92,6 +93,7 @@ protected:
   irr::scene::IAnimatedMeshSceneNode				*_model;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_guimodel;
+  std::mutex							_sceneMutex;
 
   // positions
   irr::core::vector3df						_model_position;
@@ -103,6 +105,9 @@ protected:
 
   // gui
   irr::gui::IGUIEnvironment					*_env;
+
+  // refresh screen thread
+  std::thread							_refreshThread;
 
 private:
   int								driverChoice();

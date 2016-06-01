@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri May 27 18:00:34 2016 Barthelemy Gouby
+// Last update Wed Jun  1 09:58:23 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -124,7 +124,9 @@ void					Engine::gameLoop()
 	  for (auto system: this->_systems)
 	    (this->*system)();
 	}
-      (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
+      // (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
+      if (!this->_display.windowIsActive())
+	this->_gameIsOn = false;
     }
   this->_display.closeDisplay();
 }
