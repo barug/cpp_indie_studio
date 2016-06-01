@@ -55,16 +55,16 @@ void			Menu::displayButtonsMenu1()
 void			Menu::displayButtonsMenu2()
 {
   this->_resizable = (this->_screenSize.Width / 2);
-  // this->_bsolo = createButton(this->_resizable - 140,
-  // 				 this->_resizable - 300,
-  // 				 this->_resizable + 140,
-  // 				 this->_resizable - 208,
-  // 				 "menu_textures/solo.png");
-  // this->_bmulti = createButton(this->_resizable - 140,
-  // 			      this->_resizable - 200,
-  // 			      this->_resizable + 140,
-  // 			      this->_resizable - 108,
-  // 			      "menu_textures/multi.png");
+  this->_bsolo = createButton(this->_resizable - 140,
+			      this->_resizable - 300,
+			      this->_resizable + 140,
+			      this->_resizable - 208,
+			      "menu_textures/solo.png");
+  this->_bmulti = createButton(this->_resizable - 140,
+			       this->_resizable - 200,
+			       this->_resizable + 140,
+			       this->_resizable - 108,
+			       "menu_textures/multi.png");
   this->_bquit = createButton(this->_resizable - 140,
   			      this->_resizable - 100,
   			      this->_resizable + 140,
@@ -83,10 +83,10 @@ void			Menu::resetWindow()
 	  this->displayButtonsMenu1();
 	}
       else if (this->_state == MENU2)
-	{
-	  _gui->clear();
-	  this->displayButtonsMenu2();
-	}
+      	{
+      	  _gui->clear();
+      	  this->displayButtonsMenu2();
+      	}
     }
   else if (this->_state == MENU2)
     {
@@ -104,10 +104,7 @@ int			Menu::checkButton()
 	{
 	  if (!_listb)
 	    {
-	      std::cout << "Save button activated" << std::endl;
-	      // irr::gui::IGUIListBox * listbox = _gui->addListBox(irr::core::rect<irr::s32>(800, 200, 1100, 600));
 	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
-	      // listbox->addItem();
 	      _listb = false;
 	    }
 	}
@@ -123,18 +120,18 @@ int			Menu::checkButton()
     }
   else if (this->_state == MENU2)
     {
-      // if (this->_bsolo->isPressed())
-      // 	{
-      // 	  printf("JE SUIS LA\n");
-      // 	  //to do pour le bouton solo
-      // 	}
-      // else if (this->_bmulti->isPressed())
-      // 	{
-      // 	  //to do pour le bouton multi
-      // 	}
+      if (this->_bsolo->isPressed())
+      	{
+      	  printf("JE SUIS LA\n");
+      	  //to do pour le bouton solo
+      	}
+      else if (this->_bmulti->isPressed())
+      	{
+      	  //to do pour le bouton multi
+      	}
       if (this->_bquit->isPressed())
       	{
-	  std::cout << "boutton quit is pressed " << std::endl;
+      	  std::cout << "boutton quit is pressed " << std::endl;
       	  _gui->clear();
       	  return (-1);
       	}
