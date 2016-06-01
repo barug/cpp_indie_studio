@@ -1,6 +1,6 @@
 #include "menu.hh"
 
-Menu::Menu()
+Menu::Menu() : _state(MENU1)
 {
 }
 
@@ -32,27 +32,39 @@ irr::gui::IGUIButton*	Menu::createButon(const int &x1, const int &y1,
   return (bouton);
 }
 
-void			Menu::displayButtons()
+void			Menu::displayButtonsMenu1()
 {
-  // quit button
   this->_resizable = (this->_screenSize.Width / 2);
-  this->_bquit = createButon(this->_resizable - 164,
+  this->_bplay = createButon(this->_resizable - 164,
 			     this->_resizable - 116,
 			     this->_resizable + 164,
 			     this->_resizable - 52,
-			     "textures/exit.png");
-  // save button
+			     "menutext/play.png");
   this->_bsave = createButon(this->_resizable - 164,
 			     this->_resizable - 32,
 			     this->_resizable + 164,
 			     this->_resizable + 32,
 			     "menutext/save.png");
-  // play button
-  this->_bplay = createButon(this->_resizable - 164,
+  this->_bquit = createButon(this->_resizable - 164,
 			     this->_resizable + 52,
 			     this->_resizable + 164,
 			     this->_resizable + 116,
+			     "textures/exit.png");
+}
+
+void			Menu::displayButtonsMenu2()
+{
+  this->_resizable = (this->_screenSize.Width / 2);
+  this->_bsolo = createButon(this->_resizable - 164,
+			     this->_resizable - 116,
+			     this->_resizable + 164,
+			     this->_resizable - 52,
 			     "menutext/play.png");
+  this->_bmulti = createButon(this->_resizable - 164,
+			     this->_resizable - 32,
+			     this->_resizable + 164,
+			     this->_resizable + 32,
+			     "menutext/save.png");
 }
 
 void			Menu::resetWindow()
@@ -61,7 +73,10 @@ void			Menu::resetWindow()
     {
       _gui->clear();
       this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
-      this->displayButtons();
+      if (this->_state == MENU1)
+	this->displayButtonsMenu1();
+      else if (this->_state == MENU2)
+      	this->displayButtonsMenu2();
     }
 }
 
@@ -83,13 +98,17 @@ int			Menu::checkButton()
 	  _listb = false;
 	}
     }
+  else if (this->_bplay->isPressed())
+    {
+      this->_state = MENU2;
+    }
   return (0);
 }
 
 void			Menu::drawAll()
 {
   this->init();
-  this->displayButtons();
+  this->displayButtonsMenu1();
   this->_listb = false;
   while (this->_device->run())
     {
@@ -97,7 +116,6 @@ void			Menu::drawAll()
       if (checkButton() == -1)
        	break;
       this->_driver->beginScene(true, true, 0);
-  				// irr::video::SColor (0,120,120,120));
       this->_driver->draw2DImage(this->_background,
   				 irr::core::position2d<irr::s32>(0, 0),
   				 irr::core::rect<irr::s32>(0, 0,

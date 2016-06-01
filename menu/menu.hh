@@ -71,6 +71,13 @@ private:
   bool KeyIsDown[irr::KEY_KEY_CODES_COUNT];
 };
 
+typedef enum	e_state
+  {
+    MENU1,
+    MENU2,
+    MENU3
+  }		t_state;
+
 class Menu
 {
 public:
@@ -90,10 +97,12 @@ private:
   void		        resetWindow();
   int			checkButton();
   void			init();
-  void			displayButtons();
+  void			displayButtonsMenu1();
+  void			displayButtonsMenu2();
 
 private:
   //init de la fenetre
+  t_state			_state;
   irr::video::IVideoDriver	*_driver;
   irr::scene::ISceneManager	*_sceneManager;
   irr::video::ITexture		*_background;
@@ -107,7 +116,10 @@ private:
   irr::gui::IGUIButton		*_bquit;
   irr::gui::IGUIButton		*_bplay;
   irr::gui::IGUIButton		*_bsave;
-  MyEventReceiver       receiver;
+  irr::gui::IGUIButton		*_bsolo;
+  irr::gui::IGUIButton		*_bmulti;
+  MyEventReceiver	       receiver;
+
 };
 
 
