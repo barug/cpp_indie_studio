@@ -59,24 +59,35 @@ void			Menu::displayButtonsMenu2()
 			     this->_resizable - 116,
 			     this->_resizable + 164,
 			     this->_resizable - 52,
-			     "menutext/play.png");
+			     "menutext/solo.png");
   this->_bmulti = createButon(this->_resizable - 164,
 			     this->_resizable - 32,
 			     this->_resizable + 164,
 			     this->_resizable + 32,
-			     "menutext/save.png");
+			     "menutext/versus.png");
 }
 
 void			Menu::resetWindow()
 {
   if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
     {
-      _gui->clear();
       this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
       if (this->_state == MENU1)
-	this->displayButtonsMenu1();
+	{
+	  _gui->clear();
+	  this->displayButtonsMenu1();
+	}
       else if (this->_state == MENU2)
-      	this->displayButtonsMenu2();
+	{
+	  _gui->clear();
+	  this->displayButtonsMenu2();
+	}
+    }
+  else if (this->_state != MENU1)
+    {
+      _gui->clear();
+      this->displayButtonsMenu2();
+      _gui->drawAll();
     }
 }
 
@@ -113,8 +124,9 @@ void			Menu::drawAll()
   while (this->_device->run())
     {
       this->resetWindow();
-      if (checkButton() == -1)
-       	break;
+      if (this->_state == MENU1)
+	if (checkButton() == -1)
+	  break;
       this->_driver->beginScene(true, true, 0);
       this->_driver->draw2DImage(this->_background,
   				 irr::core::position2d<irr::s32>(0, 0),
