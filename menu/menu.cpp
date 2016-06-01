@@ -41,6 +41,10 @@ void			Menu::initButtons()
 							    this->_resizable,
 							    this->_resizable + 140,
 							    this->_resizable + 92), 0, -1);
+  this->_first->setImage(this->_driver->getTexture("menu_textures/newgame.png"));
+  this->_second->setImage(this->_driver->getTexture("menu_textures/load.png"));
+  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
 }
 
 int			Menu::resetWindow()
@@ -48,6 +52,7 @@ int			Menu::resetWindow()
   if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
     {
       this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
+      _gui->clear();
       this->initButtons();
     }
   if (this->_state == BASE)
