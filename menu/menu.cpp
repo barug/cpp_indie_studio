@@ -1,6 +1,6 @@
 #include "menu.hh"
 
-Menu::Menu() : _state(MENU1)
+Menu::Menu() : _state(BASE), _isSet(false)
 {
 }
 
@@ -22,138 +22,130 @@ void			Menu::init()
   this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
 }
 
-irr::gui::IGUIButton*	Menu::createButton(const int &x1, const int &y1,
-					  const int &x2, const int &y2,
-					  const std::string &image)
-{
-  irr::gui::IGUIButton *bouton =
-    _gui->addButton(irr::core::rect<irr::s32>(x1, y1, x2, y2), 0, -1);
-  bouton->setImage(this->_driver->getTexture(image.c_str()));
-  return (bouton);
-}
-
-void			Menu::displayButtonsMenu1()
+void			Menu::initButtons()
 {
   this->_resizable = (this->_screenSize.Width / 2);
-  this->_bnewgame = createButton(this->_resizable - 140,
-				 this->_resizable - 300,
-				 this->_resizable + 140,
-				 this->_resizable - 208,
-				 "menu_textures/newgame.png");
-  this->_bload = createButton(this->_resizable - 140,
-			      this->_resizable - 200,
-			      this->_resizable + 140,
-			      this->_resizable - 108,
-			      "menu_textures/load.png");
-  this->_bquit = createButton(this->_resizable - 140,
-  			      this->_resizable - 100,
-  			      this->_resizable + 140,
-  			      this->_resizable - 8,
-  			      "menu_textures/quit.png");
+  this->_first = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							   this->_resizable - 300,
+							   this->_resizable + 140,
+							   this->_resizable - 208), 0, -1);
+  this->_second = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							    this->_resizable - 200,
+							    this->_resizable + 140,
+							    this->_resizable - 108), 0, -1);
+  this->_third = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							   this->_resizable - 100,
+							   this->_resizable + 140,
+							   this->_resizable - 8), 0, -1);
+  this->_fourth = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							    this->_resizable,
+							    this->_resizable + 140,
+							    this->_resizable + 92), 0, -1);
 }
 
-void			Menu::displayButtonsMenu2()
-{
-  this->_resizable = (this->_screenSize.Width / 2);
-  this->_bsolo = createButton(this->_resizable - 140,
-			      this->_resizable - 300,
-			      this->_resizable + 140,
-			      this->_resizable - 208,
-			      "menu_textures/solo.png");
-  this->_bmulti = createButton(this->_resizable - 140,
-			       this->_resizable - 200,
-			       this->_resizable + 140,
-			       this->_resizable - 108,
-			       "menu_textures/multi.png");
-  this->_bquit = createButton(this->_resizable - 140,
-  			      this->_resizable - 100,
-  			      this->_resizable + 140,
-  			      this->_resizable - 8,
-  			      "menu_textures/quit.png");
-}
-
-void			Menu::resetWindow()
+int			Menu::resetWindow()
 {
   if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
     {
       this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
-      if (this->_state == MENU1)
-	{
-	  _gui->clear();
-	  this->displayButtonsMenu1();
-	}
-      else if (this->_state == MENU2)
-      	{
-      	  _gui->clear();
-      	  this->displayButtonsMenu2();
-      	}
+      this->initButtons();
     }
-  else if (this->_state == MENU2)
+  if (this->_state == BASE)
     {
-      _gui->clear();
-      this->displayButtonsMenu2();
-      _gui->drawAll();
+      if (!this->_isSet)
+	{
+	  this->_first->setImage(this->_driver->getTexture("menu_textures/newgame.png"));
+	  this->_second->setImage(this->_driver->getTexture("menu_textures/load.png"));
+	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
+	  this->_isSet = true;
+	}
+      if (this->_first->isPressed())
+	{
+	  this->_state = NEWGAME;
+	  this->_isSet = false;
+	}
+      else if (this->_second->isPressed())
+	{
+  	  if (!_listb)
+  	    {
+  	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
+  	      _listb = false;
+  	    }
+	}
+      else if (this->_third->isPressed())
+	{
+	  std::cout << "back to game" << std::endl;
+	}
+      else if (this->_fourth->isPressed())
+	return (-1);
     }
-}
-
-int			Menu::checkButton()
-{
-  if (this->_state == MENU1)
+  else if (this->_state == NEWGAME)
     {
-      if (this->_bload->isPressed())
+      if (!this->_isSet)
 	{
-	  if (!_listb)
-	    {
-	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
-	      _listb = false;
-	    }
+	  this->_first->setImage(this->_driver->getTexture("menu_textures/solo.png"));
+	  this->_second->setImage(this->_driver->getTexture("menu_textures/multi.png"));
+	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
+	  this->_isSet = true;
 	}
-      else if (this->_bnewgame->isPressed())
+      if (this->_first->isPressed())
 	{
-	  this->_state = MENU2;
+	  std::cout << "solo mode" << std::endl;
 	}
-      else if (this->_bquit->isPressed())
+      else if (this->_second->isPressed())
 	{
-	  _gui->clear();
-	  return (-1);
+	  std::cout << "multi player mode" << std::endl;
+	  this->_state = MULTI;
+	  this->_isSet = false;
 	}
+      else if (this->_third->isPressed())
+	{
+	  this->_state = BASE;
+	  this->_isSet = false;
+	}
+      else if (this->_fourth->isPressed())
+	return (-1);
     }
-  else if (this->_state == MENU2)
+  else if (this->_state == MULTI)
     {
-      if (this->_bsolo->isPressed())
-      	{
-      	  printf("JE SUIS LA\n");
-      	  //to do pour le bouton solo
-      	}
-      else if (this->_bmulti->isPressed())
-      	{
-      	  //to do pour le bouton multi
-      	}
-      if (this->_bquit->isPressed())
-      	{
-      	  std::cout << "boutton quit is pressed " << std::endl;
-      	  _gui->clear();
-      	  return (-1);
-      	}
-
+      if (!this->_isSet)
+	{
+	  this->_first->setImage(this->_driver->getTexture("menu_textures/versus.png"));
+	  this->_second->setImage(this->_driver->getTexture("menu_textures/vsai.png"));
+	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
+	  this->_isSet = true;
+	}
+      if (this->_first->isPressed())
+	{
+	  std::cout << "versus mode" << std::endl;
+	}
+      else if (this->_second->isPressed())
+	{
+	  std::cout << "vsai mode" << std::endl;
+	}
+      else if (this->_third->isPressed())
+	{
+	  this->_state = NEWGAME;
+	  this->_isSet = false;
+	}
+      else if (this->_fourth->isPressed())
+	return (-1);
     }
-
   return (0);
 }
 
 void			Menu::drawAll()
 {
   this->init();
-  this->displayButtonsMenu1();
+  this->initButtons();
   this->_listb = false;
   while (this->_device->run())
     {
-      this->resetWindow();
-      if (checkButton() == -1)
-	{
-	  this->_driver->endScene();
-	  break;
-	}
+      if (this->resetWindow() == -1)
+	break;
       this->_driver->beginScene(true, true, 0);
       this->_driver->draw2DImage(this->_background,
   				 irr::core::position2d<irr::s32>(0, 0),

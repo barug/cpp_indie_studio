@@ -41,9 +41,10 @@ public:
 
 typedef enum	e_state
   {
-    MENU1,
-    MENU2,
-    MENU3
+    BASE,
+    NEWGAME,
+    SOLO,
+    MULTI
   }		t_state;
 
 class Menu
@@ -59,14 +60,9 @@ public:
   irr::IrrlichtDevice		*_device;
 
 private:
-  irr::gui::IGUIButton	*createButton(const int &x1, const int &y1,
-				      const int &x2, const int &y2,
-				      const std::string &image);
-  void		        resetWindow();
-  int			checkButton();
+  int		        resetWindow();
   void			init();
-  void			displayButtonsMenu1();
-  void			displayButtonsMenu2();
+  void			initButtons();
 
 private:
   //device
@@ -82,15 +78,11 @@ private:
   bool				_listb;
 
   //boutons
-  std::vector<irr::gui::IGUIButton *> _buttons;
-  irr::gui::IGUIButton		*_bnewgame;
-  irr::gui::IGUIButton		*_bquit;
-  irr::gui::IGUIButton		*_bsave;
-  irr::gui::IGUIButton		*_bload;
-  irr::gui::IGUIButton		*_bsolo;
-  irr::gui::IGUIButton		*_bmulti;
-
-
+  irr::gui::IGUIButton		*_first;
+  irr::gui::IGUIButton		*_second;
+  irr::gui::IGUIButton		*_third;
+  irr::gui::IGUIButton		*_fourth;
+  bool				_isSet;
   t_state			_state;
 
 };
