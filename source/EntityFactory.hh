@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Fri May 27 17:57:09 2016 Barthelemy Gouby
+// Last update Thu Jun  2 23:14:36 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -24,6 +24,7 @@
 # include "components/ExplosionComponent.hh"
 # include "components/HealthComponent.hh"
 # include "components/PowerUpComponent.hh"
+# include "components/ContainerComponent.hh"
 
 class				EntityFactory
 {
@@ -76,6 +77,10 @@ public:
   Entity			*createPowerUp(const unsigned int &x,
 					       const unsigned int &y,
 					       PowerUpComponent::Type type);
+  Entity			*createPowerUpContainer(const unsigned int &x,
+							const unsigned int &y,
+							PowerUpComponent::Type containedType);
+  
 private:
   unsigned int			_nextFreeId;
 };

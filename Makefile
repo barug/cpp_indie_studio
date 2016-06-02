@@ -420,6 +420,33 @@ source/components/Component.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/Component.cpp.s
 .PHONY : source/components/Component.cpp.s
 
+source/components/ContainerComponent.o: source/components/ContainerComponent.cpp.o
+
+.PHONY : source/components/ContainerComponent.o
+
+# target to build an object file
+source/components/ContainerComponent.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/ContainerComponent.cpp.o
+.PHONY : source/components/ContainerComponent.cpp.o
+
+source/components/ContainerComponent.i: source/components/ContainerComponent.cpp.i
+
+.PHONY : source/components/ContainerComponent.i
+
+# target to preprocess a source file
+source/components/ContainerComponent.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/ContainerComponent.cpp.i
+.PHONY : source/components/ContainerComponent.cpp.i
+
+source/components/ContainerComponent.s: source/components/ContainerComponent.cpp.s
+
+.PHONY : source/components/ContainerComponent.s
+
+# target to generate assembly for a file
+source/components/ContainerComponent.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/ContainerComponent.cpp.s
+.PHONY : source/components/ContainerComponent.cpp.s
+
 source/components/ExplosionComponent.o: source/components/ExplosionComponent.cpp.o
 
 .PHONY : source/components/ExplosionComponent.o
@@ -894,6 +921,9 @@ help:
 	@echo "... source/components/Component.o"
 	@echo "... source/components/Component.i"
 	@echo "... source/components/Component.s"
+	@echo "... source/components/ContainerComponent.o"
+	@echo "... source/components/ContainerComponent.i"
+	@echo "... source/components/ContainerComponent.s"
 	@echo "... source/components/ExplosionComponent.o"
 	@echo "... source/components/ExplosionComponent.i"
 	@echo "... source/components/ExplosionComponent.s"

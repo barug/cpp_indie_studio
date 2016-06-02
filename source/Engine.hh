@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Thu Jun  2 21:02:43 2016 Barthelemy Gouby
+// Last update Thu Jun  2 22:43:03 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -20,14 +20,30 @@
 
 # define TICK_DURATION			(10)
 
+enum GameType
+  {
+    SOLO,
+    VERSUS,
+    COOP
+  };
+
 class					Engine
 {
 public:
+  enum GameType
+    {
+      SOLO,
+      VERSUS,
+      COOP
+    };
+
   Engine();
   ~Engine();
 
   void					initMap();
-  void				        initGame(irr::IrrlichtDevice *device, EventReceiver *receiver);
+  void				        initGame(irr::IrrlichtDevice *device,
+						 EventReceiver *receiver,
+						 GameType gameType);
   void					gameLoop();
   void					loadSave(const std::string &fileName);
   void					saveGame(const std::string &fileName);
@@ -47,7 +63,7 @@ private:
   std::chrono::system_clock::time_point	_lastTick;
   bool					_gameIsOn;
   std::vector<void (Engine::*) ()>	_systems;
-
+  Engine::GameType			_gameType;
   void					_addNewExplosion(const unsigned int &x,
 							 const unsigned &y,
 							 bool &isBlocked);

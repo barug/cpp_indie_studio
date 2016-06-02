@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Fri May 27 17:51:39 2016 Barthelemy Gouby
+// Last update Thu Jun  2 23:25:47 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -55,7 +55,7 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
   Entity		*explosion = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
 							     "./textures/fire.jpg",
-							     150);
+							     310);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
   ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
 
@@ -103,7 +103,6 @@ Entity			*EntityFactory::createDestructibleBlock(const unsigned int &x,
   this->_nextFreeId++;
   return (destructibleBlock);
 }
-
 
 Entity			*EntityFactory::createPlayer(const unsigned int &x,
 						     const unsigned int &y,
@@ -168,4 +167,26 @@ Entity			*EntityFactory::createPowerUp(const unsigned int &x,
   powerUp->addComponent(powerUpComponent);
   this->_nextFreeId++;
   return (powerUp);
+}
+
+Entity			*EntityFactory::createPowerUpContainer(const unsigned int &x,
+							       const unsigned int &y,
+							       PowerUpComponent::Type containedType)
+{
+  Entity		*powerUpContainer = new Entity(this->_nextFreeId);
+  ModelComponent	*modelComponent = new ModelComponent("./models/cube.obj",
+							     "./textures/woodbox.png",
+							     375);
+  PositionComponent	*positionComponent = getClosestTileCenter(x, y, 0);
+  SolidityComponent	*solidityComponent = new SolidityComponent;
+  HealthComponent	*healthComponent = new HealthComponent(1);
+  ContainerComponent	*containerComponent = new ContainerComponent(containedType);
+
+  powerUpContainer->addComponent(modelComponent);
+  powerUpContainer->addComponent(positionComponent);
+  powerUpContainer->addComponent(solidityComponent);
+  powerUpContainer->addComponent(healthComponent);
+  powerUpContainer->addComponent(containerComponent);
+  this->_nextFreeId++;
+  return (powerUpContainer);
 }

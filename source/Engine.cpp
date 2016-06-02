@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Thu Jun  2 21:03:10 2016 Barthelemy Gouby
+// Last update Thu Jun  2 23:13:50 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -62,24 +62,24 @@ void					Engine::initMap()
 								    (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2, 0);
 	      break;
 	    case EntityFactory::BOMB_UP_POWER_UP:
-	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  PowerUpComponent::BOMB_UP);
+	      entity = this->_entityFactory.createPowerUpContainer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   PowerUpComponent::BOMB_UP);
 	      break;
 	    case EntityFactory::FIRE_UP_POWER_UP:
-	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  PowerUpComponent::FIRE_UP);
+	      entity = this->_entityFactory.createPowerUpContainer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   PowerUpComponent::FIRE_UP);
 	      break;
 	    case EntityFactory::SPEED_UP_POWER_UP:
-	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  PowerUpComponent::SPEED_UP);
+	      entity = this->_entityFactory.createPowerUpContainer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   PowerUpComponent::SPEED_UP);
 	      break;
 	    case EntityFactory::LIVE_UP_POWER_UP:
-	      entity = this->_entityFactory.createPowerUp((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
-							  PowerUpComponent::LIVE_UP);
+	      entity = this->_entityFactory.createPowerUpContainer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+								   PowerUpComponent::LIVE_UP);
 	      break;
 	    default:
 	      break;
@@ -91,23 +91,27 @@ void					Engine::initMap()
 }
 
 void					Engine::initGame(irr::IrrlichtDevice *device,
-							 EventReceiver *receiver)
+							 EventReceiver *receiver,
+							 GameType gameType)
 {
   Entity				*player1;
   Entity				*player2;
 
+  this->_gameType = gameType;
   this->_display.init(device, receiver);
   player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
-					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
+					      irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
 					      irr::KEY_SPACE, 1, 1, 50, &(this->_display));
-  player2 = this->_entityFactory.createPlayer(4750, 4750, 0, irr::KEY_UP,
-					     irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
-					      irr::KEY_RETURN, 1, 1, 50, &(this->_display));
-
   this->_entityManager.addEntity(player1);
-  this->_entityManager.addEntity(player2);
   this->_display.createModel(player1);
-  this->_display.createModel(player2);
+  if (gameType == VERSUS || gameType == COOP)
+    {
+      player2 = this->_entityFactory.createPlayer(4750, 4750, 0, irr::KEY_UP,
+						  irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
+						  irr::KEY_RETURN, 1, 1, 50, &(this->_display));
+      this->_entityManager.addEntity(player2);
+      this->_display.createModel(player2);
+    }
   this->initMap();
 }
 

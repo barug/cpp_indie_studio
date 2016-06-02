@@ -26,6 +26,7 @@ add_executable(cpp_indie_studio
   source/components/ExplosionComponent.cpp	
   source/components/HealthComponent.cpp	
   source/components/PowerUpComponent.cpp	
+  source/components/ContainerComponent.cpp
   source/systems/movementSystem.cpp		
   source/systems/playerInputSystem.cpp		
   source/systems/ExplosiveSystem.cpp		
