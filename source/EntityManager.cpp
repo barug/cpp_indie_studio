@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri May 27 15:22:02 2016 Erwan Dupard
+// Last update Thu Jun  2 20:42:34 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -200,7 +200,9 @@ void							EntityManager::serialize(const std::string &fileName) const
   std::string						out;
   Entity						*entity;
 
+  std::cout << "maybe" << std::endl;
   fs.open(fileName, std::fstream::in | std::fstream::out | std::fstream::trunc);
+  std::cout << "serializing" << std::endl;
   if (fs.is_open())
     {
       it = this->_entities.begin();

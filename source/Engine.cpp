@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Thu Jun  2 18:38:29 2016 Barthelemy Gouby
+// Last update Thu Jun  2 20:33:45 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -90,12 +90,13 @@ void					Engine::initMap()
     }
 }
 
-void					Engine::initGame(irr::IrrlichtDevice *device)
+void					Engine::initGame(irr::IrrlichtDevice *device,
+							 EventReceiver *receiver)
 {
   Entity				*player1;
   Entity				*player2;
 
-  this->_display.init(device);
+  this->_display.init(device, receiver);
   player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
 					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
 					      irr::KEY_SPACE, 1, 1, 50, &(this->_display));
@@ -110,15 +111,15 @@ void					Engine::initGame(irr::IrrlichtDevice *device)
   this->initMap();
 }
 
-// void					Engine::saveGame(const std::string &fileName)
-// {
-//   this->_entityManager.serialize(fileName);
-// }
+void					Engine::saveGame(const std::string &fileName)
+{
+  this->_entityManager.serialize(fileName);
+}
 
-// void					Engine::loadSave(const std::string &fileName)
-// {
-//   this->_entityManager.unserialize(fileName);
-// }
+void					Engine::loadSave(const std::string &fileName)
+{
+  this->_entityManager.unserialize(fileName);
+}
 
 void					Engine::gameLoop()
 {

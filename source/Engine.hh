@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Thu Jun  2 18:38:22 2016 Barthelemy Gouby
+// Last update Thu Jun  2 20:33:35 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -26,9 +26,10 @@ public:
   ~Engine();
 
   void					initMap();
-  void				        initGame(irr::IrrlichtDevice *device);
+  void				        initGame(irr::IrrlichtDevice *device, EventReceiver *receiver);
   void					gameLoop();
-  // void					loadSave();
+  void					loadSave(const std::string &fileName);
+  void					saveGame(const std::string &fileName);
   void					movementSystem();
   void					playerInputSystem();
   void					ExplosiveSystem();

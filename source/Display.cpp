@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu Jun  2 17:14:20 2016 Barthelemy Gouby
+// Last update Thu Jun  2 20:35:31 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -107,16 +107,16 @@ int		Display::refreshScreen()
     }
 }
 
-int		Display::init(irr::IrrlichtDevice *device)
+int		Display::init(irr::IrrlichtDevice *device, EventReceiver *receiver)
 {
   this->_device = device;
   this->_driver = this->_device->getVideoDriver();
   this->_smgr = this->_device->getSceneManager();
   this->_env = this->_device->getGUIEnvironment();
+  this->_receiver = receiver;
   this->initGround();
   this->initSkybox();
   this->initCamera();
-  this->_device->setEventReceiver(&(this->_receiver));
 }
 
 int		Display::closeDisplay()
@@ -314,7 +314,7 @@ const bool	Display::collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 // event listener
 void		Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> keys)
 {
-  this->_listeners.emplace(id, new EventListener(keys, &(this->_receiver)));
+  this->_listeners.emplace(id, new EventListener(keys, this->_receiver));
 }
 
 std::vector<irr::EKEY_CODE>	*Display::getKeysDownForId(unsigned int id)

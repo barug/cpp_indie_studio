@@ -26,4 +26,4 @@ source/systems/powerUpSystem.o
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-./Makefile
+Makefile

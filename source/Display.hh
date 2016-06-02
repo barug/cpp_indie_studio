@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Thu Jun  2 17:16:53 2016 Barthelemy Gouby
+// Last update Thu Jun  2 20:33:19 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -39,7 +39,8 @@ class		Display
 public:
   Display();
   ~Display();
-  int								init(irr::IrrlichtDevice *device);
+  int								init(irr::IrrlichtDevice *device,
+								     EventReceiver *receiver);
   int								refreshScreen();
   int								closeDisplay();
   const bool							windowIsActive() const;
@@ -100,7 +101,7 @@ public:
   irr::core::vector3df						_camera_position;
 
   //Event receiver
-  EventReceiver							_receiver;
+  EventReceiver							*_receiver;
   std::map<unsigned int, EventListener *>			_listeners;
 
   // gui
