@@ -61,8 +61,6 @@ int			Menu::resetWindow()
 	{
 	  this->_first->setImage(this->_driver->getTexture("menu_textures/newgame.png"));
 	  this->_second->setImage(this->_driver->getTexture("menu_textures/load.png"));
-	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
-	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
 	  this->_isSet = true;
 	}
       if (this->_first->isPressed())
@@ -74,7 +72,8 @@ int			Menu::resetWindow()
 	{
   	  if (!_listb)
   	    {
-  	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
+  	      // _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
+  	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, 10);
   	      _listb = false;
   	    }
 	}
@@ -91,8 +90,6 @@ int			Menu::resetWindow()
 	{
 	  this->_first->setImage(this->_driver->getTexture("menu_textures/solo.png"));
 	  this->_second->setImage(this->_driver->getTexture("menu_textures/multi.png"));
-	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
-	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
 	  this->_isSet = true;
 	}
       if (this->_first->isPressed())
@@ -119,8 +116,6 @@ int			Menu::resetWindow()
 	{
 	  this->_first->setImage(this->_driver->getTexture("menu_textures/versus.png"));
 	  this->_second->setImage(this->_driver->getTexture("menu_textures/vsai.png"));
-	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
-	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
 	  this->_isSet = true;
 	}
       if (this->_first->isPressed())
@@ -149,17 +144,17 @@ void			Menu::drawAll()
   this->_listb = false;
   while (this->_device->run())
     {
+      this->_driver->beginScene(true, true, 0);
       if (this->resetWindow() == -1)
 	break;
-      this->_driver->beginScene(true, true, 0);
       this->_driver->draw2DImage(this->_background,
-  				 irr::core::position2d<irr::s32>(0, 0),
-  				 irr::core::rect<irr::s32>(0, 0,
+				 irr::core::position2d<irr::s32>(0, 0),
+				 irr::core::rect<irr::s32>(0, 0,
 							   this->_screenSize.Width,
 							   this->_screenSize.Height),
-  				 0,
-  				 irr::video::SColor (255,255,255,255),
-  				 true);
+				 0,
+				 irr::video::SColor (255,255,255,255),
+				 true);
       _gui->drawAll();
       this->_driver->endScene();
     }

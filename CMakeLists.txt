@@ -35,16 +35,7 @@ add_executable(cpp_indie_studio
   source/Display.cpp				
   source/EventReceiver.cpp			
   source/EventListener.cpp			
-  source/DisplayExample.hh
-  source/EntityFactory.hh
-  source/EventListener.hh
-  source/Resources.hh
-  source/Display.hh
-  source/Entity.hh
-  source/EventReceiver.hh
-  source/Engine.hh
-  source/EntityManager.hh
-  source/Exemple.hh
+  source/Audio.cpp
 )
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})

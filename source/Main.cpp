@@ -5,18 +5,15 @@
 // Login   <dupard_e@epitech.net>
 //
 // Started on  Tue May 10 16:01:52 2016 Erwan Dupard
-// Last update Thu Jun  2 15:05:02 2016 Erwan Dupard
+// Last update Thu Jun  2 17:26:54 2016 Thomas Bogard
 //
 
 #include "Engine.hh"
 #include "Resources.hh"
-#include <SFML/System.hpp>
 
 int				main(int argc, char **argv)
 {
   Engine			engine;
-
-sf::Clock			Clock;  
 
   engine.initGame();
   engine.gameLoop();
