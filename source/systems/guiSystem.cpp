@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Tue May 24 20:12:10 2016 Thomas Bogard
-// Last update Thu Jun  2 10:06:13 2016 Barthelemy Gouby
+// Last update Thu Jun  2 17:14:58 2016 Barthelemy Gouby
 //
 
 # include "../Engine.hh"
@@ -82,4 +82,7 @@ void		Engine::guiSystem()
 
       ++playerIndex;
     }
+
+  if (this->_display._receiver.IsKeyDown(irr::KEY_ESCAPE))
+    this->_gameIsOn = false;
 }

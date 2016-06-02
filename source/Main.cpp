@@ -5,17 +5,18 @@
 // Login   <dupard_e@epitech.net>
 //
 // Started on  Tue May 10 16:01:52 2016 Erwan Dupard
-// Last update Wed May 25 14:27:59 2016 Erwan Dupard
+// Last update Thu Jun  2 15:49:19 2016 Barthelemy Gouby
 //
 
 #include "Engine.hh"
+#include "Menu.hh"
 #include "Resources.hh"
 
 int				main(int argc, char **argv)
 {
   Engine			engine;
-  
-  engine.initGame();
-  engine.gameLoop();
+  Menu				menu;
+
+  menu.startMenu();
   return (RETURN_SUCCESS);
 }

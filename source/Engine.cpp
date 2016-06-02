@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Thu Jun  2 10:06:42 2016 Barthelemy Gouby
+// Last update Thu Jun  2 18:38:29 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -51,7 +51,6 @@ void					Engine::initMap()
     {
       if (map[i] != EntityFactory::EMPTY)
 	{
-	  std::cout << "loop" << std::endl;
 	  switch (map[i])
 	    {
 	    case EntityFactory::SOLID_BLOCK:
@@ -91,12 +90,12 @@ void					Engine::initMap()
     }
 }
 
-void					Engine::initGame()
+void					Engine::initGame(irr::IrrlichtDevice *device)
 {
   Entity				*player1;
   Entity				*player2;
 
-  this->_display.init();
+  this->_display.init(device);
   player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
 					     irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
 					      irr::KEY_SPACE, 1, 1, 50, &(this->_display));
@@ -111,11 +110,23 @@ void					Engine::initGame()
   this->initMap();
 }
 
+// void					Engine::saveGame(const std::string &fileName)
+// {
+//   this->_entityManager.serialize(fileName);
+// }
+
+// void					Engine::loadSave(const std::string &fileName)
+// {
+//   this->_entityManager.unserialize(fileName);
+// }
+
 void					Engine::gameLoop()
 {
   std::chrono::system_clock::time_point	now;
 
+  this->_gameIsOn = true;
   this->_lastTick = std::chrono::system_clock::now();
+  this->_display.setCursorVisibility(false);
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();
@@ -126,8 +137,7 @@ void					Engine::gameLoop()
 	    (this->*system)();
 	}
       (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
-      if (!this->_display.windowIsActive())
-      	this->_gameIsOn = false;
     }
-  this->_display.closeDisplay();
+  this->_display.setCursorVisibility(true);
+  // this->_display.closeDisplay();
 }

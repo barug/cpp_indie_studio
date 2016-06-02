@@ -47,16 +47,11 @@ void			Menu::initButtons()
   this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
 }
 
-int			Menu::resetWindow()
+int			Menu::doButtonsActions()
 {
-  if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
+  switch (this->_menuContext)
     {
-      this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
-      _gui->clear();
-      this->initButtons();
-    }
-  if (this->_state == BASE)
-    {
+    case BASE:
       if (!this->_isSet)
 	{
 	  this->_first->setImage(this->_driver->getTexture("menu_textures/newgame.png"));
@@ -84,9 +79,9 @@ int			Menu::resetWindow()
 	}
       else if (this->_fourth->isPressed())
 	return (-1);
-    }
-  else if (this->_state == NEWGAME)
-    {
+      break:
+
+    case NEWGAME:
       if (!this->_isSet)
 	{
 	  this->_first->setImage(this->_driver->getTexture("menu_textures/solo.png"));
@@ -112,9 +107,9 @@ int			Menu::resetWindow()
 	}
       else if (this->_fourth->isPressed())
 	return (-1);
-    }
-  else if (this->_state == MULTI)
-    {
+      break;
+
+    case MULTI:
       if (!this->_isSet)
 	{
 	  this->_first->setImage(this->_driver->getTexture("menu_textures/versus.png"));
@@ -138,6 +133,7 @@ int			Menu::resetWindow()
 	}
       else if (this->_fourth->isPressed())
 	return (-1);
+      break;
     }
   return (0);
 }
@@ -149,6 +145,12 @@ void			Menu::drawAll()
   this->_listb = false;
   while (this->_device->run())
     {
+      if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
+	{
+	  this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
+	  _gui->clear();
+	  this->initButtons();
+	}
       if (this->resetWindow() == -1)
 	break;
       this->_driver->beginScene(true, true, 0);
@@ -163,16 +165,6 @@ void			Menu::drawAll()
       _gui->drawAll();
       this->_driver->endScene();
     }
-}
-
-void			Menu::drawGui()
-{
-  _gui->drawAll();
-}
-
-void			Menu::clearGui()
-{
-  _gui->clear();
 }
 
 void			Menu::setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin)

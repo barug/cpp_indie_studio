@@ -11,6 +11,7 @@ project(IndieStudio)
 
 add_executable(cpp_indie_studio
   source/Main.cpp				
+  source/Menu.cpp
   source/Engine.cpp				
   source/EntityManager.cpp			
   source/EntityFactory.cpp			

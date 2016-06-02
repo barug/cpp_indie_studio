@@ -39,13 +39,13 @@ public:
   }
 };
 
-typedef enum	e_state
+enum    menuContext
   {
     BASE,
     NEWGAME,
     SOLO,
     MULTI
-  }		t_state;
+  };
 
 class Menu
 {
@@ -53,38 +53,35 @@ public:
   Menu();
   ~Menu();
 
-  void			clearGui();
-  void			drawGui();
-  void			drawAll();
-  void			setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin);
-  irr::IrrlichtDevice		*_device;
+  void					clearGui();
+  void					setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin);
+  irr::IrrlichtDevice			*_device;
 
 private:
-  int		        resetWindow();
-  void			init();
-  void			initButtons();
+  int					resetWindow();
+  void					init();
+  void					initButtons();
 
 private:
   //device
-  irr::video::IVideoDriver	*_driver;
-  irr::scene::ISceneManager	*_sceneManager;
-  irr::video::ITexture		*_background;
-  irr::gui::IGUIListBox		*_listbox;
-  MyEventReceiver	       receiver;
+  irr::video::IVideoDriver		*_driver;
+  irr::scene::ISceneManager		*_sceneManager;
+  irr::video::ITexture			*_background;
+  irr::gui::IGUIListBox			*_listbox;
+  MyEventReceiver			receiver;
 
   //responsive
-  irr::core::dimension2d<irr::u32> _screenSize;
-  unsigned int			_resizable;
-  bool				_listb;
+  irr::core::dimension2d<irr::u32>	_screenSize;
+  unsigned int				_resizable;
+  bool					_listb;
 
   //boutons
-  irr::gui::IGUIButton		*_first;
-  irr::gui::IGUIButton		*_second;
-  irr::gui::IGUIButton		*_third;
-  irr::gui::IGUIButton		*_fourth;
-  bool				_isSet;
-  t_state			_state;
-
+  irr::gui::IGUIButton			*_first;
+  irr::gui::IGUIButton			*_second;
+  irr::gui::IGUIButton			*_third;
+  irr::gui::IGUIButton			*_fourth;
+  bool					_isSet;
+  menuContext				_menuContext;
 };
 
 

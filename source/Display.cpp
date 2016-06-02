@@ -5,14 +5,13 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu Jun  2 10:01:42 2016 Barthelemy Gouby
+// Last update Thu Jun  2 17:14:20 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
 
 Display::Display()
-{
-}
+{}
 
 Display::~Display()
 {
@@ -103,24 +102,17 @@ int		Display::refreshScreen()
     {
       this->_driver->beginScene(true, true, 0);
       this->_smgr->drawAll();
-      this->_env->drawAll();
       this->_driver->endScene();
       this->showFpsDriver(last_tick);
     }
 }
 
-int		Display::init()
+int		Display::init(irr::IrrlichtDevice *device)
 {
-  if (driverChoice())
-    puterr("Select an appropriate driver for your system");
-  if (initDevice())
-    puterr("Device cannot be created");
+  this->_device = device;
   this->_driver = this->_device->getVideoDriver();
   this->_smgr = this->_device->getSceneManager();
   this->_env = this->_device->getGUIEnvironment();
-  this->_driver->setTextureCreationFlag(irr::video::ETCF_ALWAYS_32_BIT, true);
-  this->_device->getCursorControl()->setVisible(false);
-  this->_device->setResizable(true);
   this->initGround();
   this->initSkybox();
   this->initCamera();
@@ -131,6 +123,11 @@ int		Display::closeDisplay()
 {
   this->_device->drop();
   return (0);
+}
+
+void		Display::setCursorVisibility(bool visibility)
+{
+   this->_device->getCursorControl()->setVisible(visibility);
 }
 
 const bool	Display::windowIsActive() const

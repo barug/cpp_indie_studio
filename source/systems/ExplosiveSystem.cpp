@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Thu Jun  2 10:07:21 2016 Barthelemy Gouby
+// Last update Thu Jun  2 17:21:45 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -62,7 +62,6 @@ void				Engine::ExplosiveSystem()
       explosiveComponent = (ExplosiveComponent*) explosive->getComponent(Component::EXPLOSIVE_COMPONENT);
       if (explosiveComponent->getTimerLength() <= 0)
 	{
-	  // solids =  this->_entityManager.getEntitiesWithComponents({"SolidityComponent"});
 	  leftIsBlocked = false;
 	  rightIsBlocked = false;
 	  downIsBlocked = false;

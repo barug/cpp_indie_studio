@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Thu Jun  2 10:04:03 2016 Barthelemy Gouby
+// Last update Thu Jun  2 10:32:57 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -36,14 +36,6 @@ void			Engine::movementSystem()
 					     positionComponent->getRotation(),
 					     newX,
 					     newY);
-	  for (Entity *solid: *solidEntities)
-	    {
-	      if (solid != movable && this->_display.collision(movable->getId(), solid->getId()))
-		{
-		  blocked = true;
-		  break;
-		}
-	    }
 
 	  // rotation
 	  if (speedComponent->getSpeedX() < 0)
@@ -54,6 +46,15 @@ void			Engine::movementSystem()
 	    positionComponent->setRotation(360);
 	  else if (speedComponent->getSpeedY() > 0)
 	    positionComponent->setRotation(180);
+
+	  for (Entity *solid: *solidEntities)
+	    {
+	      if (solid != movable && this->_display.collision(movable->getId(), solid->getId()))
+		{
+		  blocked = true;
+		  break;
+		}
+	    }
 	  if (blocked)
 	    {
 	      this->_display.updateModelPosition(movable->getId(), positionComponent->getRotation(),

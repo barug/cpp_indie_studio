@@ -339,6 +339,33 @@ source/Main.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Main.cpp.s
 .PHONY : source/Main.cpp.s
 
+source/Menu.o: source/Menu.cpp.o
+
+.PHONY : source/Menu.o
+
+# target to build an object file
+source/Menu.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Menu.cpp.o
+.PHONY : source/Menu.cpp.o
+
+source/Menu.i: source/Menu.cpp.i
+
+.PHONY : source/Menu.i
+
+# target to preprocess a source file
+source/Menu.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Menu.cpp.i
+.PHONY : source/Menu.cpp.i
+
+source/Menu.s: source/Menu.cpp.s
+
+.PHONY : source/Menu.s
+
+# target to generate assembly for a file
+source/Menu.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Menu.cpp.s
+.PHONY : source/Menu.cpp.s
+
 source/components/Component.o: source/components/Component.cpp.o
 
 .PHONY : source/components/Component.o
@@ -831,6 +858,9 @@ help:
 	@echo "... source/Main.o"
 	@echo "... source/Main.i"
 	@echo "... source/Main.s"
+	@echo "... source/Menu.o"
+	@echo "... source/Menu.i"
+	@echo "... source/Menu.s"
 	@echo "... source/components/Component.o"
 	@echo "... source/components/Component.i"
 	@echo "... source/components/Component.s"

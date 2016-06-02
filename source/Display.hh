@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Thu Jun  2 09:58:09 2016 Barthelemy Gouby
+// Last update Thu Jun  2 17:16:53 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -39,7 +39,7 @@ class		Display
 public:
   Display();
   ~Display();
-  int								init();
+  int								init(irr::IrrlichtDevice *device);
   int								refreshScreen();
   int								closeDisplay();
   const bool							windowIsActive() const;
@@ -113,6 +113,7 @@ public:
   void								initCamera();
   void								initGround();
   void								initSkybox();
+  void								setCursorVisibility(bool visibility);
   const bool							collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
 									  irr::scene::IAnimatedMeshSceneNode *mesh2);
   const bool							collision(irr::scene::IAnimatedMeshSceneNode *mesh1,
