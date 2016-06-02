@@ -1,11 +1,11 @@
 //
 // powerUpSystem.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Tue May 24 18:16:05 2016 Barthelemy Gouby
-// Last update Mon May 30 12:57:45 2016 Erwan Dupard
+// Last update Thu Jun  2 19:56:00 2016 Thomas Bogard
 //
 
 #include "../Engine.hh"
@@ -45,10 +45,11 @@ void			Engine::powerUpSystem()
 		  healthComponent = (HealthComponent*) player->getComponent(Component::HEALTH_COMPONENT);
 		  healthComponent->setLives(healthComponent->getLives() + 1);
 		  break;
-		  
+
 		default:
 		  break;
 		}
+	      this->_audio.makeSong("sound/firearm.ogg");
 	      this->_display.removeModel(powerUp);
 	      this->_entityManager.destroyEntity(powerUp->getId());
 	      break;

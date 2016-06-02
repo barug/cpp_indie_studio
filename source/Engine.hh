@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Wed May 25 15:51:55 2016 Barthelemy Gouby
+// Last update Thu Jun  2 18:53:20 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -13,6 +13,7 @@
 
 # include <chrono>
 # include <vector>
+# include "Audio.hh"
 # include "Display.hh"
 # include "EntityManager.hh"
 # include "EntityFactory.hh"
@@ -41,6 +42,7 @@ private:
   EntityManager				_entityManager;
   EntityFactory				_entityFactory;
   Display				_display;
+  Audio					_audio;
   std::chrono::system_clock::time_point	_lastTick;
   bool					_gameIsOn;
   std::vector<void (Engine::*) ()>	_systems;

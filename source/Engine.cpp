@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed May 25 16:35:39 2016 Barthelemy Gouby
+// Last update Thu Jun  2 20:01:58 2016 Thomas Bogard
 //
 
 #include <unistd.h>
@@ -115,6 +115,7 @@ void					Engine::gameLoop()
   std::chrono::system_clock::time_point	now;
 
   this->_lastTick = std::chrono::system_clock::now();
+  this->_audio.makeMusic("sound/mortalkombat.wav");
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();
