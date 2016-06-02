@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Wed Jun  1 09:48:59 2016 Barthelemy Gouby
+// Last update Thu Jun  2 09:58:09 2016 Barthelemy Gouby
 //
 
 #ifndef		__DISPLAY_HH__
@@ -14,6 +14,7 @@
 # include	<map>
 # include	<vector>
 # include	<thread>
+# include	<mutex>
 # include	"irrlicht.h"
 # include	"driverChoice.h"
 # include	"Entity.hh"
@@ -79,7 +80,7 @@ public:
     exit(EXIT_FAILURE);
   }
 
-protected:
+public:
   // video and device
   irr::IrrlichtDevice						*_device;
   irr::video::IVideoDriver					*_driver;
@@ -93,7 +94,6 @@ protected:
   irr::scene::IAnimatedMeshSceneNode				*_model;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_guimodel;
-  std::mutex							_sceneMutex;
 
   // positions
   irr::core::vector3df						_model_position;
@@ -106,10 +106,7 @@ protected:
   // gui
   irr::gui::IGUIEnvironment					*_env;
 
-  // refresh screen thread
-  std::thread							_refreshThread;
-
-private:
+public:
   int								driverChoice();
   void								showFpsDriver(int last_tick);
   int								initDevice();

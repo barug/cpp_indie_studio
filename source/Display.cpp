@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Wed Jun  1 09:57:57 2016 Barthelemy Gouby
+// Last update Thu Jun  2 10:01:42 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -101,12 +101,10 @@ int		Display::refreshScreen()
 
   if (this->_device->run() && this->_device)
     {
-      this->_sceneMutex.lock();
       this->_driver->beginScene(true, true, 0);
       this->_smgr->drawAll();
       this->_env->drawAll();
       this->_driver->endScene();
-      this->_sceneMutex.unlock();
       this->showFpsDriver(last_tick);
     }
 }
@@ -126,7 +124,6 @@ int		Display::init()
   this->initGround();
   this->initSkybox();
   this->initCamera();
-  this->_refreshThread(std::thread(refreshScreen));
   this->_device->setEventReceiver(&(this->_receiver));
 }
 
@@ -150,9 +147,9 @@ int             Display::guiCreateModel(const std::string mesh,
 {
   std::string	pos = std::to_string(x) + std::to_string(y);
   unsigned int position = atoi(pos.c_str());
+
   if (!this->_guimodel.count(position))
     {
-      this->_sceneMutex.lock();
       irr::scene::IAnimatedMeshSceneNode *node =
 	this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(mesh.c_str()));
       if (!node)
@@ -164,7 +161,6 @@ int             Display::guiCreateModel(const std::string mesh,
       node->setScale(irr::core::vector3df(scale, scale, scale));
       node->setRotation(rotation);
       this->_guimodel.emplace(position, node);
-      this->_sceneMutex.unlock();
     }
 }
 
@@ -176,9 +172,7 @@ int		Display::guiRemoveModel(const int &x,
   auto search	= this->_guimodel.find(position);
   if (search != this->_guimodel.end())
     {
-      this->_sceneMutex.lock();
       search->second->remove();
-      this->_sceneMutex.unlock();
       this->_guimodel.erase(position);
     }
 }
@@ -192,7 +186,6 @@ int		Display::createModel(Entity *entity)
   PositionComponent			*pos =
     (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
 
-  this->_sceneMutex.lock();
   irr::scene::IAnimatedMeshSceneNode	*node = 
     this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel(ModelComponent::DEFAULT).c_str()));
 
@@ -208,7 +201,6 @@ int		Display::createModel(Entity *entity)
   node->setMaterialType(irr::video::EMT_SOLID);
   node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-  this->_sceneMutex.unlock();
   // node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
   return (0);
@@ -221,9 +213,7 @@ void		Display::removeModel(Entity *entity)
 
   if (search != this->_models.end())
     {
-      this->_sceneMutex.lock();
       search->second->remove();
-      this->_sceneMutex.unlock();
       this->_models.erase(id);
     }
 }
@@ -239,7 +229,6 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
     {
       if (modelComponent->getSelectedModel() != type && !modelComponent->getModel(type).empty())
 	{
-	  this->_sceneMutex.lock();
 	  node = search->second;
 	  node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
 	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -248,7 +237,6 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 	  node->setScale(irr::core::vector3df(modelComponent->getScale(),
 	  				      modelComponent->getScale(),
 	  				      modelComponent->getScale()));
-	  this->_sceneMutex.unlock();
 	  modelComponent->setSelectedModel(type);
 	}
     }
@@ -261,11 +249,9 @@ int		Display::updateModelPosition(const unsigned int &id, const unsigned int &ro
   if (search != _models.end())
     {
       irr::scene::IAnimatedMeshSceneNode  *node = search->second;
-      this->_sceneMutex.lock();
       node->setPosition(irr::core::vector3df(x, 300, y));
       node->setRotation(irr::core::vector3df(0, rotation, 0));
       node->updateAbsolutePosition();
-      this->_sceneMutex.unlock();
     }
 }
 
@@ -279,9 +265,7 @@ void		Display::changeMaterialType(Entity *entity,
   if (search != _models.end())
     {
       node = search->second;
-      this->_sceneMutex.lock();
       node->setMaterialType(type);
-      this->_sceneMutex.unlock();
     }  
 }
 
@@ -289,8 +273,11 @@ const bool	Display::tileIsOccupiedBomb(const unsigned int &x,
 					const unsigned int &y,
 					Entity* entity)
 {
+  bool		result;
   irr::scene::IAnimatedMeshSceneNode *node = this->_models.find(entity->getId())->second;
-  return (node->getTransformedBoundingBox().isPointInside(irr::core::vector3df(x, 400, y)));
+
+  result = node->getTransformedBoundingBox().isPointInside(irr::core::vector3df(x, 400, y));
+  return (result);
 }
 
 
@@ -299,6 +286,7 @@ const bool	Display::tileIsOccupied(const unsigned int &x,
 					Entity* entity)
 {
   irr::scene::IAnimatedMeshSceneNode *node = this->_models.find(entity->getId())->second;
+
   return (node->getTransformedBoundingBox().isPointInside(irr::core::vector3df(x, 400, y)));
 }
 

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Wed Jun  1 09:58:23 2016 Barthelemy Gouby
+// Last update Thu Jun  2 10:06:42 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -51,6 +51,7 @@ void					Engine::initMap()
     {
       if (map[i] != EntityFactory::EMPTY)
 	{
+	  std::cout << "loop" << std::endl;
 	  switch (map[i])
 	    {
 	    case EntityFactory::SOLID_BLOCK:
@@ -124,9 +125,9 @@ void					Engine::gameLoop()
 	  for (auto system: this->_systems)
 	    (this->*system)();
 	}
-      // (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
+      (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
       if (!this->_display.windowIsActive())
-	this->_gameIsOn = false;
+      	this->_gameIsOn = false;
     }
   this->_display.closeDisplay();
 }
