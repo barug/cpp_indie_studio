@@ -1,6 +1,6 @@
 #include "menu.hh"
 
-Menu::Menu()
+Menu::Menu() : _state(BASE), _isSet(false)
 {
 }
 
@@ -17,71 +17,127 @@ void			Menu::init()
   this->_device->setResizable(true);
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
-  this->_background = this->_driver->getTexture ("textures/background.png");
+  this->_background = this->_driver->getTexture ("menu_textures/background.png");
   _gui = this->_device->getGUIEnvironment();
   this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
 }
 
-irr::gui::IGUIButton*	Menu::createButon(const int &x1, const int &y1,
-					  const int &x2, const int &y2,
-					  const std::string &image)
+void			Menu::initButtons()
 {
-  irr::gui::IGUIButton *bouton =
-    _gui->addButton(irr::core::rect<irr::s32>(x1, y1, x2, y2), 0, -1);
-  bouton->setImage(this->_driver->getTexture(image.c_str()));
-  return (bouton);
-}
-
-void			Menu::displayButtons()
-{
-  // quit button
   this->_resizable = (this->_screenSize.Width / 2);
-  this->_bquit = createButon(this->_resizable - 164,
-			     this->_resizable - 116,
-			     this->_resizable + 164,
-			     this->_resizable - 52,
-			     "textures/exit.png");
-  // save button
-  this->_bsave = createButon(this->_resizable - 164,
-			     this->_resizable - 32,
-			     this->_resizable + 164,
-			     this->_resizable + 32,
-			     "menutext/save.png");
-  // play button
-  this->_bplay = createButon(this->_resizable - 164,
-			     this->_resizable + 52,
-			     this->_resizable + 164,
-			     this->_resizable + 116,
-			     "menutext/play.png");
+  this->_first = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							   this->_resizable - 300,
+							   this->_resizable + 140,
+							   this->_resizable - 208), 0, -1);
+  this->_second = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							    this->_resizable - 200,
+							    this->_resizable + 140,
+							    this->_resizable - 108), 0, -1);
+  this->_third = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							   this->_resizable - 100,
+							   this->_resizable + 140,
+							   this->_resizable - 8), 0, -1);
+  this->_fourth = _gui->addButton(irr::core::rect<irr::s32>(this->_resizable - 140,
+							    this->_resizable,
+							    this->_resizable + 140,
+							    this->_resizable + 92), 0, -1);
+  this->_first->setImage(this->_driver->getTexture("menu_textures/newgame.png"));
+  this->_second->setImage(this->_driver->getTexture("menu_textures/load.png"));
+  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
 }
 
-void			Menu::resetWindow()
+int			Menu::resetWindow()
 {
   if (this->_device->getVideoDriver()->getScreenSize() != this->_screenSize)
     {
-      _gui->clear();
       this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
-      this->displayButtons();
+      _gui->clear();
+      this->initButtons();
     }
-}
-
-int			Menu::checkButton()
-{
-  if (this->_bquit->isPressed())
+  if (this->_state == BASE)
     {
-      this->_driver->endScene();
-      return (-1);
-    }
-  else if (this->_bsave->isPressed())
-    {
-      if (!_listb)
+      if (!this->_isSet)
 	{
-	  std::cout << "Save button activated" << std::endl;
-	  // irr::gui::IGUIListBox * listbox = _gui->addListBox(irr::core::rect<irr::s32>(800, 200, 1100, 600));
-	  _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
-	  // listbox->addItem();
-	  _listb = false;
+	  this->_first->setImage(this->_driver->getTexture("menu_textures/newgame.png"));
+	  this->_second->setImage(this->_driver->getTexture("menu_textures/load.png"));
+	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
+	  this->_isSet = true;
 	}
+      if (this->_first->isPressed())
+	{
+	  this->_state = NEWGAME;
+	  this->_isSet = false;
+	}
+      else if (this->_second->isPressed())
+	{
+  	  if (!_listb)
+  	    {
+  	      _gui->addFileOpenDialog(L"Please choose a file to load.", true, 0, -1, true);
+  	      _listb = false;
+  	    }
+	}
+      else if (this->_third->isPressed())
+	{
+	  std::cout << "back to game" << std::endl;
+	}
+      else if (this->_fourth->isPressed())
+	return (-1);
+    }
+  else if (this->_state == NEWGAME)
+    {
+      if (!this->_isSet)
+	{
+	  this->_first->setImage(this->_driver->getTexture("menu_textures/solo.png"));
+	  this->_second->setImage(this->_driver->getTexture("menu_textures/multi.png"));
+	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
+	  this->_isSet = true;
+	}
+      if (this->_first->isPressed())
+	{
+	  std::cout << "solo mode" << std::endl;
+	}
+      else if (this->_second->isPressed())
+	{
+	  std::cout << "multi player mode" << std::endl;
+	  this->_state = MULTI;
+	  this->_isSet = false;
+	}
+      else if (this->_third->isPressed())
+	{
+	  this->_state = BASE;
+	  this->_isSet = false;
+	}
+      else if (this->_fourth->isPressed())
+	return (-1);
+    }
+  else if (this->_state == MULTI)
+    {
+      if (!this->_isSet)
+	{
+	  this->_first->setImage(this->_driver->getTexture("menu_textures/versus.png"));
+	  this->_second->setImage(this->_driver->getTexture("menu_textures/vsai.png"));
+	  this->_third->setImage(this->_driver->getTexture("menu_textures/back.png"));
+	  this->_fourth->setImage(this->_driver->getTexture("menu_textures/quit.png"));
+	  this->_isSet = true;
+	}
+      if (this->_first->isPressed())
+	{
+	  std::cout << "versus mode" << std::endl;
+	}
+      else if (this->_second->isPressed())
+	{
+	  std::cout << "vsai mode" << std::endl;
+	}
+      else if (this->_third->isPressed())
+	{
+	  this->_state = NEWGAME;
+	  this->_isSet = false;
+	}
+      else if (this->_fourth->isPressed())
+	return (-1);
     }
   return (0);
 }
@@ -89,15 +145,13 @@ int			Menu::checkButton()
 void			Menu::drawAll()
 {
   this->init();
-  this->displayButtons();
+  this->initButtons();
   this->_listb = false;
   while (this->_device->run())
     {
-      this->resetWindow();
-      if (checkButton() == -1)
-       	break;
+      if (this->resetWindow() == -1)
+	break;
       this->_driver->beginScene(true, true, 0);
-  				// irr::video::SColor (0,120,120,120));
       this->_driver->draw2DImage(this->_background,
   				 irr::core::position2d<irr::s32>(0, 0),
   				 irr::core::rect<irr::s32>(0, 0,
