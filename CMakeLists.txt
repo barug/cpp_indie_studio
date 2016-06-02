@@ -47,13 +47,16 @@ add_executable(cpp_indie_studio
   source/Exemple.hh
 )
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+
 FIND_PACKAGE(X11)
 FIND_PACKAGE(GLUT)
 FIND_PACKAGE(ZLIB) 
+find_package(SFML 2 REQUIRED system window graphics network audio)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-include_directories(./include)
+include_directories(./include ${SFML_INCLUDE_DIR})
 link_directories(./lib)
 
 set(IRRLICHT_LIBRARIES
@@ -65,6 +68,10 @@ set(IRRLICHT_LIBRARIES
   -lXext
   -lX11
   -lXxf86vm
+  -lsfml-graphics
+  -lsfml-window
+  -lsfml-system
+  -lsfml-audio
 )
 
 target_link_libraries(
@@ -72,5 +79,6 @@ target_link_libraries(
   ${X11_LIBRARIES}
   ${GLUT_LIBRARIES}
   ${ZLIB_LIBRARIES}
+  ${SFML_LIBRARIES}
   ${IRRLICHT_LIBRARIES}
 )
