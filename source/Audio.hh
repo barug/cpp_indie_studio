@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Thu Jun  2 16:06:03 2016 Thomas Bogard
-// Last update Thu Jun  2 18:43:24 2016 Barthelemy Gouby
+// Last update Thu Jun  2 21:07:17 2016 Barthelemy Gouby
 //
 
 #ifndef		__AUDIO_HH__
@@ -19,8 +19,8 @@ class		Audio
 public:
   Audio();
   ~Audio();
-  void		setSound(const std::string &file);
-  void		setMusic(const std::string &file);
+  void		makeSong(const std::string &file);
+  void		makeMusic(const std::string &file);
 
   // music
   void		musicPlay();

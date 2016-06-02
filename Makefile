@@ -123,6 +123,33 @@ cpp_indie_studio/fast:
 	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/build
 .PHONY : cpp_indie_studio/fast
 
+source/Audio.o: source/Audio.cpp.o
+
+.PHONY : source/Audio.o
+
+# target to build an object file
+source/Audio.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Audio.cpp.o
+.PHONY : source/Audio.cpp.o
+
+source/Audio.i: source/Audio.cpp.i
+
+.PHONY : source/Audio.i
+
+# target to preprocess a source file
+source/Audio.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Audio.cpp.i
+.PHONY : source/Audio.cpp.i
+
+source/Audio.s: source/Audio.cpp.s
+
+.PHONY : source/Audio.s
+
+# target to generate assembly for a file
+source/Audio.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Audio.cpp.s
+.PHONY : source/Audio.cpp.s
+
 source/Display.o: source/Display.cpp.o
 
 .PHONY : source/Display.o
@@ -834,6 +861,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cpp_indie_studio"
+	@echo "... source/Audio.o"
+	@echo "... source/Audio.i"
+	@echo "... source/Audio.s"
 	@echo "... source/Display.o"
 	@echo "... source/Display.i"
 	@echo "... source/Display.s"

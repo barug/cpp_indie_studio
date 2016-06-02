@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Thu Jun  2 20:42:34 2016 Barthelemy Gouby
+// Last update Thu Jun  2 22:03:04 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -415,6 +415,7 @@ void							EntityManager::unserialize(const std::string &fileName)
   std::vector<Entity*>					newEntities;
   Entity						*lastEntity;
 
+  std::cout << "serialzing" << std::endl;
   fs.open(fileName, std::fstream::in);
   if (fs.is_open())
     {
