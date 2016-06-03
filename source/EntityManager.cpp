@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:38:41 2016 Erwan Dupard
+// Last update Fri Jun  3 16:34:32 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -429,6 +429,7 @@ bool							EntityManager::unserialize(const std::string &fileName)
       while (std::getline(fs, entityString))
 	{
 	  entityId = this->_stringToInt(entityString.substr(0, entityString.find("|")));
+	  std::cout << "id: " << entityId << std::endl;
 	  lastEntity = _addUnserializedEntity(newEntities, entityId);
 	  while (entityString != "")
 	    {
