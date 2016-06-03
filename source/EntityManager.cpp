@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:21:40 2016 Erwan Dupard
+// Last update Fri Jun  3 15:28:09 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -216,6 +216,7 @@ void							EntityManager::serialize(const std::string &fileName) const
 	  ++it;
 	}
       fs << out;
+      fs.close();
       std::cout << "[+] Game Saved to file " << fileName << std::endl;
     }
   else
