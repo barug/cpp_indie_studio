@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Fri May 27 18:51:39 2016 Barthelemy Gouby
-// Last update Fri Jun  3 14:55:26 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:08:50 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -23,11 +23,13 @@ void					Engine::basicEnemySystem()
   SpeedComponent			*speedComponent;
   HealthComponent			*healthComponent;
   PositionComponent			validTiles[4];
+  PositionComponent			tileInFrontPos;
   unsigned int				numberOfValidTiles;
   bool					upIsValid;
   bool					downIsValid;
   bool					leftIsValid;
   bool					rightIsValid;
+  bool					tileInFrontIsOccupied;
   std::random_device			rd;
   std::mt19937				rng(rd());
   int					randomTile;
@@ -53,27 +55,49 @@ void					Engine::basicEnemySystem()
 
       if (basicEnemyComponent->getTileGoingToX() == positionComponent->getX()
 	  && basicEnemyComponent->getTileGoingToY() == positionComponent->getY())
-	{ 
+	{
 	  std::cout << "searching new direction" << std::endl;
 	  numberOfValidTiles = 0;
+	  tileInFrontIsOccupied = false;
 	  if (speedComponent->getSpeedY() < 0)
-	    upIsValid = false;
+	    {
+	      tileInFrontPos.setX(positionComponent->getX());
+	      tileInFrontPos.setY(positionComponent->getY() - TILE_SIZE);
+	      upIsValid = false;
+	    }
 	  else
 	    upIsValid = true;
 	  if (speedComponent->getSpeedY() > 0)
-	    downIsValid = false;
+	    {
+	      tileInFrontPos.setX(positionComponent->getX());
+	      tileInFrontPos.setY(positionComponent->getY() + TILE_SIZE);
+	      downIsValid = false;
+	    }
 	  else
 	    downIsValid = true;
 	  if (speedComponent->getSpeedX() > 0)
-	    leftIsValid = false;
+	    {
+	      tileInFrontPos.setX(positionComponent->getX() + TILE_SIZE);
+	      tileInFrontPos.setY(positionComponent->getY());
+	      leftIsValid = false;
+	    }
 	  else
 	    leftIsValid = true;
 	  if (speedComponent->getSpeedX() < 0)
-	    rightIsValid = false;
+	    {
+	      tileInFrontPos.setX(positionComponent->getX() - TILE_SIZE);
+	      tileInFrontPos.setY(positionComponent->getY());
+	      rightIsValid = false;
+	    }
 	  else
 	    rightIsValid = true;
+
 	  for (Entity *solid: *solids)
 	    {
+	      if (this->_display.tileIsOccupied(tileInFrontPos.getX(),
+						tileInFrontPos.getY(),
+						solid))
+		  tileInFrontIsOccupied = true;
 	      if (this->_display.tileIsOccupied(positionComponent->getX(),
 						positionComponent->getY() + TILE_SIZE,
 						solid))
@@ -91,47 +115,56 @@ void					Engine::basicEnemySystem()
 						solid))
 		rightIsValid = false;
 	    }
-	  if (upIsValid)
+
+	  if ((speedComponent->getSpeedX() != 0 || speedComponent->getSpeedY() != 0) && !tileInFrontIsOccupied)
 	    {
-	      validTiles[numberOfValidTiles].setX(positionComponent->getX());
-	      validTiles[numberOfValidTiles].setY(positionComponent->getY() + TILE_SIZE);
-	      numberOfValidTiles++;
-	      std::cout << "up free" << std::endl;
-	    }
-	  if (downIsValid)
-	    {
-	      validTiles[numberOfValidTiles].setX(positionComponent->getX());
-	      validTiles[numberOfValidTiles].setY(positionComponent->getY() - TILE_SIZE);
-	      numberOfValidTiles++;
-	      std::cout << "down free" << std::endl;
-	    }
-	  if (leftIsValid)
-	    {
-	      validTiles[numberOfValidTiles].setX(positionComponent->getX() - TILE_SIZE);
-	      validTiles[numberOfValidTiles].setY(positionComponent->getY());
-	      numberOfValidTiles++;
-	      std::cout << "left free" << std::endl;
-	    }
-	  if (rightIsValid)
-	    {
-	      validTiles[numberOfValidTiles].setX(positionComponent->getX() + TILE_SIZE);
-	      validTiles[numberOfValidTiles].setY(positionComponent->getY());
-	      numberOfValidTiles++;
-	      std::cout << "right free" << std::endl;
-	    }
-	  std::cout << "numberOfValidTiles:  " << numberOfValidTiles << std::endl;
-	  if (numberOfValidTiles > 0)
-	    {
-	      std::uniform_int_distribution<int>	distribution(1, numberOfValidTiles);
-	      randomTile = distribution(rng) - 1;
-	      std::cout << "random tile :" << randomTile << std::endl;
-	      basicEnemyComponent->setTileGoingToX(validTiles[randomTile].getX());
-	      basicEnemyComponent->setTileGoingToY(validTiles[randomTile].getY());
+	      basicEnemyComponent->setTileGoingToX(tileInFrontPos.getX());
+	      basicEnemyComponent->setTileGoingToY(tileInFrontPos.getY());
 	    }
 	  else
 	    {
-	      basicEnemyComponent->setTileGoingToX(basicEnemyComponent->getTileComingFromX());
-	      basicEnemyComponent->setTileGoingToY(basicEnemyComponent->getTileComingFromY());
+	      if (upIsValid)
+		{
+		  validTiles[numberOfValidTiles].setX(positionComponent->getX());
+		  validTiles[numberOfValidTiles].setY(positionComponent->getY() + TILE_SIZE);
+		  numberOfValidTiles++;
+		  std::cout << "up free" << std::endl;
+		}
+	      if (downIsValid)
+		{
+		  validTiles[numberOfValidTiles].setX(positionComponent->getX());
+		  validTiles[numberOfValidTiles].setY(positionComponent->getY() - TILE_SIZE);
+		  numberOfValidTiles++;
+		  std::cout << "down free" << std::endl;
+		}
+	      if (leftIsValid)
+		{
+		  validTiles[numberOfValidTiles].setX(positionComponent->getX() - TILE_SIZE);
+		  validTiles[numberOfValidTiles].setY(positionComponent->getY());
+		  numberOfValidTiles++;
+		  std::cout << "left free" << std::endl;
+		}
+	      if (rightIsValid)
+		{
+		  validTiles[numberOfValidTiles].setX(positionComponent->getX() + TILE_SIZE);
+		  validTiles[numberOfValidTiles].setY(positionComponent->getY());
+		  numberOfValidTiles++;
+		  std::cout << "right free" << std::endl;
+		}
+	      std::cout << "numberOfValidTiles:  " << numberOfValidTiles << std::endl;
+	      if (numberOfValidTiles > 0)
+		{
+		  std::uniform_int_distribution<int>	distribution(1, numberOfValidTiles);
+		  randomTile = distribution(rng) - 1;
+		  std::cout << "random tile :" << randomTile << std::endl;
+		  basicEnemyComponent->setTileGoingToX(validTiles[randomTile].getX());
+		  basicEnemyComponent->setTileGoingToY(validTiles[randomTile].getY());
+		}
+	      else
+		{
+		  basicEnemyComponent->setTileGoingToX(basicEnemyComponent->getTileComingFromX());
+		  basicEnemyComponent->setTileGoingToY(basicEnemyComponent->getTileComingFromY());
+		}
 	    }
 	  basicEnemyComponent->setTileComingFromX(positionComponent->getX());
 	  basicEnemyComponent->setTileComingFromY(positionComponent->getY());

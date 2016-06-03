@@ -5,12 +5,12 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Thu Jun  2 22:03:04 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:38:41 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
 
-EntityManager::EntityManager()
+EntityManager::EntityManager() : _display(NULL)
 {}
 
 EntityManager::~EntityManager()
@@ -19,6 +19,11 @@ EntityManager::~EntityManager()
 void							EntityManager::addEntity(Entity *entity)
 {
   this->_entities.push_back(entity);
+}
+
+void							EntityManager::setDisplay(Display *display)
+{
+  this->_display = display;
 }
 
 void							EntityManager::destroyEntity(const unsigned int &id)
@@ -216,6 +221,7 @@ void							EntityManager::serialize(const std::string &fileName) const
 	  ++it;
 	}
       fs << out;
+      fs.close();
       std::cout << "[+] Game Saved to file " << fileName << std::endl;
     }
   else
@@ -368,6 +374,8 @@ void							EntityManager::_unserializePlayerInputComponent(Entity &entity, const
   speed = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
   newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
   entity.addComponent(newComponent);
+  if (this->_display)
+    this->_display->createEventListener(entity.getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
 }
 
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
@@ -404,7 +412,7 @@ void							EntityManager::_addUnserializedComponent(Entity &entity, const std::s
     }
 }
 
-void							EntityManager::unserialize(const std::string &fileName)
+bool							EntityManager::unserialize(const std::string &fileName)
 {
   std::ifstream						fs;
   std::string						entityString;
@@ -415,7 +423,6 @@ void							EntityManager::unserialize(const std::string &fileName)
   std::vector<Entity*>					newEntities;
   Entity						*lastEntity;
 
-  std::cout << "serialzing" << std::endl;
   fs.open(fileName, std::fstream::in);
   if (fs.is_open())
     {
@@ -433,9 +440,12 @@ void							EntityManager::unserialize(const std::string &fileName)
 	    }
 	}
       this->_entities = newEntities;
+      fs.close();
+      return (true);
     }
   else
     std::cout << "[-] Can't unserialize file " << fileName << std::endl;
+  return (false);
 }
 
 std::string						EntityManager::_intToString(const unsigned int value) const
