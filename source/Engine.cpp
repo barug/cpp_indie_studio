@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:15:23 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:27:33 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -112,19 +112,6 @@ void					Engine::initGame(irr::IrrlichtDevice *device,
 
   this->_gameType = gameType;
   this->_display.init(device, receiver);
-  // player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
-  // 					      irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
-  // 					      irr::KEY_SPACE, 1, 1, 50, &(this->_display));
-  // this->_entityManager.addEntity(player1);
-  // this->_display.createModel(player1);
-  // if (gameType == VERSUS || gameType == COOP)
-  //   {
-  //     player2 = this->_entityFactory.createPlayer(4750, 4750, 0, irr::KEY_UP,
-  // 						  irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
-  // 						  irr::KEY_RETURN, 1, 1, 50, &(this->_display));
-  //     this->_entityManager.addEntity(player2);
-  //     this->_display.createModel(player2);
-  //   }
   this->initMap();
 }
 
@@ -133,9 +120,12 @@ void					Engine::saveGame(const std::string &fileName)
   this->_entityManager.serialize(fileName);
 }
 
-void					Engine::loadSave(const std::string &fileName)
+void					Engine::loadSave(const std::string &fileName,
+							 EventReceiver *receiver,
+							 irr::IrrlichtDevice *device)
 {
   this->_entityManager.unserialize(fileName);
+  this->_display.init(device, receiver);
 }
 
 void					Engine::gameLoop()

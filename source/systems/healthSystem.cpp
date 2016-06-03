@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 25 15:47:43 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:23:13 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:52:10 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -43,7 +43,8 @@ void			Engine::healthSystem()
 	      this->_entityManager.addEntity(powerUp);
 	      this->_display.createModel(powerUp);
 	    }
-	  this->_audio.makeSong("sound/humiliation.wav");
+	  if (destructible->getComponent(Component::PLAYER_INPUT_COMPONENT))
+	    this->_audio.makeSong("sound/humiliation.wav");
 	  this->_display.removeModel(destructible);
 	  this->_entityManager.destroyEntity(destructible->getId());
 	}

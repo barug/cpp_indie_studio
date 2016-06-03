@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:19:56 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:50:55 2016 Barthelemy Gouby
 //
 
 #include "Menu.hh"
@@ -96,7 +96,7 @@ void			Menu::doButtonsActions()
 	}
       else if (this->_second->isPressed())
 	{
-	  this->_engine.loadSave("./save_file");
+	  this->_engine.loadSave("./save_file", &this->_receiver, this->_device);
 	  this->_engine.gameLoop();
 	}
       else if (this->_third->isPressed())
@@ -174,7 +174,7 @@ void			Menu::doButtonsActions()
       if (!this->_isSet)
 	{
 	  this->_first->setImage(this->_driver->getTexture("textures/menu/newgame.png"));
-	  this->_second->setImage(this->_driver->getTexture("textures/menu/load.png"));
+	  this->_second->setImage(this->_driver->getTexture("textures/menu/save.png"));
 	  this->_third->setImage(this->_driver->getTexture("textures/menu/back.png"));
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
