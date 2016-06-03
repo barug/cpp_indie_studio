@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:46:18 2016 Erwan Dupard
+// Last update Fri Jun  3 16:29:51 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -44,8 +44,8 @@ public:
   bool				unserialize(const std::string &fileName);
   void				setDisplay(Display *display);
 private:
-  std::string			_intToString(unsigned int value) const;
-  unsigned int			_stringToInt(const std::string &str) const;
+  std::string			_intToString(int value) const;
+  int				_stringToInt(const std::string &str) const;
   void				_serializeEntityComponents(std::string &out, Entity *entity) const;
   void				_serializeEntityComponent(std::string &out, Component *entity) const;
   void				_serializePositionComponent(std::string &out, PositionComponent *component) const;

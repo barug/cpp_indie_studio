@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:38:41 2016 Erwan Dupard
+// Last update Fri Jun  3 16:29:37 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -372,10 +372,10 @@ void							EntityManager::_unserializePlayerInputComponent(Entity &entity, const
   maxBombs = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
   explosionSize = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
   speed = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
-  newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
-  entity.addComponent(newComponent);
   if (this->_display)
     this->_display->createEventListener(entity.getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
+  newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
+  entity.addComponent(newComponent);
 }
 
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
@@ -448,7 +448,7 @@ bool							EntityManager::unserialize(const std::string &fileName)
   return (false);
 }
 
-std::string						EntityManager::_intToString(const unsigned int value) const
+std::string						EntityManager::_intToString(const int value) const
 {
   std::stringstream					str;
 
@@ -456,9 +456,9 @@ std::string						EntityManager::_intToString(const unsigned int value) const
   return (str.str());
 }
 
-unsigned int						EntityManager::_stringToInt(const std::string &str) const
+int							EntityManager::_stringToInt(const std::string &str) const
 {
-  unsigned int						result;
+  int							result;
 
   try
     {
