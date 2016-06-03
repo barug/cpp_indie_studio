@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Thu Jun  2 20:33:19 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:57:53 2016 Erwan Dupard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -73,14 +73,6 @@ public:
   void								createEventListener(unsigned int id,
 										    std::vector<irr::EKEY_CODE> keys);
   std::vector<irr::EKEY_CODE>					*getKeysDownForId(unsigned int id);
-
-  // against error
-  void								puterr(const char * const err)
-  {
-    std::cerr << err << std::endl;
-    exit(EXIT_FAILURE);
-  }
-
 public:
   // video and device
   irr::IrrlichtDevice						*_device;
