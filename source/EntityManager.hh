@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:30:16 2016 Erwan Dupard
+// Last update Fri Jun  3 15:34:10 2016 Erwan Dupard
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -19,6 +19,7 @@
 # include <string>
 # include <stdexcept>
 # include "Entity.hh"
+# include "Display.hh"
 # include "components/Component.hh"
 # include "components/PositionComponent.hh"
 # include "components/SpeedComponent.hh"
@@ -41,6 +42,7 @@ public:
   std::vector<Entity*>		*getEntitiesWithComponents(std::vector<Component::ComponentType> typeList);
   void				serialize(const std::string &fileName) const;
   bool				unserialize(const std::string &fileName);
+  void				setDisplay(Display *display);
 private:
   std::string			_intToString(unsigned int value) const;
   unsigned int			_stringToInt(const std::string &str) const;
@@ -65,6 +67,7 @@ private:
   void				_unserializePowerUpComponent(Entity &entity, const std::string &componentString) const;
   void				_unserializePlayerInputComponent(Entity &entity, const std::string &componentString) const;
   std::vector<Entity*>		_entities;
+  Display			*_display;
 };
 
 #endif /* !_ENTITY_MANAGER_HH_ */

@@ -5,12 +5,12 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:29:42 2016 Erwan Dupard
+// Last update Fri Jun  3 15:38:41 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
 
-EntityManager::EntityManager()
+EntityManager::EntityManager() : _display(NULL)
 {}
 
 EntityManager::~EntityManager()
@@ -19,6 +19,11 @@ EntityManager::~EntityManager()
 void							EntityManager::addEntity(Entity *entity)
 {
   this->_entities.push_back(entity);
+}
+
+void							EntityManager::setDisplay(Display *display)
+{
+  this->_display = display;
 }
 
 void							EntityManager::destroyEntity(const unsigned int &id)
@@ -369,6 +374,8 @@ void							EntityManager::_unserializePlayerInputComponent(Entity &entity, const
   speed = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
   newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
   entity.addComponent(newComponent);
+  if (this->_display)
+    this->_display->createEventListener(entity.getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
 }
 
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const

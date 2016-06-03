@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:15:23 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:43:19 2016 Erwan Dupard
 //
 
 #include <unistd.h>
@@ -21,7 +21,9 @@ Engine::Engine()
 	&Engine::healthSystem,
 	&Engine::guiSystem,
 	&Engine::basicEnemySystem})
-{}
+{
+  this->_entityManager.setDisplay(&this->_display);
+}
 
 Engine::~Engine()
 {}
