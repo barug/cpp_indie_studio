@@ -393,6 +393,33 @@ source/Menu.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/Menu.cpp.s
 .PHONY : source/Menu.cpp.s
 
+source/components/BasicEnemyComponent.o: source/components/BasicEnemyComponent.cpp.o
+
+.PHONY : source/components/BasicEnemyComponent.o
+
+# target to build an object file
+source/components/BasicEnemyComponent.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/BasicEnemyComponent.cpp.o
+.PHONY : source/components/BasicEnemyComponent.cpp.o
+
+source/components/BasicEnemyComponent.i: source/components/BasicEnemyComponent.cpp.i
+
+.PHONY : source/components/BasicEnemyComponent.i
+
+# target to preprocess a source file
+source/components/BasicEnemyComponent.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/BasicEnemyComponent.cpp.i
+.PHONY : source/components/BasicEnemyComponent.cpp.i
+
+source/components/BasicEnemyComponent.s: source/components/BasicEnemyComponent.cpp.s
+
+.PHONY : source/components/BasicEnemyComponent.s
+
+# target to generate assembly for a file
+source/components/BasicEnemyComponent.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/components/BasicEnemyComponent.cpp.s
+.PHONY : source/components/BasicEnemyComponent.cpp.s
+
 source/components/Component.o: source/components/Component.cpp.o
 
 .PHONY : source/components/Component.o
@@ -744,6 +771,33 @@ source/systems/ExplosiveSystem.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/systems/ExplosiveSystem.cpp.s
 .PHONY : source/systems/ExplosiveSystem.cpp.s
 
+source/systems/basicEnemySystem.o: source/systems/basicEnemySystem.cpp.o
+
+.PHONY : source/systems/basicEnemySystem.o
+
+# target to build an object file
+source/systems/basicEnemySystem.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/systems/basicEnemySystem.cpp.o
+.PHONY : source/systems/basicEnemySystem.cpp.o
+
+source/systems/basicEnemySystem.i: source/systems/basicEnemySystem.cpp.i
+
+.PHONY : source/systems/basicEnemySystem.i
+
+# target to preprocess a source file
+source/systems/basicEnemySystem.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/systems/basicEnemySystem.cpp.i
+.PHONY : source/systems/basicEnemySystem.cpp.i
+
+source/systems/basicEnemySystem.s: source/systems/basicEnemySystem.cpp.s
+
+.PHONY : source/systems/basicEnemySystem.s
+
+# target to generate assembly for a file
+source/systems/basicEnemySystem.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_indie_studio.dir/build.make CMakeFiles/cpp_indie_studio.dir/source/systems/basicEnemySystem.cpp.s
+.PHONY : source/systems/basicEnemySystem.cpp.s
+
 source/systems/guiSystem.o: source/systems/guiSystem.cpp.o
 
 .PHONY : source/systems/guiSystem.o
@@ -918,6 +972,9 @@ help:
 	@echo "... source/Menu.o"
 	@echo "... source/Menu.i"
 	@echo "... source/Menu.s"
+	@echo "... source/components/BasicEnemyComponent.o"
+	@echo "... source/components/BasicEnemyComponent.i"
+	@echo "... source/components/BasicEnemyComponent.s"
 	@echo "... source/components/Component.o"
 	@echo "... source/components/Component.i"
 	@echo "... source/components/Component.s"
@@ -957,6 +1014,9 @@ help:
 	@echo "... source/systems/ExplosiveSystem.o"
 	@echo "... source/systems/ExplosiveSystem.i"
 	@echo "... source/systems/ExplosiveSystem.s"
+	@echo "... source/systems/basicEnemySystem.o"
+	@echo "... source/systems/basicEnemySystem.i"
+	@echo "... source/systems/basicEnemySystem.s"
 	@echo "... source/systems/guiSystem.o"
 	@echo "... source/systems/guiSystem.i"
 	@echo "... source/systems/guiSystem.s"

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Thu Jun  2 10:32:57 2016 Barthelemy Gouby
+// Last update Fri Jun  3 11:23:36 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -66,6 +66,8 @@ void			Engine::movementSystem()
 	      this->_display.updateModel(movable, ModelComponent::RUN);
 	      positionComponent->setX(newX);
 	      positionComponent->setY(newY);
+	      std::cout << "new pos x: " << positionComponent->getX()
+			<< " new pos y: " << positionComponent->getY() << std::endl;
 	    }
 	}
       else

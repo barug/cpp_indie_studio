@@ -27,12 +27,14 @@ add_executable(cpp_indie_studio
   source/components/HealthComponent.cpp	
   source/components/PowerUpComponent.cpp	
   source/components/ContainerComponent.cpp
+  source/components/BasicEnemyComponent.cpp
   source/systems/movementSystem.cpp		
   source/systems/playerInputSystem.cpp		
   source/systems/ExplosiveSystem.cpp		
   source/systems/ExplosionSystem.cpp		
   source/systems/powerUpSystem.cpp		
-  source/systems/healthSystem.cpp		
+  source/systems/healthSystem.cpp
+  source/systems/basicEnemySystem.cpp			
   source/systems/guiSystem.cpp			
   source/Display.cpp				
   source/EventReceiver.cpp			

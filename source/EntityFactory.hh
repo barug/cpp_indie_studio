@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:14:36 2016 Barthelemy Gouby
+// Last update Fri Jun  3 10:26:06 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -25,6 +25,7 @@
 # include "components/HealthComponent.hh"
 # include "components/PowerUpComponent.hh"
 # include "components/ContainerComponent.hh"
+# include "components/BasicEnemyComponent.hh"
 
 class				EntityFactory
 {
@@ -39,7 +40,7 @@ public:
       FIRE_UP_POWER_UP		= 4,
       SPEED_UP_POWER_UP		= 5,
       LIVE_UP_POWER_UP		= 6,
-      BOT			= 7
+      BASIC_ENEMY		= 7
     };
   
   EntityFactory();
@@ -74,6 +75,8 @@ public:
 					      const unsigned int &explosionSize,
 					      const unsigned int &speed,
 					      Display *display);
+  Entity			*createBasicEnemy(const unsigned int &x,
+						 const unsigned int &y);
   Entity			*createPowerUp(const unsigned int &x,
 					       const unsigned int &y,
 					       PowerUpComponent::Type type);

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 15:24:05 2016 Barthelemy Gouby
-// Last update Thu Jun  2 22:21:39 2016 Barthelemy Gouby
+// Last update Fri Jun  3 10:39:31 2016 Barthelemy Gouby
 //
 
 #include <iostream>
@@ -20,10 +20,7 @@ EventReceiver::EventReceiver()
 bool EventReceiver::OnEvent(const irr::SEvent& event)
 {
   if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-    {
-      std::cout << "key event" << std::endl;
-      this->_KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-    }
+    this->_KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
   return false;
 }
 

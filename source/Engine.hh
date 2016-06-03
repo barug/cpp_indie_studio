@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Thu Jun  2 22:43:03 2016 Barthelemy Gouby
+// Last update Fri Jun  3 10:28:58 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -13,6 +13,7 @@
 
 # include <chrono>
 # include <vector>
+# include <random>
 # include "Audio.hh"
 # include "Display.hh"
 # include "EntityManager.hh"
@@ -54,6 +55,7 @@ public:
   void					powerUpSystem();
   void					healthSystem();
   void					guiSystem();
+  void					basicEnemySystem();
 
 private:
   EntityManager				_entityManager;

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:25:47 2016 Barthelemy Gouby
+// Last update Fri Jun  3 10:22:24 2016 Barthelemy Gouby
 //
 
 #include "EntityFactory.hh"
@@ -142,6 +142,28 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
   display->createEventListener(player->getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
   this->_nextFreeId++;
   return (player);
+}
+
+Entity			*EntityFactory::createBasicEnemy(const unsigned int &x,
+							 const unsigned int &y)
+{
+  Entity		*basicEnemy = new Entity(this->_nextFreeId);
+  ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d",
+							     "./textures/bomberman_red.png",
+							     250);
+  PositionComponent	*positionComponent = new PositionComponent(x, y, 0);
+  SpeedComponent	*speedComponent = new SpeedComponent(0, 0, 0);
+  HealthComponent	*healthComponent = new HealthComponent(1);
+  BasicEnemyComponent	*basicEnemyComponent = new BasicEnemyComponent(x, y);
+
+  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);  
+  basicEnemy->addComponent(modelComponent);
+  basicEnemy->addComponent(positionComponent);
+  basicEnemy->addComponent(speedComponent);
+  basicEnemy->addComponent(healthComponent);
+  basicEnemy->addComponent(basicEnemyComponent);
+  this->_nextFreeId++;
+  return (basicEnemy);
 }
 
 Entity			*EntityFactory::createPowerUp(const unsigned int &x,

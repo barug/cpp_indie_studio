@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:13:50 2016 Barthelemy Gouby
+// Last update Fri Jun  3 12:14:56 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -19,7 +19,8 @@ Engine::Engine()
 	&Engine::ExplosionSystem,
 	&Engine::powerUpSystem,
 	&Engine::healthSystem,
-	&Engine::guiSystem})
+	&Engine::guiSystem,
+	&Engine::basicEnemySystem})
 {}
 
 Engine::~Engine()
@@ -35,7 +36,7 @@ void					Engine::initMap()
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 6, 1,
       1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 5, 1,
       1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 2, 0, 5, 0, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 2, 0, 5, 0, 1, 7, 1, 0, 0, 1,
       1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 5, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 0, 1,
       1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 4, 1,
@@ -80,6 +81,10 @@ void					Engine::initMap()
 	      entity = this->_entityFactory.createPowerUpContainer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 								   (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 								   PowerUpComponent::LIVE_UP);
+	      break;
+	    case EntityFactory::BASIC_ENEMY:
+	      entity = this->_entityFactory.createBasicEnemy((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							     (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2);
 	      break;
 	    default:
 	      break;
@@ -132,7 +137,7 @@ void					Engine::gameLoop()
   this->_gameIsOn = true;
   this->_lastTick = std::chrono::system_clock::now();
   this->_display.setCursorVisibility(false);
-  this->_audio.makeMusic("sound/mortalkombat.wav");
+  // this->_audio.makeMusic("sound/mortalkombat.wav");
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();
