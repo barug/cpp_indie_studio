@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:27:33 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:23:12 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -21,7 +21,9 @@ Engine::Engine()
 	&Engine::healthSystem,
 	&Engine::guiSystem,
 	&Engine::basicEnemySystem})
-{}
+{
+  this->_entityManager.setDisplay(&this->_display);
+}
 
 Engine::~Engine()
 {}
@@ -47,7 +49,7 @@ void					Engine::initMap()
       1, 0, 0, 2, 2, 0, 0, 4, 0, 0, 2, 2, 0, 0, 1,
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };
-  
+
   for (unsigned int i = 0; i < map.size(); i++)
     {
       if (map[i] != EntityFactory::EMPTY)
@@ -115,6 +117,16 @@ void					Engine::initGame(irr::IrrlichtDevice *device,
   this->initMap();
 }
 
+void					Engine::setVolumeMusic(const unsigned int &volume)
+{
+  this->_audio.musicSetVolume(volume);
+}
+
+void					Engine::setVolumeSound(const unsigned int &volume)
+{
+  this->_audio.soundSetVolume(volume);
+}
+
 void					Engine::saveGame(const std::string &fileName)
 {
   this->_entityManager.serialize(fileName);
@@ -135,7 +147,8 @@ void					Engine::gameLoop()
   this->_gameIsOn = true;
   this->_lastTick = std::chrono::system_clock::now();
   this->_display.setCursorVisibility(false);
-  // this->_audio.makeMusic("sound/mortalkombat.wav");
+  this->_audio.makeMusic("sound/mortalkombat.wav");
+  this->_audio.musicSetLoop(true);
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();

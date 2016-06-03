@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:08:16 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:25:33 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -50,6 +50,8 @@ public:
 						 EventReceiver *receiver,
 						 irr::IrrlichtDevice *device);
   void					saveGame(const std::string &fileName);
+  void					setVolumeMusic(const unsigned int &volume);
+  void					setVolumeSound(const unsigned int &volume);
   void					movementSystem();
   void					playerInputSystem();
   void					ExplosiveSystem();

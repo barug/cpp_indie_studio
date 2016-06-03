@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Fri Jun  3 10:22:24 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:46:12 2016 Erwan Dupard
 //
 
 #include "EntityFactory.hh"
