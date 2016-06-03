@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Thu Jun  2 16:05:59 2016 Thomas Bogard
-// Last update Fri Jun  3 16:23:25 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:34:36 2016 Thomas Bogard
 //
 
 # include "Audio.hh"
@@ -21,6 +21,8 @@ Audio::~Audio()
 
 void		Audio::makeSong(const std::string &file)
 {
+  if (this->_sound.getBuffer())
+    this->_sound.resetBuffer();
   if (!this->_buffer.loadFromFile(file))
     {
       std::cerr << "impossible to load " << file << std::endl;
