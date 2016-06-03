@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:28:09 2016 Erwan Dupard
+// Last update Fri Jun  3 15:29:42 2016 Erwan Dupard
 //
 
 #include "EntityManager.hh"
@@ -405,7 +405,7 @@ void							EntityManager::_addUnserializedComponent(Entity &entity, const std::s
     }
 }
 
-void							EntityManager::unserialize(const std::string &fileName)
+bool							EntityManager::unserialize(const std::string &fileName)
 {
   std::ifstream						fs;
   std::string						entityString;
@@ -434,9 +434,11 @@ void							EntityManager::unserialize(const std::string &fileName)
 	}
       this->_entities = newEntities;
       fs.close();
+      return (true);
     }
   else
     std::cout << "[-] Can't unserialize file " << fileName << std::endl;
+  return (false);
 }
 
 std::string						EntityManager::_intToString(const unsigned int value) const
