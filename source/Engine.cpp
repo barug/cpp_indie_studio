@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:23:12 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:58:45 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -136,8 +136,8 @@ void					Engine::loadSave(const std::string &fileName,
 							 EventReceiver *receiver,
 							 irr::IrrlichtDevice *device)
 {
-  this->_entityManager.unserialize(fileName);
   this->_display.init(device, receiver);
+  this->_entityManager.unserialize(fileName, &this->_display);
 }
 
 void					Engine::gameLoop()

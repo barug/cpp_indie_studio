@@ -83,7 +83,7 @@ private:
   irr::video::ITexture			*_background;
   irr::gui::IGUIListBox			*_listbox;
   irr::gui::IGUIEnvironment		*_gui;
-  EventReceiver				_receiver;
+  EventReceiver				*_receiver;
 
   //responsive
   irr::core::dimension2d<irr::u32>	_screenSize;

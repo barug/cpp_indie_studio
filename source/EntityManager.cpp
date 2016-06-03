@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:34:32 2016 Barthelemy Gouby
+// Last update Fri Jun  3 17:02:04 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -372,10 +372,10 @@ void							EntityManager::_unserializePlayerInputComponent(Entity &entity, const
   maxBombs = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
   explosionSize = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
   speed = this->_stringToInt(workingString);workingString = workingString.substr(workingString.find(',') + 1);
-  newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
-  entity.addComponent(newComponent);
   if (this->_display)
     this->_display->createEventListener(entity.getId(), {keyUp, keyDown, keyRight, keyLeft, keyBomb});
+  newComponent = new PlayerInputComponent(keyUp, keyDown, keyLeft, keyRight, keyBomb, maxBombs, explosionSize, speed);
+  entity.addComponent(newComponent);
 }
 
 void							EntityManager::_addUnserializedComponent(Entity &entity, const std::string &componentString) const
@@ -412,7 +412,8 @@ void							EntityManager::_addUnserializedComponent(Entity &entity, const std::s
     }
 }
 
-bool							EntityManager::unserialize(const std::string &fileName)
+bool							EntityManager::unserialize(const std::string &fileName,
+										   Display *display)
 {
   std::ifstream						fs;
   std::string						entityString;
@@ -423,13 +424,13 @@ bool							EntityManager::unserialize(const std::string &fileName)
   std::vector<Entity*>					newEntities;
   Entity						*lastEntity;
 
+  this->_display = display;
   fs.open(fileName, std::fstream::in);
   if (fs.is_open())
     {
       while (std::getline(fs, entityString))
 	{
 	  entityId = this->_stringToInt(entityString.substr(0, entityString.find("|")));
-	  std::cout << "id: " << entityId << std::endl;
 	  lastEntity = _addUnserializedEntity(newEntities, entityId);
 	  while (entityString != "")
 	    {
@@ -439,6 +440,7 @@ bool							EntityManager::unserialize(const std::string &fileName)
 	      this->_addUnserializedComponent(*lastEntity, componentString);
 	      entityString = entityString.substr(entityString.find("}") + 1);
 	    }
+	  this->_display->createModel(lastEntity);
 	}
       this->_entities = newEntities;
       fs.close();
@@ -449,7 +451,7 @@ bool							EntityManager::unserialize(const std::string &fileName)
   return (false);
 }
 
-std::string						EntityManager::_intToString(const unsigned int value) const
+std::string						EntityManager::_intToString(const int value) const
 {
   std::stringstream					str;
 
@@ -457,9 +459,9 @@ std::string						EntityManager::_intToString(const unsigned int value) const
   return (str.str());
 }
 
-unsigned int						EntityManager::_stringToInt(const std::string &str) const
+int							EntityManager::_stringToInt(const std::string &str) const
 {
-  unsigned int						result;
+  int							result;
 
   try
     {

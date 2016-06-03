@@ -5,14 +5,15 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:22:55 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:52:50 2016 Barthelemy Gouby
 //
 
 #include "Menu.hh"
 
 Menu::Menu()
   : _menuContext(BASE),
-    _isSet(false)
+    _isSet(false),
+    _receiver(new EventReceiver)
 {
 }
 
@@ -25,7 +26,7 @@ void			Menu::init()
   this->_device =
     irr::createDevice(irr::video::EDT_OPENGL,
 		      irr::core::dimension2d<irr::u32>(1200, 800),
-		      32, false, true, false, &_receiver);
+		      32, false, true, false, _receiver);
   this->_device->setResizable(true);
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
@@ -124,7 +125,7 @@ void			Menu::doButtonsActions()
 	}
       else if (this->_second->isPressed())
 	{
-	  this->_engine.loadSave("./save_file", &this->_receiver, this->_device);
+	  this->_engine.loadSave("./save_file", this->_receiver, this->_device);
 	  this->_engine.gameLoop();
 	}
       else if (this->_third->isPressed())
@@ -146,7 +147,7 @@ void			Menu::doButtonsActions()
 	}
       if (this->_first->isPressed())
 	{
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::SOLO);
+	  this->_engine.initGame(this->_device, this->_receiver, Engine::SOLO);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
 	  std::cout << "solo mode" << std::endl;
@@ -177,14 +178,14 @@ void			Menu::doButtonsActions()
 	}
       if (this->_first->isPressed())
 	{
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
+	  this->_engine.initGame(this->_device, this->_receiver, Engine::VERSUS);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
 	  std::cout << "versus mode" << std::endl;
 	}
       else if (this->_second->isPressed())
 	{
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::COOP);
+	  this->_engine.initGame(this->_device, this->_receiver, Engine::COOP);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
 	  std::cout << "vsai mode" << std::endl;
