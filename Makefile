@@ -48,10 +48,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/barthe_g/rendu/tek2/c++/cpp_indie_studio
+CMAKE_SOURCE_DIR = /home/bogard_t/rendu/cpp_indie_studio
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/barthe_g/rendu/tek2/c++/cpp_indie_studio
+CMAKE_BINARY_DIR = /home/bogard_t/rendu/cpp_indie_studio
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/CMakeFiles /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bogard_t/rendu/cpp_indie_studio/CMakeFiles /home/bogard_t/rendu/cpp_indie_studio/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bogard_t/rendu/cpp_indie_studio/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

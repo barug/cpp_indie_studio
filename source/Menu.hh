@@ -27,7 +27,7 @@ enum    menuContext
 //     : _fileIsSelected(fileIsSelected)
 //   {
 //   }
-  
+
 //   virtual bool OnEvent(const irr::SEvent& event)
 //   {
 //     if (event.EventType == irr::EET_GUI_EVENT)
@@ -42,7 +42,7 @@ enum    menuContext
 // 			<< irr::core::stringc(file->getFileName()).c_str()
 // 			<< std::endl;
 // 	      *(this->_fileIsSelected) = true;
-	      
+
 // 	    }
 // 	    break;
 // 	  default:
@@ -61,7 +61,7 @@ class Menu
 public:
   Menu();
   ~Menu();
-  
+
   void					startMenu();
   void					clearGui();
   void					setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin);
@@ -98,6 +98,8 @@ private:
   irr::gui::IGUIButton			*_fourth;
   irr::gui::IGUIFileOpenDialog		*_fileDialog;
   irr::gui::IGUIEditBox			*_editBox;
+  irr::gui::IGUIScrollBar		*_scrollMusic;
+  irr::gui::IGUIScrollBar		*_scrollSound;
   bool					_isSet;
   bool					_menuIsOn;
   menuContext				_menuContext;

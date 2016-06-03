@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Thu Jun  2 16:06:03 2016 Thomas Bogard
-// Last update Thu Jun  2 21:07:17 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:35:48 2016 Thomas Bogard
 //
 
 #ifndef		__AUDIO_HH__
@@ -30,6 +30,7 @@ public:
   void		musicSetLoop(const bool isloop);
 
   // song
+  void		soundSetVolume(const unsigned int &volume);
   void		soundSetLoop(const bool isloop);
 
 protected:

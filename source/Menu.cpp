@@ -1,11 +1,11 @@
 //
 // Menu.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:19:56 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:40:19 2016 Thomas Bogard
 //
 
 #include "Menu.hh"
@@ -39,7 +39,7 @@ void			Menu::initButtons()
   unsigned int		heightMiddle = this->_screenSize.Height / 2;
   unsigned int		widthMiddle = this->_screenSize.Width / 2;
 
- 
+
   if (this->_fileDialogOpen)
     this->_fileDialog = this->_gui->addFileOpenDialog(L"Please choose a file to load.",
 						      true, 0, -1, true);
@@ -67,6 +67,31 @@ void			Menu::initButtons()
 						    widthMiddle + BUTTON_WIDTH / 2,
 						    heightMiddle + (2 * BUTTON_SPACING + 2 * BUTTON_HEIGHT)),
 			  0, -1);
+
+
+
+  this->_scrollMusic =
+    this->_gui->addScrollBar(true,
+			     irr::core::rect<irr::s32>(widthMiddle - BUTTON_WIDTH / 2,
+						       650,
+						       widthMiddle + BUTTON_WIDTH / 2,
+						       665),
+			     0, -1);
+
+  this->_scrollSound =
+    this->_gui->addScrollBar(true,
+			     irr::core::rect<irr::s32>(widthMiddle - BUTTON_WIDTH / 2,
+						       700,
+						       widthMiddle + BUTTON_WIDTH / 2,
+						       715),
+			     0, -1);
+
+  this->_scrollMusic->setMax(100);
+  this->_scrollSound->setMax(100);
+  this->_scrollMusic->setPos(100);
+  this->_scrollSound->setPos(100);
+
+
   this->_first->setImage(this->_driver->getTexture("textures/menu/newgame.png"));
   this->_second->setImage(this->_driver->getTexture("textures/menu/load.png"));
   this->_third->setImage(this->_driver->getTexture("textures/menu/back.png"));
@@ -77,6 +102,9 @@ void			Menu::doButtonsActions()
 {
   unsigned int		heightMiddle = this->_screenSize.Height / 2;
   unsigned int		widthMiddle = this->_screenSize.Width / 2;
+
+  this->_engine.setVolumeMusic(this->_scrollMusic->getPos());
+  this->_engine.setVolumeSound(this->_scrollSound->getPos());
 
   switch (this->_menuContext)
     {
@@ -137,7 +165,7 @@ void			Menu::doButtonsActions()
       else if (this->_fourth->isPressed())
 	this->_menuIsOn = false;
       break;
-      
+
     case MULTI:
       if (!this->_isSet)
 	{
@@ -196,7 +224,7 @@ void			Menu::doButtonsActions()
       else if (this->_fourth->isPressed())
 	this->_menuIsOn = false;
       break;
-    } 
+    }
 }
 
 void			Menu::drawMenu()
@@ -214,7 +242,7 @@ void			Menu::drawMenu()
 			       irr::video::SColor (255,255,255,255),
 			       true);
   this->_gui->drawAll();
-  this->_driver->endScene(); 
+  this->_driver->endScene();
 }
 
 void			Menu::startMenu()

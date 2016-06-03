@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Fri Jun  3 10:28:58 2016 Barthelemy Gouby
+// Last update Fri Jun  3 15:34:36 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -46,6 +46,8 @@ public:
 						 EventReceiver *receiver,
 						 GameType gameType);
   void					gameLoop();
+  void					setVolumeMusic(const unsigned int &volume);
+  void					setVolumeSound(const unsigned int &volume);
   void					loadSave(const std::string &fileName);
   void					saveGame(const std::string &fileName);
   void					movementSystem();

@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Thu Jun  2 16:05:59 2016 Thomas Bogard
-// Last update Thu Jun  2 19:50:13 2016 Thomas Bogard
+// Last update Fri Jun  3 15:37:28 2016 Thomas Bogard
 //
 
 # include "Audio.hh"
@@ -63,6 +63,11 @@ void		Audio::musicSetVolume(const unsigned int &volume)
 void		Audio::musicSetLoop(const bool isloop)
 {
   this->_music.setLoop(isloop);
+}
+
+void		Audio::soundSetVolume(const unsigned int &volume)
+{
+  this->_sound.setVolume(volume);
 }
 
 void		Audio::soundSetLoop(const bool isloop)
