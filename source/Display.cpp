@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Thu Jun  2 20:35:31 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:58:32 2016 Erwan Dupard
 //
 
 # include "Display.hh"
@@ -79,8 +79,6 @@ void		Display::initSkybox()
 				    this->_driver->getTexture("./textures/space.jpg"),  // right
 				    this->_driver->getTexture("./textures/space.jpg"),  // ft
 				    this->_driver->getTexture("./textures/space.jpg")); // bk
-  if (!this->_skybox)
-    puterr("Skybox cannot be loaded");
   this->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
@@ -149,8 +147,6 @@ int             Display::guiCreateModel(const std::string mesh,
     {
       irr::scene::IAnimatedMeshSceneNode *node =
 	this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(mesh.c_str()));
-      if (!node)
-	puterr("guiCreatemodel failure");
       node->setMaterialTexture(0, this->_driver->getTexture(texture.c_str()));
       node->setPosition(irr::core::vector3df(x, 1500, y));
       node->setAnimationSpeed(40);
