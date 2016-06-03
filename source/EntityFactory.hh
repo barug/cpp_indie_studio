@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Fri Jun  3 10:26:06 2016 Barthelemy Gouby
+// Last update Fri Jun  3 14:11:06 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -40,7 +40,9 @@ public:
       FIRE_UP_POWER_UP		= 4,
       SPEED_UP_POWER_UP		= 5,
       LIVE_UP_POWER_UP		= 6,
-      BASIC_ENEMY		= 7
+      BASIC_ENEMY		= 7,
+      PLAYER_ONE		= 8,
+      PLAYER_TWO		= 9
     };
   
   EntityFactory();

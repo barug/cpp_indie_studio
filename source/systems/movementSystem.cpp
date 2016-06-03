@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Fri Jun  3 11:23:36 2016 Barthelemy Gouby
+// Last update Fri Jun  3 14:43:11 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -22,10 +22,11 @@ void			Engine::movementSystem()
   PositionComponent	*positionComponent;
   unsigned int		newX;
   unsigned int		newY;
-  bool			blocked = false;
+  bool			blocked;
 
   for (Entity *movable: *movableEntities)
     {
+      blocked = false;
       speedComponent = (SpeedComponent*) movable->getComponent(Component::SPEED_COMPONENT);
       if (speedComponent->getSpeedX() || speedComponent->getSpeedY())
 	{

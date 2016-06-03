@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Fri May 27 18:51:39 2016 Barthelemy Gouby
-// Last update Fri Jun  3 12:36:49 2016 Barthelemy Gouby
+// Last update Fri Jun  3 14:55:26 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -14,11 +14,14 @@ void					Engine::basicEnemySystem()
 {
   std::vector<Entity*>			*basicEnemies =
     this->_entityManager.getEntitiesWithComponents({Component::BASIC_ENEMY_COMPONENT});
-  std::vector<Entity*>			*solidEntities =
+  std::vector<Entity*>			*solids =
     this->_entityManager.getEntitiesWithComponents({Component::SOLIDITY_COMPONENT});
+  std::vector<Entity*>			*players =
+    this->_entityManager.getEntitiesWithComponents({Component::PLAYER_INPUT_COMPONENT});
   BasicEnemyComponent			*basicEnemyComponent;
   PositionComponent			*positionComponent;
   SpeedComponent			*speedComponent;
+  HealthComponent			*healthComponent;
   PositionComponent			validTiles[4];
   unsigned int				numberOfValidTiles;
   bool					upIsValid;
@@ -34,9 +37,23 @@ void					Engine::basicEnemySystem()
       basicEnemyComponent = (BasicEnemyComponent*) basicEnemy->getComponent(Component::BASIC_ENEMY_COMPONENT);
       positionComponent = (PositionComponent*) basicEnemy->getComponent(Component::POSITION_COMPONENT);
       speedComponent = (SpeedComponent*) basicEnemy->getComponent(Component::SPEED_COMPONENT);
+
+      for (Entity *player: *players)
+	{
+	  if (this->_display.collision(basicEnemy->getId(), player->getId()))
+	    {
+	      healthComponent = (HealthComponent*) player->getComponent(Component::HEALTH_COMPONENT);
+	      if (healthComponent->getInvincibleTimer() <= 0)
+		{
+		  healthComponent->setLives(healthComponent->getLives() - 1);
+		  healthComponent->setInviciblesTimer(110);
+		}
+	    }
+	}
+
       if (basicEnemyComponent->getTileGoingToX() == positionComponent->getX()
 	  && basicEnemyComponent->getTileGoingToY() == positionComponent->getY())
-	{
+	{ 
 	  std::cout << "searching new direction" << std::endl;
 	  numberOfValidTiles = 0;
 	  if (speedComponent->getSpeedY() < 0)
@@ -55,7 +72,7 @@ void					Engine::basicEnemySystem()
 	    rightIsValid = false;
 	  else
 	    rightIsValid = true;
-	  for (Entity *solid: *solidEntities)
+	  for (Entity *solid: *solids)
 	    {
 	      if (this->_display.tileIsOccupied(positionComponent->getX(),
 						positionComponent->getY() + TILE_SIZE,
@@ -116,6 +133,8 @@ void					Engine::basicEnemySystem()
 	      basicEnemyComponent->setTileGoingToX(basicEnemyComponent->getTileComingFromX());
 	      basicEnemyComponent->setTileGoingToY(basicEnemyComponent->getTileComingFromY());
 	    }
+	  basicEnemyComponent->setTileComingFromX(positionComponent->getX());
+	  basicEnemyComponent->setTileComingFromY(positionComponent->getY());
 	  std::cout << "player x: " << positionComponent->getX()
 		    << " player y: " << positionComponent->getY() << std::endl;
 	  std::cout << "new direction x: " << basicEnemyComponent->getTileGoingToX()

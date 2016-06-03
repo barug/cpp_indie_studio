@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 12:14:56 2016 Barthelemy Gouby
+// Last update Fri Jun  3 14:44:11 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -32,22 +32,22 @@ void					Engine::initMap()
   std::vector<int>			map =
     {
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-      1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 6, 1,
-      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 6, 1,
-      1, 0, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 5, 1,
-      1, 0, 0, 1, 0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 2, 0, 5, 0, 1, 7, 1, 0, 0, 1,
-      1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 5, 0, 0, 1,
-      1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 4, 1,
-      1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-      1, 0, 1, 1, 1, 1, 2, 2, 0, 0, 2, 5, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+      1, 8, 0, 2, 2, 0, 0, 3, 0, 0, 2, 2, 0, 0, 1,
+      1, 0, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 0, 1,
+      1, 2, 1, 0, 0, 0, 0, 2, 0, 0, 0, 4, 1, 2, 1,
+      1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+      1, 0, 2, 2, 0, 0, 0, 5, 0, 0, 0, 2, 2, 0, 1,
+      1, 0, 1, 0, 1, 7, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+      1, 2, 0, 6, 0, 6, 0, 1, 0, 5, 0, 4, 0, 2, 1,
+      1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+      1, 0, 2, 2, 0, 0, 0, 3, 0, 7, 0, 2, 2, 0, 1,
+      1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+      1, 2, 1, 3, 0, 0, 0, 2, 0, 0, 0, 0, 1, 2, 1,
+      1, 0, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 0, 1,
+      1, 0, 0, 2, 2, 0, 0, 4, 0, 0, 2, 2, 0, 0, 1,
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };
-
+  
   for (unsigned int i = 0; i < map.size(); i++)
     {
       if (map[i] != EntityFactory::EMPTY)
@@ -86,6 +86,14 @@ void					Engine::initMap()
 	      entity = this->_entityFactory.createBasicEnemy((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
 							     (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2);
 	      break;
+	    case EntityFactory::PLAYER_ONE:
+	      entity = this->_entityFactory.createPlayer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							 0,
+							 irr::KEY_KEY_Z,
+							 irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
+							 irr::KEY_SPACE, 1, 1, 50, &(this->_display));
+	      break;
 	    default:
 	      break;
 	    }
@@ -104,19 +112,19 @@ void					Engine::initGame(irr::IrrlichtDevice *device,
 
   this->_gameType = gameType;
   this->_display.init(device, receiver);
-  player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
-					      irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
-					      irr::KEY_SPACE, 1, 1, 50, &(this->_display));
-  this->_entityManager.addEntity(player1);
-  this->_display.createModel(player1);
-  if (gameType == VERSUS || gameType == COOP)
-    {
-      player2 = this->_entityFactory.createPlayer(4750, 4750, 0, irr::KEY_UP,
-						  irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
-						  irr::KEY_RETURN, 1, 1, 50, &(this->_display));
-      this->_entityManager.addEntity(player2);
-      this->_display.createModel(player2);
-    }
+  // player1 = this->_entityFactory.createPlayer(1000, 1000, 0, irr::KEY_KEY_Z,
+  // 					      irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
+  // 					      irr::KEY_SPACE, 1, 1, 50, &(this->_display));
+  // this->_entityManager.addEntity(player1);
+  // this->_display.createModel(player1);
+  // if (gameType == VERSUS || gameType == COOP)
+  //   {
+  //     player2 = this->_entityFactory.createPlayer(4750, 4750, 0, irr::KEY_UP,
+  // 						  irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
+  // 						  irr::KEY_RETURN, 1, 1, 50, &(this->_display));
+  //     this->_entityManager.addEntity(player2);
+  //     this->_display.createModel(player2);
+  //   }
   this->initMap();
 }
 
