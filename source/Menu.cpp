@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:22:55 2016 Barthelemy Gouby
+// Last update Sat Jun  4 17:04:45 2016 Thomas Bogard
 //
 
 #include "Menu.hh"
@@ -68,8 +68,6 @@ void			Menu::initButtons()
 						    heightMiddle + (2 * BUTTON_SPACING + 2 * BUTTON_HEIGHT)),
 			  0, -1);
 
-
-
   this->_scrollMusic =
     this->_gui->addScrollBar(true,
 			     irr::core::rect<irr::s32>(widthMiddle - BUTTON_WIDTH / 2,
@@ -88,7 +86,7 @@ void			Menu::initButtons()
 
   this->_scrollMusic->setMax(100);
   this->_scrollSound->setMax(100);
-  this->_scrollMusic->setPos(100);
+  this->_scrollMusic->setPos(50);
   this->_scrollSound->setPos(100);
 
 

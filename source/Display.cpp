@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri Jun  3 16:58:32 2016 Erwan Dupard
+// Last update Sat Jun  4 17:17:05 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -179,7 +179,7 @@ int		Display::createModel(Entity *entity)
   PositionComponent			*pos =
     (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
 
-  irr::scene::IAnimatedMeshSceneNode	*node = 
+  irr::scene::IAnimatedMeshSceneNode	*node =
     this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel(ModelComponent::DEFAULT).c_str()));
 
   if (!node)
@@ -259,7 +259,7 @@ void		Display::changeMaterialType(Entity *entity,
     {
       node = search->second;
       node->setMaterialType(type);
-    }  
+    }
 }
 
 const bool	Display::tileIsOccupiedBomb(const unsigned int &x,
