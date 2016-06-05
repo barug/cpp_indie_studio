@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Sun Jun  5 20:41:14 2016 Barthelemy Gouby
+// Last update Sun Jun  5 21:07:55 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -73,6 +73,7 @@ private:
   std::vector<void (Engine::*) ()>	_systems;
   Engine::GameType			_gameType;
   bool					_win;
+
   void					_addNewExplosion(const unsigned int &x,
 							 const unsigned &y,
 							 bool &isBlocked);

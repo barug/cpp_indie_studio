@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sun Jun  5 21:04:03 2016 Barthelemy Gouby
+// Last update Sun Jun  5 21:07:38 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -213,7 +213,6 @@ int		Display::createModel(Entity *entity)
   node->setMaterialType(irr::video::EMT_SOLID);
   node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-  // node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
   return (0);
 }
