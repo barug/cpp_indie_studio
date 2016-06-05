@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Sun Jun  5 17:03:59 2016 Thomas Bogard
+// Last update Sun Jun  5 18:51:18 2016 Thomas Bogard
 //
 
 #include <unistd.h>
@@ -109,10 +109,11 @@ void					Engine::removeEntities()
 {
   std::vector<Entity*>			entities = this->_entityManager.getEntities();
 
-  for (Entity *l_entities: entities)
+  this->_display.removeGround();
+  for (Entity *entity: entities)
     {
-      this->_display.removeModel(l_entities);
-      this->_entityManager.destroyEntity(l_entities->getId());
+      this->_display.removeModel(entity);
+      this->_entityManager.destroyEntity(entity->getId());
     }
 }
 
@@ -125,6 +126,7 @@ void					Engine::initGame(irr::IrrlichtDevice *device,
 
   this->_gameType = gameType;
   this->_display.init(device, receiver);
+  this->_display.initGround();
   this->initMap();
 }
 
@@ -151,6 +153,12 @@ void					Engine::loadSave(const std::string &fileName,
   this->_display.init(device, receiver);
 }
 
+void					Engine::makeMusic()
+{
+  this->_audio.makeMusic("sound/mortalkombat.wav");
+  this->_audio.musicSetLoop(true);
+}
+
 void					Engine::gameLoop()
 {
   std::chrono::system_clock::time_point	now;
@@ -158,8 +166,6 @@ void					Engine::gameLoop()
   this->_gameIsOn = true;
   this->_lastTick = std::chrono::system_clock::now();
   this->_display.setCursorVisibility(false);
-  this->_audio.makeMusic("sound/mortalkombat.wav");
-  this->_audio.musicSetLoop(true);
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();
@@ -172,5 +178,4 @@ void					Engine::gameLoop()
       (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
     }
   this->_display.setCursorVisibility(true);
-  // this->_display.closeDisplay();
 }

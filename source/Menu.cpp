@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Sun Jun  5 16:51:48 2016 Thomas Bogard
+// Last update Sun Jun  5 18:16:44 2016 Thomas Bogard
 //
 
 #include "Menu.hh"
@@ -32,6 +32,7 @@ void			Menu::init()
   this->_background = this->_driver->getTexture("textures/menu/background.png");
   this->_gui = this->_device->getGUIEnvironment();
   this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
+  this->_engine.makeMusic();
 }
 
 void			Menu::initButtons()
@@ -96,7 +97,7 @@ void			Menu::initButtons()
 
   this->_scrollMusic->setMax(100);
   this->_scrollSound->setMax(100);
-  this->_scrollMusic->setPos(50);
+  this->_scrollMusic->setPos(25);
   this->_scrollSound->setPos(100);
   this->setSkinTransparency(50, this->_gui->getSkin());
   this->_first->setImage(this->_driver->getTexture("textures/menu/newgame.png"));
@@ -112,7 +113,6 @@ void			Menu::doButtonsActions()
 
   this->_engine.setVolumeMusic(this->_scrollMusic->getPos());
   this->_engine.setVolumeSound(this->_scrollSound->getPos());
-
   switch (this->_menuContext)
     {
     case BASE:
@@ -136,7 +136,6 @@ void			Menu::doButtonsActions()
 	}
       else if (this->_third->isPressed())
 	{
-	  std::cout << "back to game" << std::endl;
 	}
       else if (this->_fourth->isPressed())
 	this->_menuIsOn = false;
@@ -157,11 +156,10 @@ void			Menu::doButtonsActions()
 	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::SOLO);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
-	  std::cout << "solo mode" << std::endl;
+	  this->_isSet = false;
 	}
       else if (this->_second->isPressed())
 	{
-	  std::cout << "multi player mode" << std::endl;
 	  this->_menuContext = MULTI;
 	  this->_isSet = false;
 	}
@@ -188,14 +186,14 @@ void			Menu::doButtonsActions()
 	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
-	  std::cout << "versus mode" << std::endl;
+	  this->_isSet = false;
 	}
       else if (this->_second->isPressed())
 	{
 	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::COOP);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
-	  std::cout << "vsai mode" << std::endl;
+	  this->_isSet = false;
 	}
       else if (this->_third->isPressed())
 	{

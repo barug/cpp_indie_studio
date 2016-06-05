@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Fri Jun  3 16:57:53 2016 Erwan Dupard
+// Last update Sun Jun  5 18:36:13 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -82,11 +82,13 @@ public:
   // scene
   irr::scene::ICameraSceneNode					*_camera;
   irr::scene::ISceneManager					*_smgr;
-  irr::scene::ISceneNode					*_ground;
   irr::scene::ISceneNode					*_skybox;
+
+  //mesh
   irr::scene::IAnimatedMeshSceneNode				*_model;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_models;
   std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_guimodel;
+  std::map<unsigned int, irr::scene::IAnimatedMeshSceneNode *>	_ground;
 
   // positions
   irr::core::vector3df						_model_position;
@@ -104,6 +106,7 @@ public:
   void								showFpsDriver(int last_tick);
   int								initDevice();
   void								initCamera();
+  void								removeGround();
   void								initGround();
   void								initSkybox();
   void								setCursorVisibility(bool visibility);

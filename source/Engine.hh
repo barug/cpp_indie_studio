@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Sun Jun  5 16:33:42 2016 Thomas Bogard
+// Last update Sun Jun  5 18:24:34 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -45,6 +45,7 @@ public:
   void				        initGame(irr::IrrlichtDevice *device,
 						 EventReceiver *receiver,
 						 GameType gameType);
+  void					makeMusic();
   void					gameLoop();
   void					removeEntities();
   void					loadSave(const std::string &fileName,

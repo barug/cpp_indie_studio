@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:46:12 2016 Erwan Dupard
+// Last update Sun Jun  5 17:29:41 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -156,7 +156,7 @@ Entity			*EntityFactory::createBasicEnemy(const unsigned int &x,
   HealthComponent	*healthComponent = new HealthComponent(1);
   BasicEnemyComponent	*basicEnemyComponent = new BasicEnemyComponent(x, y);
 
-  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);  
+  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);
   basicEnemy->addComponent(modelComponent);
   basicEnemy->addComponent(positionComponent);
   basicEnemy->addComponent(speedComponent);
