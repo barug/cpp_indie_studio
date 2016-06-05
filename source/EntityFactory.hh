@@ -1,11 +1,11 @@
 //
 // EntityFactory.hh for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Mon May  2 16:07:57 2016 Barthelemy Gouby
-// Last update Fri Jun  3 14:11:06 2016 Barthelemy Gouby
+// Last update Sun Jun  5 20:55:23 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_FACTORY_HH_
@@ -44,7 +44,7 @@ public:
       PLAYER_ONE		= 8,
       PLAYER_TWO		= 9
     };
-  
+
   EntityFactory();
   ~EntityFactory();
 
@@ -76,6 +76,7 @@ public:
 					      const unsigned int &maxBombs,
 					      const unsigned int &explosionSize,
 					      const unsigned int &speed,
+					      const std::string &texture,
 					      Display *display);
   Entity			*createBasicEnemy(const unsigned int &x,
 						 const unsigned int &y);
@@ -85,7 +86,7 @@ public:
   Entity			*createPowerUpContainer(const unsigned int &x,
 							const unsigned int &y,
 							PowerUpComponent::Type containedType);
-  
+
 private:
   unsigned int			_nextFreeId;
 };

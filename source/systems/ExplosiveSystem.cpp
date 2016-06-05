@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Mon May 23 12:15:59 2016 Barthelemy Gouby
-// Last update Thu Jun  2 23:00:24 2016 Barthelemy Gouby
+// Last update Sun Jun  5 19:54:41 2016 Barthelemy Gouby
 //
 
 #include "../Engine.hh"
@@ -94,6 +94,7 @@ void				Engine::ExplosiveSystem()
 	      ->decrementActiveBombs();
 	  this->_display.removeModel(explosive);
 	  this->_entityManager.destroyEntity(explosive->getId());
+	  this->_audio.makeSound("./sound/explosion.wav");
 	}
       else
 	explosiveComponent->setTimerLength(explosiveComponent->getTimerLength() - 1);

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:58:45 2016 Barthelemy Gouby
+// Last update Sun Jun  5 20:59:52 2016 Barthelemy Gouby
 //
 
 #include <unistd.h>
@@ -28,27 +28,9 @@ Engine::Engine()
 Engine::~Engine()
 {}
 
-void					Engine::initMap()
+void					Engine::initMap(const std::vector<int> &map)
 {
   Entity				*entity;
-  std::vector<int>			map =
-    {
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-      1, 8, 0, 2, 2, 0, 0, 3, 0, 0, 2, 2, 0, 0, 1,
-      1, 0, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 0, 1,
-      1, 2, 1, 4, 7, 0, 0, 2, 0, 0, 7, 4, 1, 2, 1,
-      1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-      1, 0, 2, 2, 0, 0, 0, 5, 0, 0, 0, 2, 2, 0, 1,
-      1, 0, 1, 0, 1, 7, 1, 0, 1, 7, 1, 0, 1, 0, 1,
-      1, 2, 0, 6, 0, 6, 0, 1, 0, 5, 0, 4, 0, 2, 1,
-      1, 0, 1, 0, 1, 7, 1, 0, 1, 7, 1, 0, 1, 0, 1,
-      1, 0, 2, 2, 0, 0, 0, 3, 0, 0, 0, 2, 2, 0, 1,
-      1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
-      1, 2, 1, 3, 7, 0, 0, 2, 0, 0, 7, 3, 1, 2, 1,
-      1, 0, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 0, 1,
-      1, 0, 0, 2, 2, 0, 0, 4, 0, 0, 2, 2, 0, 0, 1,
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    };
 
   for (unsigned int i = 0; i < map.size(); i++)
     {
@@ -94,7 +76,17 @@ void					Engine::initMap()
 							 0,
 							 irr::KEY_KEY_Z,
 							 irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D,
-							 irr::KEY_SPACE, 1, 1, 50, &(this->_display));
+							 irr::KEY_SPACE, 1, 1, 50, "./textures/bomberman_blue.png",
+							 &(this->_display));
+	      break;
+	    case EntityFactory::PLAYER_TWO:
+	      entity = this->_entityFactory.createPlayer((i / MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							 (i % MAP_SIZE) * TILE_SIZE + TILE_SIZE / 2,
+							 0,
+							 irr::KEY_UP,
+							 irr::KEY_DOWN, irr::KEY_LEFT, irr::KEY_RIGHT,
+							 irr::KEY_RETURN, 1, 1, 50, "./textures/bomberman_green.png",
+							 &(this->_display));
 	      break;
 	    default:
 	      break;
@@ -105,16 +97,31 @@ void					Engine::initMap()
     }
 }
 
+void					Engine::removeEntities()
+{
+  std::vector<Entity*>			entities = this->_entityManager.getEntities();
+
+  this->_display.removeGround();
+  for (Entity *entity: entities)
+    {
+      this->_display.removeModel(entity);
+      this->_entityManager.destroyEntity(entity->getId());
+    }
+}
+
 void					Engine::initGame(irr::IrrlichtDevice *device,
 							 EventReceiver *receiver,
 							 GameType gameType)
 {
-  Entity				*player1;
-  Entity				*player2;
-
+  #include "map.hh"
   this->_gameType = gameType;
   this->_display.init(device, receiver);
-  this->initMap();
+  if (gameType == SOLO)
+    this->initMap(mapSolo);
+  if (gameType == VERSUS)
+    this->initMap(mapVersus);
+  if (gameType == COOP)
+    this->initMap(mapCoop);
 }
 
 void					Engine::setVolumeMusic(const unsigned int &volume)
@@ -140,6 +147,12 @@ void					Engine::loadSave(const std::string &fileName,
   this->_entityManager.unserialize(fileName, &this->_display);
 }
 
+void					Engine::makeMusic()
+{
+  this->_audio.makeMusic("sound/mortalkombat.wav");
+  this->_audio.musicSetLoop(true);
+}
+
 void					Engine::gameLoop()
 {
   std::chrono::system_clock::time_point	now;
@@ -147,8 +160,6 @@ void					Engine::gameLoop()
   this->_gameIsOn = true;
   this->_lastTick = std::chrono::system_clock::now();
   this->_display.setCursorVisibility(false);
-  this->_audio.makeMusic("sound/mortalkombat.wav");
-  this->_audio.musicSetLoop(true);
   while (this->_gameIsOn)
     {
       now = std::chrono::system_clock::now();
@@ -161,5 +172,4 @@ void					Engine::gameLoop()
       (this->_display.windowIsActive() ? this->_display.refreshScreen() : this->_gameIsOn = false);
     }
   this->_display.setCursorVisibility(true);
-  // this->_display.closeDisplay();
 }

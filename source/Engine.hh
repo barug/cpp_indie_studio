@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:25:33 2016 Barthelemy Gouby
+// Last update Sun Jun  5 20:41:14 2016 Barthelemy Gouby
 //
 
 #ifndef _ENGINE_HH_
@@ -41,11 +41,13 @@ public:
   Engine();
   ~Engine();
 
-  void					initMap();
+  void					initMap(const std::vector<int> &map);
   void				        initGame(irr::IrrlichtDevice *device,
 						 EventReceiver *receiver,
 						 GameType gameType);
+  void					makeMusic();
   void					gameLoop();
+  void					removeEntities();
   void					loadSave(const std::string &fileName,
 						 EventReceiver *receiver,
 						 irr::IrrlichtDevice *device);

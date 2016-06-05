@@ -1,3 +1,13 @@
+//
+// Menu.hh for indie studio
+//
+// Made by Thomas Bogard
+// Login   <bogard_t@epitech.net>
+//
+// Started on  Sun Jun  5 15:47:40 2016 Thomas Bogard
+// Last update Sun Jun  5 19:37:42 2016 Barthelemy Gouby
+//
+
 #ifndef _MENU_HH_
 # define _MENU_HH_
 
@@ -12,6 +22,10 @@
 # define BUTTON_HEIGHT	(92)
 # define BUTTON_SPACING (10)
 
+# define SCROLL_WIDTH	(271)
+# define SCROLL_HEIGHT	(43)
+# define SCROLL_SPACING (20)
+
 enum    menuContext
   {
     BASE,
@@ -19,42 +33,6 @@ enum    menuContext
     MULTI,
     IN_GAME
   };
-
-// class MyEventReceiver : public irr::IEventReceiver
-// {
-// public:
-//   MyEventReceiver(bool *fileIsSelected)
-//     : _fileIsSelected(fileIsSelected)
-//   {
-//   }
-
-//   virtual bool OnEvent(const irr::SEvent& event)
-//   {
-//     if (event.EventType == irr::EET_GUI_EVENT)
-//       {
-// 	switch (event.GUIEvent.EventType)
-// 	  {
-//           case irr::gui::EGET_FILE_SELECTED:
-// 	    {
-// 	      irr::gui::IGUIFileOpenDialog* file =
-// 		(irr::gui::IGUIFileOpenDialog*)event.GUIEvent.Caller;
-// 	      std::cout << "ITEM HAS BEEN SELECTED !! "
-// 			<< irr::core::stringc(file->getFileName()).c_str()
-// 			<< std::endl;
-// 	      *(this->_fileIsSelected) = true;
-
-// 	    }
-// 	    break;
-// 	  default:
-// 	    break;
-// 	  }
-//       }
-//     return false;
-//   }
-
-// private:
-//     bool			*_fileIsSelected;
-// };
 
 class Menu
 {
@@ -81,9 +59,10 @@ private:
   irr::IrrlichtDevice			*_device;
   irr::scene::ISceneManager		*_sceneManager;
   irr::video::ITexture			*_background;
+  irr::gui::IGUIImage			*_img_music;
   irr::gui::IGUIListBox			*_listbox;
   irr::gui::IGUIEnvironment		*_gui;
-  EventReceiver				*_receiver;
+  EventReceiver				_receiver;
 
   //responsive
   irr::core::dimension2d<irr::u32>	_screenSize;
@@ -104,6 +83,5 @@ private:
   bool					_menuIsOn;
   menuContext				_menuContext;
 };
-
 
 #endif /* MENU_HH_ */

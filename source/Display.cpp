@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Fri Jun  3 16:58:32 2016 Erwan Dupard
+// Last update Sun Jun  5 20:24:10 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -53,19 +53,39 @@ int		Display::initDevice()
   return (0);
 }
 
+void		Display::removeGround()
+{
+  std::cout << "SIZE == " << this->_ground.size() << std::endl;
+  for (unsigned int id = 0; id < 225; ++id)
+    {
+      auto search = this->_ground.find(id);
+      if (search != this->_ground.end())
+  	{
+  	  search->second->remove();
+  	  this->_ground.erase(id);
+  	}
+    }
+}
+
 void		Display::initGround()
 {
+  unsigned int	id = 0;
+
+  std::cout << "creating map" << std::endl;
   for (int row = 0; row < MAP_SIZE; row++)
     for (int column = 0; column < MAP_SIZE; column++)
       {
-	this->_smgr->addCubeSceneNode();
-	this->_ground = this->_smgr->addCubeSceneNode();
-	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
-							0,
-							TILE_SIZE * column + TILE_SIZE / 2));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/sand.jpg"));
-	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
+	irr::scene::IAnimatedMeshSceneNode *node =
+	  this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh("./models/cube.obj"));
+	node->setMaterialTexture(0, this->_driver->getTexture("./textures/sand.jpg"));
+	node->setPosition(irr::core::vector3df(row * 500, -375, column * 500));
+	node->setAnimationSpeed(40);
+	node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	node->setScale(irr::core::vector3df(375, 375, 375));
+	node->setRotation(irr::core::vector3df(0, 0, 0));
+	std::cout << "id = " << id << std::endl;
+	this->_ground.emplace(id, node);
+	id++;
       }
 }
 
@@ -112,6 +132,7 @@ int		Display::init(irr::IrrlichtDevice *device, EventReceiver *receiver)
   this->_smgr = this->_device->getSceneManager();
   this->_env = this->_device->getGUIEnvironment();
   this->_receiver = receiver;
+  this->removeGround();
   this->initGround();
   this->initSkybox();
   this->initCamera();
@@ -179,7 +200,7 @@ int		Display::createModel(Entity *entity)
   PositionComponent			*pos =
     (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
 
-  irr::scene::IAnimatedMeshSceneNode	*node = 
+  irr::scene::IAnimatedMeshSceneNode	*node =
     this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel(ModelComponent::DEFAULT).c_str()));
 
   if (!node)
@@ -259,7 +280,7 @@ void		Display::changeMaterialType(Entity *entity,
     {
       node = search->second;
       node->setMaterialType(type);
-    }  
+    }
 }
 
 const bool	Display::tileIsOccupiedBomb(const unsigned int &x,
