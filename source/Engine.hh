@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:25:33 2016 Barthelemy Gouby
+// Last update Sun Jun  5 16:33:42 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -46,6 +46,7 @@ public:
 						 EventReceiver *receiver,
 						 GameType gameType);
   void					gameLoop();
+  void					removeEntities();
   void					loadSave(const std::string &fileName,
 						 EventReceiver *receiver,
 						 irr::IrrlichtDevice *device);

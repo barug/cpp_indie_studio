@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:23:12 2016 Barthelemy Gouby
+// Last update Sun Jun  5 17:03:59 2016 Thomas Bogard
 //
 
 #include <unistd.h>
@@ -102,6 +102,17 @@ void					Engine::initMap()
           this->_display.createModel(entity);
 	  this->_entityManager.addEntity(entity);
 	}
+    }
+}
+
+void					Engine::removeEntities()
+{
+  std::vector<Entity*>			entities = this->_entityManager.getEntities();
+
+  for (Entity *l_entities: entities)
+    {
+      this->_display.removeModel(l_entities);
+      this->_entityManager.destroyEntity(l_entities->getId());
     }
 }
 

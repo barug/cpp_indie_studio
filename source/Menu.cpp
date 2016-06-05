@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Sun Jun  5 16:07:00 2016 Thomas Bogard
+// Last update Sun Jun  5 16:51:48 2016 Thomas Bogard
 //
 
 #include "Menu.hh"
@@ -30,10 +30,7 @@ void			Menu::init()
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
   this->_background = this->_driver->getTexture("textures/menu/background.png");
-
-
   this->_gui = this->_device->getGUIEnvironment();
-
   this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
 }
 
@@ -70,17 +67,12 @@ void			Menu::initButtons()
 						    widthMiddle + BUTTON_WIDTH / 2,
 						    heightMiddle + (2 * BUTTON_SPACING + 2 * BUTTON_HEIGHT)),
 			  0, -1);
-
-
   irr::gui::IGUIImage *img_music =
     this->_gui->addImage(irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
 						   heightMiddle + (4 * SCROLL_SPACING + SCROLL_HEIGHT) + 100,
 						   widthMiddle + SCROLL_WIDTH / 2,
 						   heightMiddle + (4 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100));
-
-
   img_music->setImage(this->_driver->getTexture("./textures/music.png"));
-
   this->_scrollMusic =
     this->_gui->addScrollBar(true,
 			     irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
@@ -88,16 +80,12 @@ void			Menu::initButtons()
 						       widthMiddle + SCROLL_WIDTH / 2,
 						       heightMiddle + (4 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100),
 			     0, -1);
-
   irr::gui::IGUIImage *img_sound =
     this->_gui->addImage(irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
 						   heightMiddle + (8 * SCROLL_SPACING + SCROLL_HEIGHT) + 100,
 						   widthMiddle + SCROLL_WIDTH / 2,
 						   heightMiddle + (8 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100));
-
-
   img_sound->setImage(this->_driver->getTexture("./textures/soundeffects.png"));
-
   this->_scrollSound =
     this->_gui->addScrollBar(true,
 			     irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
@@ -143,8 +131,8 @@ void			Menu::doButtonsActions()
 	}
       else if (this->_second->isPressed())
 	{
-	  this->_engine.loadSave("./save_file", &this->_receiver, this->_device);
-	  this->_engine.gameLoop();
+	  // this->_engine.loadSave("./save_file", &this->_receiver, this->_device);
+	  // this->_engine.gameLoop();
 	}
       else if (this->_third->isPressed())
 	{
@@ -165,6 +153,7 @@ void			Menu::doButtonsActions()
 	}
       if (this->_first->isPressed())
 	{
+	  this->_engine.removeEntities();
 	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::SOLO);
 	  this->_engine.gameLoop();
 	  this->_menuContext = IN_GAME;
