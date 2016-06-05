@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sun Jun  5 20:24:10 2016 Barthelemy Gouby
+// Last update Sun Jun  5 21:04:03 2016 Barthelemy Gouby
 //
 
 # include "Display.hh"
@@ -55,7 +55,6 @@ int		Display::initDevice()
 
 void		Display::removeGround()
 {
-  std::cout << "SIZE == " << this->_ground.size() << std::endl;
   for (unsigned int id = 0; id < 225; ++id)
     {
       auto search = this->_ground.find(id);
@@ -83,7 +82,6 @@ void		Display::initGround()
 	node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	node->setScale(irr::core::vector3df(375, 375, 375));
 	node->setRotation(irr::core::vector3df(0, 0, 0));
-	std::cout << "id = " << id << std::endl;
 	this->_ground.emplace(id, node);
 	id++;
       }
@@ -337,6 +335,13 @@ void		Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> 
 std::vector<irr::EKEY_CODE>	*Display::getKeysDownForId(unsigned int id)
 {
   return (this->_listeners.find(id)->second->getKeysDown());
+}
+
+void			Display::createImage(const std::string &texture, const irr::core::rect<irr::s32> &rect)
+{
+  irr::gui::IGUIImage *img = this->_env->addImage(rect);
+  img->setImage(this->_driver->getTexture(texture.c_str()));
+  img->setScaleImage(true);
 }
 
 // private for debug

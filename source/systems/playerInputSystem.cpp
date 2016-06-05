@@ -1,11 +1,11 @@
 //
 // PlayerInputSystem.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source/systems
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Wed May 18 16:49:48 2016 Barthelemy Gouby
-// Last update Thu Jun  2 10:04:12 2016 Barthelemy Gouby
+// Last update Sun Jun  5 20:52:19 2016 Thomas Bogard
 //
 
 #include <iostream>
@@ -44,10 +44,10 @@ void				Engine::playerInputSystem()
 	  else if (key == playerInputComponent->getKeyRight())
 	    speedComponent->setSpeedX(-playerInputComponent->getSpeed());
 	  else if (key == playerInputComponent->getKeyBomb()
-	      && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
+		   && playerInputComponent->getActiveBombs() < playerInputComponent->getMaxBombs())
 	    {
 	      bombs = this->_entityManager.getEntitiesWithComponents({Component::EXPLOSIVE_COMPONENT});
-	      positionComponent = (PositionComponent*) player->getComponent(Component::POSITION_COMPONENT);	  
+	      positionComponent = (PositionComponent*) player->getComponent(Component::POSITION_COMPONENT);
 	      canPlaceBomb = true;
 	      for (Entity *bomb: *bombs)
 	  	{
@@ -77,5 +77,9 @@ void				Engine::playerInputSystem()
 	  	}
 	    }
 	}
+    }
+  if (playerEntities->size() < 1)
+    {
+      this->_gameIsOn = false;
     }
 }
