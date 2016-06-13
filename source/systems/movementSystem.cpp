@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 15:59:24 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:19:45 2016 Barthelemy Gouby
+// Last update Sun Jun 12 12:10:20 2016 Thomas Bogard
 //
 
 #include "../Engine.hh"
@@ -69,7 +69,9 @@ void			Engine::movementSystem()
 	      positionComponent->setY(newY);
 	    }
 	}
-      else
-	this->_display.updateModel(movable, ModelComponent::DEFAULT);
+      else if (!this->_isDropped)
+	{
+	  this->_display.updateModel(movable, ModelComponent::DEFAULT);
+	}
     }
 }

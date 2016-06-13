@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Thu Jun  2 16:05:59 2016 Thomas Bogard
-// Last update Fri Jun  3 16:34:36 2016 Thomas Bogard
+// Last update Sun Jun  5 16:29:25 2016 Thomas Bogard
 //
 
 # include "Audio.hh"
@@ -19,7 +19,7 @@ Audio::~Audio()
 {
 }
 
-void		Audio::makeSong(const std::string &file)
+void		Audio::makeSound(const std::string &file)
 {
   if (this->_sound.getBuffer())
     this->_sound.resetBuffer();

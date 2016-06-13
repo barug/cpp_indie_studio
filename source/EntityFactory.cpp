@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 12:08:54 2016 Barthelemy Gouby
-// Last update Fri Jun  3 15:46:12 2016 Erwan Dupard
+// Last update Sun Jun 12 12:29:18 2016 Thomas Bogard
 //
 
 #include "EntityFactory.hh"
@@ -57,7 +57,7 @@ Entity			*EntityFactory::createExplosion(const unsigned int &x,
 							     "./textures/fire.jpg",
 							     310);
   PositionComponent	*positionComponent = getClosestTileCenter(x, y, rotation);
-  ExplosionComponent	*explosionComponent = new ExplosionComponent(100);
+  ExplosionComponent	*explosionComponent = new ExplosionComponent(50);
 
   explosion->addComponent(modelComponent);
   explosion->addComponent(positionComponent);
@@ -115,11 +115,12 @@ Entity			*EntityFactory::createPlayer(const unsigned int &x,
 						     const unsigned int &maxBombs,
 						     const unsigned int &explosionSize,
 						     const unsigned int &speed,
+						     const std::string &texture,
 						     Display *display)
 {
   Entity		*player = new Entity(this->_nextFreeId);
   ModelComponent	*modelComponent = new ModelComponent("./models/BOMBERSTAND.b3d",
-							     "./textures/bomberman_black.png",
+							     texture,
 							     250);
   PositionComponent	*positionComponent = new PositionComponent(x, y, rotation);
   SpeedComponent	*speedComponent = new SpeedComponent(0, 0, 0);
@@ -156,7 +157,7 @@ Entity			*EntityFactory::createBasicEnemy(const unsigned int &x,
   HealthComponent	*healthComponent = new HealthComponent(1);
   BasicEnemyComponent	*basicEnemyComponent = new BasicEnemyComponent(x, y);
 
-  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);  
+  modelComponent->setModel("./models/BOMBERRUN.b3d", ModelComponent::RUN);
   basicEnemy->addComponent(modelComponent);
   basicEnemy->addComponent(positionComponent);
   basicEnemy->addComponent(speedComponent);

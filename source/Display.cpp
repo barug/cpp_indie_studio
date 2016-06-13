@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Tue Jun  7 23:57:42 2016 Erwan Dupard
+// Last update Mon Jun 13 19:48:13 2016 Erwan Dupard
 //
 
 # include "Display.hh"
@@ -53,19 +53,42 @@ int		Display::initDevice()
   return (0);
 }
 
+const unsigned int	Display::getTimer()
+{
+  return (this->_device->getTimer()->getTime());
+}
+
+void		Display::removeGround()
+{
+  for (unsigned int id = 0; id < 225; ++id)
+    {
+      auto search = this->_ground.find(id);
+      if (search != this->_ground.end())
+  	{
+  	  search->second->remove();
+  	  this->_ground.erase(id);
+  	}
+    }
+}
+
 void		Display::initGround()
 {
+  unsigned int	id = 0;
+
+  std::cout << "creating map" << std::endl;
   for (int row = 0; row < MAP_SIZE; row++)
     for (int column = 0; column < MAP_SIZE; column++)
       {
-	this->_smgr->addCubeSceneNode();
-	this->_ground = this->_smgr->addCubeSceneNode();
-	this->_ground->setPosition(irr::core::vector3df(TILE_SIZE * row + TILE_SIZE / 2,
-							0,
-							TILE_SIZE * column + TILE_SIZE / 2));
-	this->_ground->setMaterialTexture(0, this->_driver->getTexture("./textures/sand.jpg"));
-	this->_ground->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-	this->_ground->setScale(irr::core::vector3df(50, 50, 50));
+	irr::scene::IAnimatedMeshSceneNode *node =
+	  this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh("./models/cube.obj"));
+	node->setMaterialTexture(0, this->_driver->getTexture("./textures/sand.jpg"));
+	node->setPosition(irr::core::vector3df(row * 500, -375, column * 500));
+	node->setAnimationSpeed(40);
+	node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+	node->setScale(irr::core::vector3df(375, 375, 375));
+	node->setRotation(irr::core::vector3df(0, 0, 0));
+	this->_ground.emplace(id, node);
+	id++;
       }
 }
 
@@ -112,6 +135,7 @@ int		Display::init(irr::IrrlichtDevice *device, EventReceiver *receiver)
   this->_smgr = this->_device->getSceneManager();
   this->_env = this->_device->getGUIEnvironment();
   this->_receiver = receiver;
+  this->removeGround();
   this->initGround();
   this->initSkybox();
   this->initCamera();
@@ -179,7 +203,7 @@ int		Display::createModel(Entity *entity)
   PositionComponent			*pos =
     (PositionComponent*)entity->getComponent(Component::POSITION_COMPONENT);
 
-  irr::scene::IAnimatedMeshSceneNode	*node = 
+  irr::scene::IAnimatedMeshSceneNode	*node =
     this->_smgr->addAnimatedMeshSceneNode(this->_smgr->getMesh(model->getModel(ModelComponent::DEFAULT).c_str()));
 
   if (!node)
@@ -194,7 +218,6 @@ int		Display::createModel(Entity *entity)
   node->setMaterialType(irr::video::EMT_SOLID);
   node->setScale(irr::core::vector3df(model->getScale(), model->getScale(), model->getScale()));
   node->setRotation(irr::core::vector3df(0, pos->getRotation(), 0));
-  // node->setDebugDataVisible(irr::scene::EDS_BBOX);
   this->_models.emplace(id, node);
   return (0);
 }
@@ -220,10 +243,14 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 
   if (search != _models.end())
     {
-      if (modelComponent->getSelectedModel() != type && !modelComponent->getModel(type).empty())
+      if ((modelComponent->getSelectedModel() != type && !modelComponent->getModel(type).empty())
+	  || type == ModelComponent::DROP)
 	{
 	  node = search->second;
-	  node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
+	  if (type == ModelComponent::DROP)
+	    node->setMesh(this->_smgr->getMesh("./models/BOMBERDROP.b3d"));
+	  else
+	    node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
 	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));
@@ -259,7 +286,7 @@ void		Display::changeMaterialType(Entity *entity,
     {
       node = search->second;
       node->setMaterialType(type);
-    }  
+    }
 }
 
 const bool	Display::tileIsOccupiedBomb(const unsigned int &x,
@@ -316,6 +343,13 @@ void		Display::createEventListener(unsigned int id, std::vector<irr::EKEY_CODE> 
 std::vector<irr::EKEY_CODE>	*Display::getKeysDownForId(unsigned int id)
 {
   return (this->_listeners.find(id)->second->getKeysDown());
+}
+
+void			Display::createImage(const std::string &texture, const irr::core::rect<irr::s32> &rect)
+{
+  irr::gui::IGUIImage *img = this->_env->addImage(rect);
+  img->setImage(this->_driver->getTexture(texture.c_str()));
+  img->setScaleImage(true);
 }
 
 // private for debug

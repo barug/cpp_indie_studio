@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:22:55 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:46:31 2016 Thomas Bogard
 //
 
 #include "Menu.hh"
@@ -29,9 +29,10 @@ void			Menu::init()
   this->_device->setResizable(true);
   this->_driver = this->_device->getVideoDriver();
   this->_sceneManager = this->_device->getSceneManager();
-  this->_background = this->_driver->getTexture ("textures/menu/background.png");
+  this->_background = this->_driver->getTexture("textures/menu/background.png");
   this->_gui = this->_device->getGUIEnvironment();
   this->_screenSize = this->_device->getVideoDriver()->getScreenSize();
+  this->_engine.makeMusic();
 }
 
 void			Menu::initButtons()
@@ -39,10 +40,6 @@ void			Menu::initButtons()
   unsigned int		heightMiddle = this->_screenSize.Height / 2;
   unsigned int		widthMiddle = this->_screenSize.Width / 2;
 
-
-  if (this->_fileDialogOpen)
-    this->_fileDialog = this->_gui->addFileOpenDialog(L"Please choose a file to load.",
-						      true, 0, -1, true);
   this->_first =
     this->_gui->addButton(irr::core::rect<irr::s32>(widthMiddle - BUTTON_WIDTH / 2,
 						    heightMiddle - (2 * BUTTON_SPACING + 2 * BUTTON_HEIGHT),
@@ -67,35 +64,48 @@ void			Menu::initButtons()
 						    widthMiddle + BUTTON_WIDTH / 2,
 						    heightMiddle + (2 * BUTTON_SPACING + 2 * BUTTON_HEIGHT)),
 			  0, -1);
-
-
-
+  irr::gui::IGUIImage *img_music =
+    this->_gui->addImage(irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
+						   heightMiddle + (4 * SCROLL_SPACING + SCROLL_HEIGHT) + 100,
+						   widthMiddle + SCROLL_WIDTH / 2,
+						   heightMiddle + (4 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100));
+  img_music->setImage(this->_driver->getTexture("./textures/music.png"));
   this->_scrollMusic =
     this->_gui->addScrollBar(true,
-			     irr::core::rect<irr::s32>(widthMiddle - BUTTON_WIDTH / 2,
-						       650,
-						       widthMiddle + BUTTON_WIDTH / 2,
-						       665),
+			     irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
+						       heightMiddle + (4 * SCROLL_SPACING + SCROLL_HEIGHT) + 100,
+						       widthMiddle + SCROLL_WIDTH / 2,
+						       heightMiddle + (4 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100),
 			     0, -1);
-
+  irr::gui::IGUIImage *img_sound =
+    this->_gui->addImage(irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
+						   heightMiddle + (8 * SCROLL_SPACING + SCROLL_HEIGHT) + 100,
+						   widthMiddle + SCROLL_WIDTH / 2,
+						   heightMiddle + (8 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100));
+  img_sound->setImage(this->_driver->getTexture("./textures/soundeffects.png"));
   this->_scrollSound =
     this->_gui->addScrollBar(true,
-			     irr::core::rect<irr::s32>(widthMiddle - BUTTON_WIDTH / 2,
-						       700,
-						       widthMiddle + BUTTON_WIDTH / 2,
-						       715),
+			     irr::core::rect<irr::s32>(widthMiddle - SCROLL_WIDTH / 2,
+						       heightMiddle + (8 * SCROLL_SPACING + SCROLL_HEIGHT) + 100,
+						       widthMiddle + SCROLL_WIDTH / 2,
+						       heightMiddle + (8 * SCROLL_SPACING + 2 * SCROLL_HEIGHT) + 100),
 			     0, -1);
 
   this->_scrollMusic->setMax(100);
   this->_scrollSound->setMax(100);
-  this->_scrollMusic->setPos(100);
-  this->_scrollSound->setPos(100);
-
-
+  this->_scrollMusic->setPos(25);
+  this->_scrollSound->setPos(50);
+  this->setSkinTransparency(50, this->_gui->getSkin());
   this->_first->setImage(this->_driver->getTexture("textures/menu/newgame.png"));
   this->_second->setImage(this->_driver->getTexture("textures/menu/load.png"));
   this->_third->setImage(this->_driver->getTexture("textures/menu/back.png"));
   this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
+}
+
+void			Menu::setTimer()
+{
+  this->_isPress = true;
+  this->_timer = this->_device->getTimer()->getTime() + 300;
 }
 
 void			Menu::doButtonsActions()
@@ -105,7 +115,11 @@ void			Menu::doButtonsActions()
 
   this->_engine.setVolumeMusic(this->_scrollMusic->getPos());
   this->_engine.setVolumeSound(this->_scrollSound->getPos());
-
+  if (this->_isPress && this->_timer < this->_device->getTimer()->getTime())
+    {
+      this->_timer = 0;
+      this->_isPress = false;
+    }
   switch (this->_menuContext)
     {
     case BASE:
@@ -117,22 +131,26 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_menuContext = NEWGAME;
-	  this->_isSet = false;
-	}
-      else if (this->_second->isPressed())
-	{
-	  this->_engine.loadSave("./save_file", &this->_receiver, this->_device);
-	  this->_engine.gameLoop();
-	}
-      else if (this->_third->isPressed())
-	{
-	  std::cout << "back to game" << std::endl;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_menuContext = NEWGAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
 
     case NEWGAME:
@@ -144,26 +162,33 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::SOLO);
-	  this->_engine.gameLoop();
-	  this->_menuContext = IN_GAME;
-	  std::cout << "solo mode" << std::endl;
-	}
-      else if (this->_second->isPressed())
-	{
-	  std::cout << "multi player mode" << std::endl;
-	  this->_menuContext = MULTI;
-	  this->_isSet = false;
-	}
-      else if (this->_third->isPressed())
-	{
-	  this->_menuContext = BASE;
-	  this->_isSet = false;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_engine.removeEntities();
+	    this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
+	    this->_engine.gameLoop();
+	    this->_menuContext = IN_GAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->_menuContext = MULTI;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->_menuContext = BASE;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
 
     case MULTI:
@@ -175,27 +200,36 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
-	  this->_engine.gameLoop();
-	  this->_menuContext = IN_GAME;
-	  std::cout << "versus mode" << std::endl;
-	}
-      else if (this->_second->isPressed())
-	{
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::COOP);
-	  this->_engine.gameLoop();
-	  this->_menuContext = IN_GAME;
-	  std::cout << "vsai mode" << std::endl;
-	}
-      else if (this->_third->isPressed())
-	{
-	  this->_menuContext = NEWGAME;
-	  this->_isSet = false;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_engine.removeEntities();
+	    this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
+	    this->_engine.gameLoop();
+	    this->_menuContext = IN_GAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->_engine.removeEntities();
+	    this->_engine.initGame(this->_device, &(this->_receiver), Engine::COOP);
+	    this->_engine.gameLoop();
+	    this->_menuContext = IN_GAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->_menuContext = NEWGAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
 
     case IN_GAME:
@@ -207,22 +241,28 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_menuContext = NEWGAME;
-	  this->_isSet = false;
-	}
-      else if (this->_second->isPressed())
-	{
-	  this->_engine.saveGame("./save_file");
-	}
-      else if (this->_third->isPressed())
-	{
-	  this->_engine.gameLoop();
-	  std::cout << "back to game" << std::endl;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_menuContext = NEWGAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->_entityManager.serialize("./save_file");
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->_engine.gameLoop();
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
     }
 }
@@ -234,13 +274,13 @@ void			Menu::drawMenu()
     this->_sceneManager->drawAll();
   else
     this->_driver->draw2DImage(this->_background,
-			       irr::core::position2d<irr::s32>(0, 0),
-			       irr::core::rect<irr::s32>(0, 0,
-							 this->_screenSize.Width,
-							 this->_screenSize.Height),
-			       0,
-			       irr::video::SColor (255,255,255,255),
-			       true);
+  			       irr::core::position2d<irr::s32>(0, 0),
+  			       irr::core::rect<irr::s32>(0, 0,
+  							 this->_screenSize.Width,
+  							 this->_screenSize.Height),
+  			       0,
+  			       irr::video::SColor (255,255,255,255),
+  			       true);
   this->_gui->drawAll();
   this->_driver->endScene();
 }
@@ -270,8 +310,7 @@ void			Menu::setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin)
 {
   for (irr::s32 i=0; i<irr::gui::EGDC_COUNT ; ++i)
     {
-      irr::video::SColor col = skin->getColor((irr::gui::EGUI_DEFAULT_COLOR)i);
-      col.setAlpha(alpha);
+      irr::video::SColor col(alpha, 255, 255, 255);
       skin->setColor((irr::gui::EGUI_DEFAULT_COLOR)i, col);
     }
 }

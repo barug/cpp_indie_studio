@@ -5,10 +5,11 @@
 // Login   <barthe_g@epitech.net>
 // 
 // Started on  Wed May 18 15:28:59 2016 Barthelemy Gouby
-// Last update Thu May 19 13:29:56 2016 Barthelemy Gouby
+// Last update Fri Jun  3 16:39:50 2016 Barthelemy Gouby
 //
-
+#include <iostream>
 #include "EventListener.hh"
+
 
 EventListener::EventListener(const std::vector<irr::EKEY_CODE> &keys, const EventReceiver *receiver)
   :  _keys(keys), _receiver(receiver)
@@ -17,7 +18,7 @@ EventListener::EventListener(const std::vector<irr::EKEY_CODE> &keys, const Even
 std::vector<irr::EKEY_CODE>	*EventListener::getKeysDown()
 {
   std::vector<irr::EKEY_CODE> *keysDown = new std::vector<irr::EKEY_CODE>;
-  
+
   for (irr::EKEY_CODE key : _keys)
     {
       if (this->_receiver->IsKeyDown(key))

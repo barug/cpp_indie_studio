@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:00:42 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:29:51 2016 Erwan Dupard
+// Last update Sun Jun  5 19:50:46 2016 Barthelemy Gouby
 //
 
 #ifndef _ENTITY_MANAGER_HH_
@@ -13,7 +13,7 @@
 
 # include <initializer_list>
 # include <vector>
-# include <fstream> 
+# include <fstream>
 # include <iostream>
 # include <sstream>
 # include <string>
@@ -41,7 +41,8 @@ public:
   const std::vector<Entity*>	&getEntities();
   std::vector<Entity*>		*getEntitiesWithComponents(std::vector<Component::ComponentType> typeList);
   void				serialize(const std::string &fileName) const;
-  bool				unserialize(const std::string &fileName);
+  bool				unserialize(const std::string &fileName,
+					    Display *display);
   void				setDisplay(Display *display);
 private:
   std::string			_intToString(int value) const;

@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:25:33 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:38:15 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -21,12 +21,12 @@
 
 # define TICK_DURATION			(10)
 
-enum GameType
-  {
-    SOLO,
-    VERSUS,
-    COOP
-  };
+// enum GameType
+//   {
+//     SOLO,
+//     VERSUS,
+//     COOP
+//   };
 
 class					Engine
 {
@@ -41,11 +41,13 @@ public:
   Engine();
   ~Engine();
 
-  void					initMap();
+  void					initMap(const std::vector<int> &map);
   void				        initGame(irr::IrrlichtDevice *device,
 						 EventReceiver *receiver,
 						 GameType gameType);
+  void					makeMusic();
   void					gameLoop();
+  void					removeEntities();
   void					loadSave(const std::string &fileName,
 						 EventReceiver *receiver,
 						 irr::IrrlichtDevice *device);
@@ -71,6 +73,8 @@ private:
   std::vector<void (Engine::*) ()>	_systems;
   Engine::GameType			_gameType;
   bool					_win;
+  bool					_isDropped;
+  unsigned int				_timerDrop;
   void					_addNewExplosion(const unsigned int &x,
 							 const unsigned &y,
 							 bool &isBlocked);

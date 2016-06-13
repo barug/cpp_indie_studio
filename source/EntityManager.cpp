@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Mon May  2 14:13:17 2016 Barthelemy Gouby
-// Last update Fri Jun  3 16:29:37 2016 Erwan Dupard
+// Last update Sun Jun  5 19:27:40 2016 Barthelemy Gouby
 //
 
 #include "EntityManager.hh"
@@ -89,11 +89,11 @@ void							EntityManager::_serializeSpeedComponent(std::string &out, SpeedCompon
 
 void							EntityManager::_serializeModelComponent(std::string &out, ModelComponent *component) const
 {
-  std::vector<std::string>				models = component->getModels();			
+  std::vector<std::string>				models = component->getModels();
   std::vector<std::string>::const_iterator		it = models.begin();
 
   out += ':';
-  out += this->_intToString(models.size()) + ',';  
+  out += this->_intToString(models.size()) + ',';
   while (it != models.end())
     {
       out += *it + ',';
@@ -201,7 +201,7 @@ void							EntityManager::_serializeEntityComponents(std::string &out, Entity *e
 void							EntityManager::serialize(const std::string &fileName) const
 {
   std::ofstream						fs;
-  std::vector<Entity *>::const_iterator			it;			
+  std::vector<Entity *>::const_iterator			it;
   std::string						out;
   Entity						*entity;
 
@@ -236,7 +236,7 @@ Entity							*EntityManager::_addUnserializedEntity(std::vector<Entity *> &entit
   return (newEntity);
 }
 
-void							EntityManager::_unserializePositionComponent(Entity &entity, const std::string &componentString) const 
+void							EntityManager::_unserializePositionComponent(Entity &entity, const std::string &componentString) const
 {
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   PositionComponent					*newComponent = new PositionComponent();
@@ -249,7 +249,7 @@ void							EntityManager::_unserializePositionComponent(Entity &entity, const st
   entity.addComponent(newComponent);
 }
 
-void							EntityManager::_unserializeSpeedComponent(Entity &entity, const std::string &componentString) const 
+void							EntityManager::_unserializeSpeedComponent(Entity &entity, const std::string &componentString) const
 {
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   SpeedComponent					*newComponent = new SpeedComponent();
@@ -260,7 +260,7 @@ void							EntityManager::_unserializeSpeedComponent(Entity &entity, const std::
   entity.addComponent(newComponent);
 }
 
-void							EntityManager::_unserializeModelComponent(Entity &entity, const std::string &componentString) const 
+void							EntityManager::_unserializeModelComponent(Entity &entity, const std::string &componentString) const
 {
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   ModelComponent					*newComponent = new ModelComponent();
@@ -293,7 +293,7 @@ void							EntityManager::_unserializeModelComponent(Entity &entity, const std::
   entity.addComponent(newComponent);
 }
 
-void							EntityManager::_unserializeHealthComponent(Entity &entity, const std::string &componentString) const 
+void							EntityManager::_unserializeHealthComponent(Entity &entity, const std::string &componentString) const
 {
   std::string						workingString = componentString.substr(componentString.find(":") + 1);
   unsigned int						lives;
@@ -412,7 +412,8 @@ void							EntityManager::_addUnserializedComponent(Entity &entity, const std::s
     }
 }
 
-bool							EntityManager::unserialize(const std::string &fileName)
+bool							EntityManager::unserialize(const std::string &fileName,
+										   Display *display)
 {
   std::ifstream						fs;
   std::string						entityString;
@@ -423,6 +424,7 @@ bool							EntityManager::unserialize(const std::string &fileName)
   std::vector<Entity*>					newEntities;
   Entity						*lastEntity;
 
+  this->_display = display;
   fs.open(fileName, std::fstream::in);
   if (fs.is_open())
     {
@@ -438,6 +440,7 @@ bool							EntityManager::unserialize(const std::string &fileName)
 	      this->_addUnserializedComponent(*lastEntity, componentString);
 	      entityString = entityString.substr(entityString.find("}") + 1);
 	    }
+	  this->_display->createModel(lastEntity);
 	}
       this->_entities = newEntities;
       fs.close();
