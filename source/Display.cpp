@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:27 2016 Thomas Bogard
-// Last update Sun Jun  5 21:07:38 2016 Barthelemy Gouby
+// Last update Sun Jun 12 12:14:20 2016 Thomas Bogard
 //
 
 # include "Display.hh"
@@ -51,6 +51,11 @@ int		Display::initDevice()
   if (!this->_device)
     return (-1);
   return (0);
+}
+
+const unsigned int	Display::getTimer()
+{
+  return (this->_device->getTimer()->getTime());
 }
 
 void		Display::removeGround()
@@ -238,10 +243,14 @@ int			Display::updateModel(Entity *entity, ModelComponent::ModelType type)
 
   if (search != _models.end())
     {
-      if (modelComponent->getSelectedModel() != type && !modelComponent->getModel(type).empty())
+      if ((modelComponent->getSelectedModel() != type && !modelComponent->getModel(type).empty())
+	  || type == ModelComponent::DROP)
 	{
 	  node = search->second;
-	  node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
+	  if (type == ModelComponent::DROP)
+	    node->setMesh(this->_smgr->getMesh("./models/BOMBERDROP.b3d"));
+	  else
+	    node->setMesh(this->_smgr->getMesh(modelComponent->getModel(type).c_str()));
 	  node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
 	  node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
 	  node->setMaterialTexture(0, this->_driver->getTexture(modelComponent->getTexture().c_str()));

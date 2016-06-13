@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Mon May  2 17:12:19 2016 Thomas Bogard
-// Last update Sun Jun  5 20:43:57 2016 Thomas Bogard
+// Last update Sun Jun 12 11:41:13 2016 Thomas Bogard
 //
 
 #ifndef		__DISPLAY_HH__
@@ -44,6 +44,7 @@ public:
   int								refreshScreen();
   int								closeDisplay();
   const bool							windowIsActive() const;
+  const unsigned int						getTimer();
   int								guiCreateModel(const std::string mesh,
 									       const std::string texture,
 									       const int &x, const int &y,

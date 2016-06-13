@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 14:06:25 2016 Barthelemy Gouby
-// Last update Sun Jun  5 20:59:52 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:37:32 2016 Thomas Bogard
 //
 
 #include <unistd.h>
@@ -118,9 +118,9 @@ void					Engine::initGame(irr::IrrlichtDevice *device,
   this->_display.init(device, receiver);
   if (gameType == SOLO)
     this->initMap(mapSolo);
-  if (gameType == VERSUS)
+  else if (gameType == VERSUS)
     this->initMap(mapVersus);
-  if (gameType == COOP)
+  else if (gameType == COOP)
     this->initMap(mapCoop);
 }
 

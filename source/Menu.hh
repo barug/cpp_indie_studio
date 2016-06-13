@@ -5,7 +5,7 @@
 // Login   <bogard_t@epitech.net>
 //
 // Started on  Sun Jun  5 15:47:40 2016 Thomas Bogard
-// Last update Sun Jun  5 19:37:42 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:47:57 2016 Thomas Bogard
 //
 
 #ifndef _MENU_HH_
@@ -30,6 +30,7 @@ enum    menuContext
   {
     BASE,
     NEWGAME,
+    SOLO,
     MULTI,
     IN_GAME
   };
@@ -45,6 +46,7 @@ public:
   void					setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin);
 
 private:
+  void					setTimer();
   void				        doButtonsActions();
   void					drawMenu();
   void					init();
@@ -53,6 +55,9 @@ private:
 private:
   //game engine
   Engine				_engine;
+
+  //serialization
+  EntityManager				_entityManager;
 
   //device
   irr::video::IVideoDriver		*_driver;
@@ -63,13 +68,15 @@ private:
   irr::gui::IGUIListBox			*_listbox;
   irr::gui::IGUIEnvironment		*_gui;
   EventReceiver				_receiver;
+  int					_timer;
+  bool					_isPress;
 
   //responsive
   irr::core::dimension2d<irr::u32>	_screenSize;
-
   bool					_fileDialogOpen;
   bool					_fileIsSelected;
   bool					_textIsEntered;
+
   //boutons
   irr::gui::IGUIButton			*_first;
   irr::gui::IGUIButton			*_second;

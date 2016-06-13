@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Wed May 11 13:48:23 2016 Barthelemy Gouby
-// Last update Sun Jun  5 21:07:55 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:38:15 2016 Thomas Bogard
 //
 
 #ifndef _ENGINE_HH_
@@ -21,12 +21,12 @@
 
 # define TICK_DURATION			(10)
 
-enum GameType
-  {
-    SOLO,
-    VERSUS,
-    COOP
-  };
+// enum GameType
+//   {
+//     SOLO,
+//     VERSUS,
+//     COOP
+//   };
 
 class					Engine
 {
@@ -73,7 +73,8 @@ private:
   std::vector<void (Engine::*) ()>	_systems;
   Engine::GameType			_gameType;
   bool					_win;
-
+  bool					_isDropped;
+  unsigned int				_timerDrop;
   void					_addNewExplosion(const unsigned int &x,
 							 const unsigned &y,
 							 bool &isBlocked);

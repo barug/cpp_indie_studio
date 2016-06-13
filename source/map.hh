@@ -1,11 +1,11 @@
 //
 // map.cpp for indie studio in /home/barthe_g/rendu/tek2/c++/cpp_indie_studio/source
-// 
+//
 // Made by Barthelemy Gouby
 // Login   <barthe_g@epitech.net>
-// 
+//
 // Started on  Fri Jun  3 14:12:23 2016 Barthelemy Gouby
-// Last update Sun Jun  5 20:49:13 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:36:53 2016 Thomas Bogard
 //
 
 #ifndef _MAPS_HH_

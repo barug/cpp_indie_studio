@@ -5,7 +5,7 @@
 // Login   <barthe_g@epitech.net>
 //
 // Started on  Thu Jun  2 14:44:36 2016 Barthelemy Gouby
-// Last update Sun Jun  5 21:03:20 2016 Barthelemy Gouby
+// Last update Mon Jun 13 17:46:31 2016 Thomas Bogard
 //
 
 #include "Menu.hh"
@@ -94,12 +94,18 @@ void			Menu::initButtons()
   this->_scrollMusic->setMax(100);
   this->_scrollSound->setMax(100);
   this->_scrollMusic->setPos(25);
-  this->_scrollSound->setPos(100);
+  this->_scrollSound->setPos(50);
   this->setSkinTransparency(50, this->_gui->getSkin());
   this->_first->setImage(this->_driver->getTexture("textures/menu/newgame.png"));
   this->_second->setImage(this->_driver->getTexture("textures/menu/load.png"));
   this->_third->setImage(this->_driver->getTexture("textures/menu/back.png"));
   this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
+}
+
+void			Menu::setTimer()
+{
+  this->_isPress = true;
+  this->_timer = this->_device->getTimer()->getTime() + 300;
 }
 
 void			Menu::doButtonsActions()
@@ -109,6 +115,11 @@ void			Menu::doButtonsActions()
 
   this->_engine.setVolumeMusic(this->_scrollMusic->getPos());
   this->_engine.setVolumeSound(this->_scrollSound->getPos());
+  if (this->_isPress && this->_timer < this->_device->getTimer()->getTime())
+    {
+      this->_timer = 0;
+      this->_isPress = false;
+    }
   switch (this->_menuContext)
     {
     case BASE:
@@ -120,19 +131,26 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_menuContext = NEWGAME;
-	  this->_isSet = false;
-	}
-      else if (this->_second->isPressed())
-	{
-	}
-      else if (this->_third->isPressed())
-	{
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_menuContext = NEWGAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
 
     case NEWGAME:
@@ -144,26 +162,33 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_engine.removeEntities();
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::SOLO);
-	  this->_engine.gameLoop();
-	  this->_menuContext = IN_GAME;
-	  this->_isSet = false;
-	}
-      else if (this->_second->isPressed())
-	{
-	  this->_menuContext = MULTI;
-	  this->_isSet = false;
-	}
-      else if (this->_third->isPressed())
-	{
-	  this->_menuContext = BASE;
-	  this->_isSet = false;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_engine.removeEntities();
+	    this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
+	    this->_engine.gameLoop();
+	    this->_menuContext = IN_GAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->_menuContext = MULTI;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->_menuContext = BASE;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
 
     case MULTI:
@@ -175,29 +200,36 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_engine.removeEntities();
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
-	  this->_engine.gameLoop();
-	  this->_menuContext = IN_GAME;
-	  this->_isSet = false;
-	}
-      else if (this->_second->isPressed())
-	{
-	  this->_engine.removeEntities();
-	  this->_engine.initGame(this->_device, &(this->_receiver), Engine::COOP);
-	  this->_engine.gameLoop();
-	  this->_menuContext = IN_GAME;
-	  this->_isSet = false;
-	}
-      else if (this->_third->isPressed())
-	{
-	  this->_menuContext = NEWGAME;
-	  this->_isSet = false;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_engine.removeEntities();
+	    this->_engine.initGame(this->_device, &(this->_receiver), Engine::VERSUS);
+	    this->_engine.gameLoop();
+	    this->_menuContext = IN_GAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->_engine.removeEntities();
+	    this->_engine.initGame(this->_device, &(this->_receiver), Engine::COOP);
+	    this->_engine.gameLoop();
+	    this->_menuContext = IN_GAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->_menuContext = NEWGAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
 
     case IN_GAME:
@@ -209,21 +241,28 @@ void			Menu::doButtonsActions()
 	  this->_fourth->setImage(this->_driver->getTexture("textures/menu/quit.png"));
 	  this->_isSet = true;
 	}
-      if (this->_first->isPressed())
-	{
-	  this->_menuContext = NEWGAME;
-	  this->_isSet = false;
-	}
-      else if (this->_second->isPressed())
-	{
-	}
-      else if (this->_third->isPressed())
-	{
-	  this->_engine.gameLoop();
-	  std::cout << "back to game" << std::endl;
-	}
-      else if (this->_fourth->isPressed())
-	this->_menuIsOn = false;
+      if (!this->_isPress)
+	if (this->_first->isPressed())
+	  {
+	    this->_menuContext = NEWGAME;
+	    this->_isSet = false;
+	    this->setTimer();
+	  }
+	else if (this->_second->isPressed())
+	  {
+	    this->_entityManager.serialize("./save_file");
+	    this->setTimer();
+	  }
+	else if (this->_third->isPressed())
+	  {
+	    this->_engine.gameLoop();
+	    this->setTimer();
+	  }
+	else if (this->_fourth->isPressed())
+	  {
+	    this->_menuIsOn = false;
+	    this->setTimer();
+	  }
       break;
     }
 }
